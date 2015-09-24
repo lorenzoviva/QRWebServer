@@ -16,6 +16,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.codehaus.jettison.json.JSONObject;
+
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="SQUARE_TYPE")
@@ -33,7 +35,15 @@ public class QRSquare {
 	
 	public QRSquare() {
 		
+	}	
+	public static List<Class<? extends QRSquare>> getExtedingClasses(){
+		List<Class<? extends QRSquare>> extendingClasses = new ArrayList<Class<? extends QRSquare>>();
+		extendingClasses.add(QRFreeDraw.class);
+		extendingClasses.add(QRUserMenager.class);
+		extendingClasses.add(QRWebPage.class);
+		return extendingClasses;
 	}
+	
 
 	public QRSquare(String text) {
 		this.text = text;
@@ -43,6 +53,9 @@ public class QRSquare {
 
 	public String getText() {
 		return text;
+	}
+	public boolean canBeCreated(JSONObject parameters){
+		return true;
 	}
 
 	public void setText(String text) {

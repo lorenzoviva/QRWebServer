@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.codehaus.jettison.json.JSONObject;
+
 @Entity
 @DiscriminatorValue(value = "QRWebPage")
 public class QRWebPage extends QRSquare{
@@ -34,5 +36,8 @@ public class QRWebPage extends QRSquare{
 		super(text);
 		this.html = html;
 	}
-
+	@Override
+	public boolean canBeCreated(JSONObject parameters){
+		return true;
+	}
 }

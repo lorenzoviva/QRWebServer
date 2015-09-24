@@ -24,23 +24,23 @@ public class Logout extends Action {
 		} else {
 			String type;
 			type = parameters.get("type").getAsString();
-			if (type.endsWith("QRUserMenager")) {
-
+			if (type.endsWith("QRUserMenager")) {				
 				Type listType = new TypeToken<ArrayList<QRSquareUser>>() {
 				}.getType();
 				List<QRSquareUser> squareUsers = (new Gson()).fromJson(parameters.get("QRSquareUser"), listType);
 				for (int i = 0; i < squareUsers.size(); i++) {
 					QRSquareUser squareUser = squareUsers.get(i);
-					switch (squareUser.getRole().getName().toLowerCase()) {
-					case "owner":
-						return true;
-					default:
-						break;
+					if (squareUser.getRole() != null) {
+						if(squareUser.getRole().getName().toLowerCase().equals("owner")) {
+							return true;
+						}
+						
 					}
-				}
 
-				QRSquareUser squareUser = (new Gson()).fromJson(parameters.getAsJsonObject("QRSquareUser"), QRSquareUser.class);
-				return squareUser.getRole().getName().equals("owner");
+				}
+				return false;
+//				QRSquareUser squareUser = (new Gson()).fromJson(parameters.getAsJsonObject("QRSquareUser"), QRSquareUser.class);
+//				return squareUser.getRole().getName().equals("owner");
 
 			} else {
 				return false;

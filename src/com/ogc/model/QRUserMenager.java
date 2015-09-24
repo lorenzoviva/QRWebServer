@@ -5,6 +5,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import org.codehaus.jettison.json.JSONObject;
+
 @Entity
 @DiscriminatorValue(value = "QRUserMenager")
 public class QRUserMenager extends QRSquare{
@@ -48,7 +50,10 @@ public class QRUserMenager extends QRSquare{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	@Override
+	public boolean canBeCreated(JSONObject parameters){
+		return false;
+	}
 
 	
 }
