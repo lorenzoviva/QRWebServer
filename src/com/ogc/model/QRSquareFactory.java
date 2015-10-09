@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 
 public class QRSquareFactory {
 	private static QRSquareFactory instance = null;

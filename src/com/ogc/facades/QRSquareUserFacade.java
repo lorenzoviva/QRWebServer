@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import com.ogc.model.QRSquare;
@@ -15,6 +16,7 @@ import com.ogc.model.QRUser;
 import com.ogc.model.RoleType;
 
 public class QRSquareUserFacade {
+	@PersistenceUnit(unitName="QRWebService")
 	private EntityManagerFactory emf;
 	private EntityManager em;
 	boolean embedded = false;

@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -11,6 +12,7 @@ import org.codehaus.jettison.json.JSONObject;
 import com.ogc.model.ACL;
 
 public class ACLFacade {
+	@PersistenceUnit(unitName="QRWebService")
 	private EntityManagerFactory emf;
 	private EntityManager em;
 	boolean embedded = false;
