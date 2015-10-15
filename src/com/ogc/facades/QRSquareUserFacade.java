@@ -10,6 +10,8 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
+import org.apache.openjpa.persistence.EntityManagerImpl;
+
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareUser;
 import com.ogc.model.QRUser;
@@ -40,7 +42,11 @@ public class QRSquareUserFacade {
 		
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
+		((EntityManagerImpl)em).getBroker().setAllowReferenceToSiblingContext(true);
+
 		em.persist(qrSquareUser);
+		
+
 		transaction.commit();
 		if(!embedded){
 			em.close();

@@ -28,9 +28,10 @@ public class QRSquareFactory {
 	}
 
 	public QRSquare getNewQRSquare(String className, Map<String, Object> parameters) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, NoSuchFieldException, SecurityException {
-		QRSquare qrsquare = (QRSquare) Class.forName(className).newInstance();
+		Class<?> classforName = Class.forName("com.ogc.model."+className);
+		QRSquare qrsquare = (QRSquare) classforName.newInstance();
 		List<String> fields = new ArrayList<String>();
-		for (Field field : Class.forName(className).getDeclaredFields()) {
+		for (Field field : classforName.getDeclaredFields()) {
 			fields.add(field.getName());
 		}
 		List<String> qrsquarefields = new ArrayList<String>();

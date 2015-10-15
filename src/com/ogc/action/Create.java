@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.ogc.facades.ACLFacade;
 import com.ogc.facades.InvalidRoleException;
 import com.ogc.facades.QRSquareFacade;
+import com.ogc.facades.QRUserFacade;
 import com.ogc.model.ACL;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRUser;
@@ -47,6 +48,7 @@ public class Create extends Action {
 	public JsonObject perform(JSONObject parameters) {
 		String error = "";
 		QRSquareFacade squarefacade  =  new QRSquareFacade();
+		QRUserFacade userfacade = new QRUserFacade();
 		QRSquare square = null;
 		try {
 			if (parameters.has("classname")) {
@@ -60,7 +62,7 @@ public class Create extends Action {
 					parameters.put("acl", acl);
 				}
 				if (parameters.has("owner")) {
-					QRUser owner = (QRUser) parameters.get("owner");
+					QRUser owner = userfacade.getUserFromId(parameters.getLong("owner"));
 					Map<String, Object> param= getParameters(parameters);
 					try {
 						square = squarefacade.createNewQRSquare(className, param, owner);
@@ -95,9 +97,7 @@ public class Create extends Action {
 			// create a new JSON object
 			// add property as success
 			myObj.addProperty("success", true);
-			// add the country object
 			myObj.add("QRSquare", squareObj);
-			// convert the JSON to string and send back
 			return myObj;
 		}
 	}
