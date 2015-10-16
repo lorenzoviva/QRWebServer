@@ -12,6 +12,7 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
+import com.ogc.model.QRFreeDraw;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareFactory;
 import com.ogc.model.QRSquareUser;
@@ -134,6 +135,17 @@ public class QRSquareFacade {
 			emf.close();
 		}
 		return qrsquare;
+	}
+
+	public void save(QRSquare QRsquare) {
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		em.merge(QRsquare);
+		transaction.commit();
+		if (!embedded) {
+			em.close();
+			emf.close();
+		}
 	}
 
 //	public QRSquare checkQRSquare(String text) {
