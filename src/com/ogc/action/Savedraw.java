@@ -1,18 +1,13 @@
 package com.ogc.action;
 
-import java.util.List;
-
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.ogc.facades.QRSquareFacade;
 import com.ogc.model.QRFreeDraw;
-import com.ogc.model.QRSquare;
-import com.ogc.model.QRSquareUser;
 
 public class Savedraw extends Action{
 	
@@ -66,17 +61,7 @@ public class Savedraw extends Action{
 
 		
 				myObj.addProperty("type", fd.getClass().getName());
-				
-				// if
-				// (!square.getClass().getName().equals(QRUserMenager.class.getName())
-				// || !possibleActions.contains("login")) {
 				myObj.add("QRSquare", squareObj);
-		
-				// } else {
-				// myObj.add("QRSquare", gson.toJsonTree(new
-				// QRPreLoginPage(square.getText())));
-				// }
-				// convert the JSON to string and send back
 				return myObj;
 			} else {
 				// add property as success
