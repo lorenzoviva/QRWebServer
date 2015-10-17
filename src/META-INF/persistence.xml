@@ -9,6 +9,7 @@
 		<class>com.ogc.model.QRUserMenager</class>
 		<class>com.ogc.model.QRSquareUser</class>
 		<class>com.ogc.model.QRWebPage</class>
+		<class>com.ogc.model.QRFreeDraw</class>
 		<class>com.ogc.model.LinkType</class>
 		<class>com.ogc.model.QRLink</class>
 		<class>com.ogc.model.RoleType</class>
