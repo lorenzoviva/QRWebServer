@@ -42,6 +42,7 @@ public class QRSquareFactory {
 		for (String param : parameters.keySet()) {
 			System.out.println("param name :" + param);
 			if (fields.contains(param) || qrsquarefields.contains(param)) {
+				System.out.println("param name:" + parameters.get(param).getClass().getName());
 				FieldUtils.writeField(qrsquare, param, parameters.get(param), true);
 			}
 		}

@@ -27,7 +27,7 @@ public abstract class Action {
 	public abstract JsonObject perform(JSONObject parameters);
 
 	public static String correctActionName(String string) {
-		return string.substring(0, 1).toUpperCase(Locale.ROOT).concat(string.substring(1, string.length()));
+		return string.substring(0, 1).toUpperCase(Locale.ROOT).concat(string.substring(1, string.length()).toLowerCase());
 	}
 
 	protected String getPossibleActions(JsonObject parameters) {

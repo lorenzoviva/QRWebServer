@@ -17,6 +17,7 @@ import com.ogc.facades.QRUserFacade;
 import com.ogc.model.ACL;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRUser;
+import com.ogc.utility.GsonHelper;
 
 public class Create extends Action {
 
@@ -38,7 +39,12 @@ public class Create extends Action {
 		Map<String, Object> result = new HashMap<String, Object>();
 		for (int i = 0; i < names.length(); i++) {
 			String param = (String) names.get(i);
-			result.put(param, json.get(param));
+			if (param.startsWith("img")) {
+				byte[] fromJson = GsonHelper.customGson.fromJson(json.getString(param),byte[].class);
+				result.put("img", fromJson);
+			} else {
+				result.put(param, json.get(param));
+			}
 			System.out.println("parameter name:" + param);
 		}
 		return result;
@@ -47,7 +53,7 @@ public class Create extends Action {
 	@Override
 	public JsonObject perform(JSONObject parameters) {
 		String error = "";
-		QRSquareFacade squarefacade  =  new QRSquareFacade();
+		QRSquareFacade squarefacade = new QRSquareFacade();
 		QRUserFacade userfacade = new QRUserFacade();
 		QRSquare square = null;
 		try {
@@ -63,7 +69,7 @@ public class Create extends Action {
 				}
 				if (parameters.has("owner")) {
 					QRUser owner = userfacade.getUserFromId(parameters.getLong("owner"));
-					Map<String, Object> param= getParameters(parameters);
+					Map<String, Object> param = getParameters(parameters);
 					try {
 						square = squarefacade.createNewQRSquare(className, param, owner);
 					} catch (InvalidRoleException e) {
@@ -90,9 +96,8 @@ public class Create extends Action {
 			return myObj;
 
 		} else {
-			Gson gson = new Gson();
 			// creates json from country object
-			JsonElement squareObj = gson.toJsonTree(square);
+			JsonElement squareObj = GsonHelper.customGson.toJsonTree(square);
 
 			// create a new JSON object
 			// add property as success

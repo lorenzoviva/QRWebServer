@@ -12,7 +12,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class QRFreeDraw extends QRSquare{
 	
 	@Column(length = 5000000)
-	private Byte[] img;
+	private byte[] img;
 	@Column(length = 200)
 	private String name;
 	
@@ -25,14 +25,14 @@ public class QRFreeDraw extends QRSquare{
 	/**
 	 * @return the img
 	 */
-	public Byte[] getImg() {
+	public byte[] getImg() {
 		return img;
 	}
 
 	/**
 	 * @param img the img to set
 	 */
-	public void setImg(Byte[] img) {
+	public void setImg(byte[] img) {
 		this.img = img;
 	}
 
