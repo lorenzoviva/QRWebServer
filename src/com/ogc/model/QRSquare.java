@@ -41,6 +41,7 @@ public class QRSquare {
 		extendingClasses.add(QRFreeDraw.class);
 		extendingClasses.add(QRUserMenager.class);
 		extendingClasses.add(QRWebPage.class);
+		extendingClasses.add(QRChat.class);
 		return extendingClasses;
 	}
 	
