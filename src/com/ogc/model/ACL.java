@@ -77,14 +77,11 @@ public class ACL {
 			return false;
 		return true;
 	}
-	public ACL(JSONObject obj){
-		try {
-			read = obj.getBoolean("read");
-			write = obj.getBoolean("write");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public ACL(JSONObject obj) throws JSONException {
+
+		read = obj.getBoolean("read");
+		write = obj.getBoolean("write");
+
 	}
 	public JSONObject toJSON() {
 		Map<String,Object> map = new HashMap<String,Object>();
