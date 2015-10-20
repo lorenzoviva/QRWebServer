@@ -49,6 +49,9 @@ public class SocketServer {
 	/**
 	 * Called when a socket connection opened
 	 * */
+	
+	//	It doesn't work with the name "%". Fix needed
+	
 	@OnOpen
 	public void onOpen(Session session) {
 
@@ -62,8 +65,10 @@ public class SocketServer {
 
 			// Getting client name via query param
 			name = queryParams.get("name");
+			System.out.println("Il nome è: " + name);
 			try {
 				name = URLDecoder.decode(name, "UTF-8");
+				System.out.println("Il nome decodificato è: " + name);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}

@@ -15,6 +15,7 @@
 		<class>com.ogc.model.RoleType</class>
 		<class>com.ogc.model.ACL</class>
 		<class>com.ogc.model.QRChat</class>
+		<class>com.ogc.model.QRMessage</class>
 		<properties>
 			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
 			<property name="openjpa.ConnectionUserName" value="root" />
