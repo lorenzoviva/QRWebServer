@@ -100,7 +100,7 @@ local.properties
 .classpath
 .project
 .loadpath
-/build/
+project/build/
 
 # External tool builders
 .externalToolBuilders/
