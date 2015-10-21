@@ -33,6 +33,10 @@ public class QRChat extends QRSquare {
 		return true;
 	}
 	
+	public QRChat() {
+		super();
+	}
+
 	public QRChat(JSONObject jobj) throws JSONException {
 		this.setText(jobj.getString("text"));
 		this.setCreationDate(new Gson().fromJson(jobj.getString("creationDate"), Date.class));
@@ -57,5 +61,13 @@ public class QRChat extends QRSquare {
 		}
 		jsonMap.put("messages", array);
 		return new JSONObject(jsonMap);
+	}
+
+	public List<QRMessage> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<QRMessage> messages) {
+		this.messages = messages;
 	}
 }
