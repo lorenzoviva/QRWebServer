@@ -52,7 +52,9 @@ public class QRChat extends QRSquare {
 	public JSONObject toJSONObject(){
 		Map<String, Object> jsonMap = new HashMap<String,Object>();
 		jsonMap.put("text", this.getText());
-		jsonMap.put("creationDate", (new Gson()).toJson(this.getCreationDate(),Date.class));
+		String jsonDate = (new Gson()).toJson(this.getCreationDate(),Date.class);
+		jsonDate.replace("\"", "");
+		jsonMap.put("creationDate", jsonDate);
 		jsonMap.put("visit", this.getVisit());
 		jsonMap.put("acl", this.getAcl().toJSON());
 		JSONArray array = new JSONArray();

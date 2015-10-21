@@ -5,34 +5,37 @@ var sessionId = '';
 var name = '';
 
 // socket connection url and port
-var socket_url = '192.168.1.8';
+var socket_url = '192.168.1.3';
 var port = '8080';
 
 $(document).ready(function() {
 
 	$("#form_submit, #form_send_message").submit(function(e) {
 		e.preventDefault();
-		join();
+		join(idChat);
 	});
 });
 
 var webSocket;
 
+var jsonChat;
+
 /**
  * Connecting to socket
  */
-function join() {
+function join(jsonStringChat) {
+	jsonChat = $.parseJSON(jsonStringChat);
 	// Checking person name
-	if ($('#input_name').val().trim().length <= 0) {
-		alert('Enter your name');
-	} else {
+//	if ($('#input_name').val().trim().length <= 0) {
+//		alert('Enter your name');
+//	} else {
 		name = $('#input_name').val().trim();
 
 		$('#prompt_name_container').fadeOut(1000, function() {
 			// opening socket connection
-			openSocket();
+			openSocket(jsonChat.text);
 		});
-	}
+//	}
 
 	return false;
 }
@@ -40,7 +43,7 @@ function join() {
 /**
  * Will open the socket connection
  */
-function openSocket() {
+function openSocket(idChat) {
 	// Ensures only one connection is open at a time
 	if (webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED) {
 		return;
@@ -48,7 +51,7 @@ function openSocket() {
 
 	// Create a new instance of the websocket
 	webSocket = new WebSocket("ws://" + socket_url + ":" + port
-			+ "/QRWebService/chat?name=" + name);
+			+ "/QRWebService/chat?name=" + idChat);
 
 	/**
 	 * Binds functions to the listeners for the websocket.
