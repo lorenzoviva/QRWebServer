@@ -15,7 +15,7 @@ public class JSONUtils {
 	/**
 	 * Json when client needs it's own session details
 	 * */
-	public String getClientDetailsJson(String sessionId, String message) {
+	public String getClientDetailsJson(String sessionId, String message,String chatJSON) {
 		String json = null;
 
 		try {
@@ -23,6 +23,8 @@ public class JSONUtils {
 			jObj.put("flag", FLAG_SELF);
 			jObj.put("sessionId", sessionId);
 			jObj.put("message", message);
+			jObj.put("chat", chatJSON);
+			
 
 			json = jObj.toString();
 		} catch (JSONException e) {

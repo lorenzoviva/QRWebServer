@@ -5,37 +5,55 @@ var sessionId = '';
 var name = '';
 
 // socket connection url and port
-var socket_url = '192.168.1.5';
+var socket_url = '192.168.0.21';
 var port = '8080';
 
 $(document).ready(function() {
 
 	$("#form_submit, #form_send_message").submit(function(e) {
 		e.preventDefault();
-		join(idChat);
+		join("","");
 	});
 });
 
 var webSocket;
 
 var jsonChat;
+var jsonUser;
 
 /**
  * Connecting to socket
  */
-function join(jsonStringChat) {
-	jsonChat = $.parseJSON(jsonStringChat);
-	// Checking person name
-//	if ($('#input_name').val().trim().length <= 0) {
-//		alert('Enter your name');
-//	} else {
-		name = $('#input_name').val().trim();
-
+function join(jsonStringChat,jsonStringUser) {
+	var jsonChatText = "";
+	if (jsonStringChat.trim().length > 0) {
+		jsonChat = $.parseJSON(jsonStringChat);
+		jsonChatText = jsonChat.text;
+	}else{
+		if ($('#input_name').val().trim().length <= 0) {
+			alert("you must insert the chat qr text");
+		}else{
+			jsonChatText = $('#input_name').val().trim();
+		}
+	}
+	
+	
+// Checking person name
+	
+	if(jsonStringUser.trim().length > 0){
+			jsonUser = $.parseJSON(jsonStringUser);
+			$('#prompt_name_container').fadeOut(1000, function() {
+				// opening socket connection
+				openSocket(jsonChatText,jsonUser.id);
+			});
+	}else{
 		$('#prompt_name_container').fadeOut(1000, function() {
 			// opening socket connection
-			openSocket(jsonChat.text);
+			openSocket(jsonChatText,"anonymous");
 		});
-//	}
+	}
+		
+ 
 
 	return false;
 }
@@ -43,7 +61,7 @@ function join(jsonStringChat) {
 /**
  * Will open the socket connection
  */
-function openSocket(idChat) {
+function openSocket(idChat,idUser) {
 	// Ensures only one connection is open at a time
 	if (webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED) {
 		return;
@@ -51,7 +69,7 @@ function openSocket(idChat) {
 
 	// Create a new instance of the websocket
 	webSocket = new WebSocket("ws://" + socket_url + ":" + port
-			+ "/QRWebService/chat?name=" + idChat);
+			+ "/QRWebService/chat?chat=" + idChat + "&name=" + idUser) ;
 
 	/**
 	 * Binds functions to the listeners for the websocket.
@@ -118,6 +136,19 @@ function parseMessage(message) {
 	if (jObj.flag == 'self') {
 
 		sessionId = jObj.sessionId;
+		var chatObj = $.parseJSON(jObj.chat);
+		for (var i = 0; i < chatObj.messages.length; i++) {
+	    	var from_name = 'You';
+//			if (key.sender != null) {
+//				from_name = jObj.name;
+//			}
+			var li = '<li><span class="name">' + from_name + '</span> '
+					+ chatObj.messages[i].text + '</li>';
+
+			// appending the chat message to list
+			appendChatMessage(li);
+			
+	    };
 
 	} else if (jObj.flag == 'new') {
 		// if the flag is 'new', a client joined the chat room
@@ -148,7 +179,7 @@ function parseMessage(message) {
 		var from_name = 'You';
 
 		if (jObj.sessionId != sessionId) {
-			from_name = jObj.name;
+			from_name = jObj.name.replace('&',' ');
 		}
 
 		var li = '<li><span class="name">' + from_name + '</span> '

@@ -1,6 +1,5 @@
 package com.ogc.model;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,8 +17,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.ogc.utility.GsonHelper;
 
 @Entity
 @DiscriminatorValue(value="QRChat")
@@ -41,8 +39,7 @@ public class QRChat extends QRSquare {
 
 	public QRChat(JSONObject jobj) throws JSONException {
 		this.setText(jobj.getString("text"));
-		Gson gson = new GsonBuilder().setDateFormat(DateFormat.FULL, DateFormat.FULL).create();
-		this.setCreationDate(gson.fromJson(jobj.getString("creationDate"), Date.class));
+		this.setCreationDate(GsonHelper.customGson.fromJson(jobj.getString("creationDate"), Date.class));
 		this.setVisit(jobj.getLong("visit"));
 		this.setAcl(new ACL(jobj.getJSONObject("acl")));
 		JSONArray jsonarray = jobj.getJSONArray("messages");
@@ -55,8 +52,7 @@ public class QRChat extends QRSquare {
 	public JSONObject toJSONObject(){
 		Map<String, Object> jsonMap = new HashMap<String,Object>();
 		jsonMap.put("text", this.getText());
-		Gson gson = new GsonBuilder().setDateFormat(DateFormat.FULL, DateFormat.FULL).create();
-		String jsonDate = gson.toJson(this.getCreationDate(),Date.class);
+		String jsonDate = GsonHelper.customGson.toJson(this.getCreationDate(),Date.class);
 		jsonDate=jsonDate.substring(1,jsonDate.length()-1);
 		jsonMap.put("creationDate", jsonDate);
 		jsonMap.put("visit", this.getVisit());
@@ -75,5 +71,10 @@ public class QRChat extends QRSquare {
 
 	public void setMessages(List<QRMessage> messages) {
 		this.messages = messages;
+	}
+	public void add(QRMessage m) {
+		if (messages == null || messages.isEmpty())
+			messages = new ArrayList<QRMessage>();
+		messages.add(m);
 	}
 }

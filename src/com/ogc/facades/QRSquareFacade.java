@@ -1,6 +1,5 @@
 package com.ogc.facades;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -9,18 +8,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import com.ogc.model.QRFreeDraw;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareFactory;
-import com.ogc.model.QRSquareUser;
 import com.ogc.model.QRUser;
-import com.ogc.model.RoleType;
 
 public class QRSquareFacade {
-	@PersistenceUnit(unitName="QRWebService")
+	@PersistenceContext(unitName="QRWebService")
 	private EntityManagerFactory emf;
 	private EntityManager em;
 	boolean embedded = false;
@@ -54,11 +50,11 @@ public class QRSquareFacade {
 	public QRSquare getQRFromText(String text) {
 		Query query = em.createQuery("SELECT s FROM QRSquare s WHERE s.text LIKE :text").setParameter("text", text);
 		@SuppressWarnings("unchecked")
-		List<QRSquare> users = query.getResultList();
-		if (users == null || users.equals(null) || users.isEmpty()) {
+		List<QRSquare> squares = query.getResultList();
+		if (squares == null || squares.equals(null) || squares.isEmpty()) {
 			return null;
 		} else {
-			return users.get(0);
+			return squares.get(0);
 		}
 	}
 

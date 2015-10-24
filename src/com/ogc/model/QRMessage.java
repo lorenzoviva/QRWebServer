@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -22,20 +25,23 @@ public class QRMessage {
 	private String text;
 	@Column
 	private Date date;
-	@Column
+	@OneToOne (fetch=FetchType.LAZY, cascade={CascadeType.PERSIST})
 	private QRUser sender;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	public QRMessage(String text, QRUser sender, Long id) {
-		super();
+	public QRMessage(String text, QRUser sender) {
 		this.text = text;
+		this.date = new Date();
 		this.sender = sender;
-		this.id = id;
+	}
+	public QRMessage(String text) {
+		this.text = text;
+		this.date = new Date();
+		this.sender = null;
 	}
 	public QRMessage() {
-		super();
 	}
 	
 	public QRMessage(JSONObject jobj) throws JSONException {
@@ -78,6 +84,7 @@ public class QRMessage {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,5 +107,9 @@ public class QRMessage {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "QRMessage [text=" + text + ", date=" + date + "]";
 	}
 }

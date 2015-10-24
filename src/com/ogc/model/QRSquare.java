@@ -19,6 +19,8 @@ import javax.persistence.OneToOne;
 
 import org.codehaus.jettison.json.JSONObject;
 
+import com.google.gson.JsonElement;
+
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="SQUARE_TYPE")

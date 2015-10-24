@@ -99,6 +99,24 @@ public class Create extends Action {
 			// creates json from country object
 			JsonElement squareObj = GsonHelper.customGson.toJsonTree(square);
 
+						//			
+						//			JSONObject squareObj = null;
+						//			try {
+						//				squareObj = new JSONObject(GsonHelper.customGson.toJsonTree(square).toString());
+						//			} catch (JSONException e) {
+						//				// TODO Auto-generated catch block
+						//				e.printStackTrace();
+						//			}
+						//			if (square.toJSONObject() != null) {
+						//				squareObj = square.toJSONObject();
+						//			}
+						//			// create a new JSON object
+						//			// add property as success
+						//			myObj.addProperty("success", true);
+						//			if (squareObj != null) {
+						//				myObj.addProperty("QRSquare", squareObj.toString());
+						//			}
+						//			return myObj;
 			// create a new JSON object
 			// add property as success
 			myObj.addProperty("success", true);

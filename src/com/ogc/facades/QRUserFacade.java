@@ -1,7 +1,6 @@
 package com.ogc.facades;
 
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,16 +9,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.ogc.model.ACL;
-import com.ogc.model.QRSquare;
 import com.ogc.model.QRUser;
 import com.ogc.model.QRUserMenager;
 
 public class QRUserFacade {
-	@PersistenceUnit(unitName="QRWebService")
+	@PersistenceContext(unitName="QRWebService")
 	private EntityManagerFactory emf;
 	private EntityManager em;
 	boolean embedded = false;

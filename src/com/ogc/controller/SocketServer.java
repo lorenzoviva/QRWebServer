@@ -19,19 +19,27 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.google.common.collect.Maps;
+import com.ogc.facades.QRSquareFacade;
+import com.ogc.facades.QRUserFacade;
+import com.ogc.model.QRChat;
+import com.ogc.model.QRMessage;
+import com.ogc.model.QRSquare;
+import com.ogc.model.QRUser;
 import com.ogc.utility.JSONUtils;
 
 @ServerEndpoint("/chat")
 public class SocketServer {
 
 	// set to store all the live sessions
-	private static final Set<Session> sessions = Collections
-			.synchronizedSet(new HashSet<Session>());
+	private static final Set<Session> sessions = Collections.synchronizedSet(new HashSet<Session>());
 
 	// Mapping between session and person name
-	private static final HashMap<String, String> nameSessionPair = new HashMap<String, String>();
+	// <SESSION_ID,NAME CHAT_TEXT>
+	private static final Map<String, String> userchatSessionPair = Collections.synchronizedMap(new HashMap<String, String>());
 
 	private JSONUtils jsonUtils = new JSONUtils();
+	// <CHAT_TEXT,SET<SESSIONS>>
+	private static final Map<String, Set<Session>> chatSessions = Collections.synchronizedMap(new HashMap<String, Set<Session>>());
 
 	// Getting query params
 	public static Map<String, String> getQueryMap(String query) {
@@ -49,9 +57,9 @@ public class SocketServer {
 	/**
 	 * Called when a socket connection opened
 	 * */
-	
-	//	It doesn't work with the name "%". Fix needed
-	
+
+	// It doesn't work with the name "%". Fix needed
+
 	@OnOpen
 	public void onOpen(Session session) {
 
@@ -60,38 +68,75 @@ public class SocketServer {
 		Map<String, String> queryParams = getQueryMap(session.getQueryString());
 
 		String name = "";
-
-		if (queryParams.containsKey("name")) {
+		String idchat = "";
+		for (String key : queryParams.keySet()) {
+			System.out.println("key :" + key + "");
+		}
+		if (queryParams.containsKey("name") && queryParams.containsKey("chat")) {
 
 			// Getting client name via query param
 			name = queryParams.get("name");
-			System.out.println("Il nome è: " + name);
+			idchat = queryParams.get("chat");
+			QRUser user = null;
+			QRChat chat = null;
+
+			System.out.println("Il nome del nuovo arrivato e': " + name + " ,la chat ha id :" + idchat);
 			try {
 				name = URLDecoder.decode(name, "UTF-8");
-				System.out.println("Il nome decodificato è: " + name);
+				idchat = URLDecoder.decode(idchat, "UTF-8");
+				System.out.println("Il nome decodificato e': " + name + " ,l'id della chat decodificato :" + idchat);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
 
+			if (!name.equals("anonymous")) {
+				QRUserFacade facade = new QRUserFacade();
+				user = facade.getUserFromId(Long.parseLong(name));
+				name = user.getFirstName() + "&" + user.getLastName();
+			}
+
+			QRSquareFacade facade = new QRSquareFacade();
+			chat = (QRChat) facade.getQRFromText(idchat);
+
+			// Adding session to session list
+			sessions.add(session);
+			// Adding session to session chat map
+			if (chatSessions.isEmpty()) {
+				Set<Session> chatSetOfSession = Collections.synchronizedSet(new HashSet<Session>());
+				chatSetOfSession.add(session);
+				chatSessions.put(chat.getText(), chatSetOfSession);
+				System.out.println("Creating the chat holder for :" + chat.getText());
+
+			} else {
+				if (chatSessions.keySet().contains(chat.getText())) {
+					Set<Session> chatSetOfSession = chatSessions.get(chat.getText());
+					chatSetOfSession.add(session);
+					chatSessions.put(chat.getText(), chatSetOfSession);
+					System.out.println("Adding user to chat holder :" + chat.getText());
+
+				} else {
+					Set<Session> chatSetOfSession = Collections.synchronizedSet(new HashSet<Session>());
+					chatSetOfSession.add(session);
+					chatSessions.put(chat.getText(), chatSetOfSession);
+				}
+			}
+			System.out.println(chat.toJSONObject().toString());
+			try {
+				// Sending session id to the client that just connected
+				session.getBasicRemote().sendText(jsonUtils.getClientDetailsJson(session.getId(), "Your session details",chat.toJSONObject().toString()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 			// Mapping client name and session id
-			nameSessionPair.put(session.getId(), name);
+			if (!name.equals("anonymous")) {
+				userchatSessionPair.put(session.getId(), String.valueOf(user.getId()) + " " + String.valueOf(chat.getText()));
+			} else {
+				userchatSessionPair.put(session.getId(), name + " " + String.valueOf(chat.getText()));
+			}
+			// Notifying all the clients about new person joined
+			sendMessageToAll(session.getId(), name, " joined conversation!", true, false);
 		}
-
-		// Adding session to session list
-		sessions.add(session);
-
-		try {
-			// Sending session id to the client that just connected
-			session.getBasicRemote().sendText(
-					jsonUtils.getClientDetailsJson(session.getId(),
-							"Your session details"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		// Notifying all the clients about new person joined
-		sendMessageToAll(session.getId(), name, " joined conversation!", true,
-				false);
 
 	}
 
@@ -104,7 +149,7 @@ public class SocketServer {
 	@OnMessage
 	public void onMessage(String message, Session session) {
 
-		System.out.println("Message from " + session.getId() + ": " + message  + session.getQueryString());
+		System.out.println("Message from " + session.getId() + ": " + message + session.getQueryString());
 
 		String msg = null;
 
@@ -115,10 +160,25 @@ public class SocketServer {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		// Saving the message
+		QRMessage m = null;
+		String name = userchatSessionPair.get(session.getId()).split(" ")[0];
+		String idchat = userchatSessionPair.get(session.getId()).substring(name.length() + 1);
+		if (!name.equals("anonymous")) {
+			QRUserFacade userfacade = new QRUserFacade();
+			QRUser user = userfacade.getUserFromId(Long.parseLong(name));
+			name = user.getFirstName() + "&" + user.getLastName();
+			m = new QRMessage(msg, user);
+		} else {
+			m = new QRMessage(msg);
+		}
+		QRSquareFacade squarefacade = new QRSquareFacade();
+		QRChat chat = (QRChat) squarefacade.getQRFromText(idchat);
+		chat.add(m);
+		squarefacade.save(chat);
 
 		// Sending the message to all clients
-		sendMessageToAll(session.getId(), nameSessionPair.get(session.getId()),
-				msg, false, false);
+		sendMessageToAll(session.getId(), name, msg, false, false);
 	}
 
 	/**
@@ -127,17 +187,26 @@ public class SocketServer {
 	@OnClose
 	public void onClose(Session session) {
 
-		System.out.println("Session " + session.getId() + " has ended"  + session.getQueryString());
-
+		System.out.println("Session " + session.getId() + " has ended" + session.getQueryString());
+		// String userchatSessionPair.get(session.getId()).split(" ")[0];
 		// Getting the client name that exited
-		String name = nameSessionPair.get(session.getId());
-
-		// removing the session from sessions list
-		sessions.remove(session);
-
+		String name = userchatSessionPair.get(session.getId()).split(" ")[0];
+		String idchat = userchatSessionPair.get(session.getId()).substring(name.length() + 1);
+		if (!name.equals("anonymous")) {
+			QRUserFacade facade = new QRUserFacade();
+			QRUser user = facade.getUserFromId(Long.parseLong(name));
+			name = user.getFirstName() + "&" + user.getLastName();
+		}
+		
 		// Notifying all the clients about person exit
-		sendMessageToAll(session.getId(), name, " left conversation!", false,
-				true);
+		sendMessageToAll(session.getId(), name, " left conversation!", false, true);
+
+		// removing the session from sessions lists
+		userchatSessionPair.remove(session.getId());
+		sessions.remove(session);
+		Set<Session> chatsessions = chatSessions.get(idchat);
+		chatsessions.remove(session);
+		chatSessions.put(idchat, chatsessions);
 
 	}
 
@@ -152,36 +221,32 @@ public class SocketServer {
 	 * @param isExit
 	 *            flag to identify that a person left the conversation
 	 * */
-	private void sendMessageToAll(String sessionId, String name,
-			String message, boolean isNewClient, boolean isExit) {
-
+	private void sendMessageToAll(String sessionId, String name, String message, boolean isNewClient, boolean isExit) {
+		String username = userchatSessionPair.get(sessionId).split(" ")[0];
+		String idchat = userchatSessionPair.get(sessionId).substring(username.length() + 1);
+		System.out.println("People online total:" + chatSessions.size() + " " + sessions.size() +" " + chatSessions.get(idchat).size());
 		// Looping through all the sessions and sending the message individually
-		for (Session s : sessions) {
+		for (Session s : chatSessions.get(idchat)) {
 			String json = null;
 
 			// Checking if the message is about new client joined
 			if (isNewClient) {
-				json = jsonUtils.getNewClientJson(sessionId, name, message,
-						sessions.size());
-
+				json = jsonUtils.getNewClientJson(sessionId, name, message,  chatSessions.get(idchat).size());
 			} else if (isExit) {
+				json = jsonUtils.getClientExitJson(sessionId, name, message,  chatSessions.get(idchat).size());
 				// Checking if the person left the conversation
-				json = jsonUtils.getClientExitJson(sessionId, name, message,
-						sessions.size());
 			} else {
 				// Normal chat conversation message
-				json = jsonUtils
-						.getSendAllMessageJson(sessionId, name, message);
+				json = jsonUtils.getSendAllMessageJson(sessionId, name, message);
 			}
 
 			try {
-				System.out.println("Sending Message To: " + sessionId + ", "
-						+ json);
-
-				s.getBasicRemote().sendText(json);
+				System.out.println("Sending Message To: " + sessionId + ", " + json);
+				if(!s.getId().equals(sessionId) || !isExit){
+					s.getBasicRemote().sendText(json);
+				}
 			} catch (IOException e) {
-				System.out.println("error in sending. " + s.getId() + ", "
-						+ e.getMessage());
+				System.out.println("error in sending. " + s.getId() + ", " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
