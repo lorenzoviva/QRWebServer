@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.ogc.facades.QRSquareUserFacade;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareUser;
+import com.ogc.utility.GsonHelper;
 
 public class Users extends Action {
 	
@@ -45,7 +46,7 @@ public class Users extends Action {
 				return myObj;
 
 			} else {
-				Gson gson = new Gson();
+				Gson gson = GsonHelper.customGson;
 				// creates json from country object
 				JsonElement squareUsersObj = gson.toJsonTree(squareUsers);
 				JsonElement squareObj = gson.toJsonTree(squareUsers.get(0).getSquare());
@@ -79,7 +80,7 @@ public class Users extends Action {
 			return false;
 		} else {
 			String type = parameters.get("type").getAsString();
-			Gson gson = new Gson();
+			Gson gson = GsonHelper.customGson;
 			try {
 				QRSquare square = (QRSquare) gson.fromJson(parameters.getAsJsonObject("QRSquare"), Class.forName(type));
 				if (square.getAcl().getWrite()) {
@@ -90,7 +91,7 @@ public class Users extends Action {
 					} else {
 						Type listType = new TypeToken<ArrayList<QRSquareUser>>() {
 						}.getType();
-						List<QRSquareUser> squareUser = (new Gson()).fromJson(parameters.get("QRSquareUser"), listType);
+						List<QRSquareUser> squareUser = GsonHelper.customGson.fromJson(parameters.get("QRSquareUser"), listType);
 						for (int i = 0; i < squareUser.size(); i++) {
 
 							if (squareUser.get(i).getRole() != null) {

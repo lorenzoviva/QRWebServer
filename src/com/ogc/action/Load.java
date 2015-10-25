@@ -13,6 +13,7 @@ import com.ogc.facades.QRSquareFacade;
 import com.ogc.facades.QRSquareUserFacade;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareUser;
+import com.ogc.utility.GsonHelper;
 
 public class Load extends Action {
 
@@ -20,7 +21,7 @@ public class Load extends Action {
 	
 
 
-	private static Class[] subactionarray =  {Create.class,Edit.class,Link.class, Links.class ,Load.class,Login.class,Logout.class,Request.class ,Signup.class,Users.class};
+	private static Class[] subactionarray =  {Create.class,Edit.class,Link.class, Links.class ,Load.class,Login.class,Logout.class,Request.class ,Signup.class,Users.class,Chat.class};
 	@SuppressWarnings("unchecked")
 	public Load() {
 		super(subactionarray);
@@ -67,7 +68,7 @@ public class Load extends Action {
 			myObj.addProperty("error", error);
 			return myObj;
 		} else {
-			Gson gson = new Gson();
+			Gson gson = GsonHelper.customGson;
 
 			if (square != null) {
 				// creates json from country object
@@ -78,13 +79,6 @@ public class Load extends Action {
 				myObj.addProperty("success", true);
 				// add the QRSquare object
 				myObj.addProperty("free", false);
-				try {
-					parameters.put("type", square.getClass().getName());
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
 
 				if (squareUser != null) {
 					JsonElement squareUserJson = gson.toJsonTree(squareUser);
@@ -123,9 +117,8 @@ public class Load extends Action {
 				myObj.addProperty("success", true);
 				// add the country object
 				myObj.addProperty("free", true);
-				JsonParser parser = new JsonParser();
-				JsonObject parobject = (JsonObject) parser.parse(parameters.toString());
-				String possibleActions = getPossibleActions(parobject);
+				
+				String possibleActions = getPossibleActions(myObj);
 				myObj.addProperty("action", possibleActions);
 				// convert the JSON to string and send back
 				return myObj;

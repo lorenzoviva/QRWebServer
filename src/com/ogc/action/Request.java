@@ -7,11 +7,11 @@ import java.util.List;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.ogc.facades.QRSquareUserFacade;
 import com.ogc.model.QRSquareUser;
+import com.ogc.utility.GsonHelper;
 
 public class Request extends Action {
 
@@ -59,7 +59,7 @@ public class Request extends Action {
 			} else {
 				Type listType = new TypeToken<ArrayList<QRSquareUser>>() {
 				}.getType();
-				List<QRSquareUser> qrSquareUser = (new Gson()).fromJson(parameters.get("QRSquareUser"), listType);
+				List<QRSquareUser> qrSquareUser = GsonHelper.customGson.fromJson(parameters.get("QRSquareUser"), listType);
 				for (int i = 0; i < qrSquareUser.size(); i++) {
 					String roleName = qrSquareUser.get(i).getRole().getName().toLowerCase();
 					if (roleName.startsWith("request") || roleName.startsWith("owner")) {

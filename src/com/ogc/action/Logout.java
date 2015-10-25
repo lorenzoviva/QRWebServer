@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.codehaus.jettison.json.JSONObject;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.ogc.model.QRSquareUser;
+import com.ogc.utility.GsonHelper;
 
 public class Logout extends Action {
 
@@ -27,7 +27,7 @@ public class Logout extends Action {
 			if (type.endsWith("QRUserMenager")) {				
 				Type listType = new TypeToken<ArrayList<QRSquareUser>>() {
 				}.getType();
-				List<QRSquareUser> squareUsers = (new Gson()).fromJson(parameters.get("QRSquareUser"), listType);
+				List<QRSquareUser> squareUsers = (GsonHelper.customGson).fromJson(parameters.get("QRSquareUser"), listType);
 				for (int i = 0; i < squareUsers.size(); i++) {
 					QRSquareUser squareUser = squareUsers.get(i);
 					if (squareUser.getRole() != null) {
@@ -39,8 +39,7 @@ public class Logout extends Action {
 
 				}
 				return false;
-//				QRSquareUser squareUser = (new Gson()).fromJson(parameters.getAsJsonObject("QRSquareUser"), QRSquareUser.class);
-//				return squareUser.getRole().getName().equals("owner");
+
 
 			} else {
 				return false;

@@ -5,14 +5,14 @@ var sessionId = '';
 var name = '';
 
 // socket connection url and port
-var socket_url = '192.168.0.21';
+var socket_url = '192.168.1.3';
 var port = '8080';
 
 $(document).ready(function() {
 
 	$("#form_submit, #form_send_message").submit(function(e) {
 		e.preventDefault();
-		join("","");
+		join("", "");
 	});
 });
 
@@ -24,36 +24,29 @@ var jsonUser;
 /**
  * Connecting to socket
  */
-function join(jsonStringChat,jsonStringUser) {
-	var jsonChatText = "";
-	if (jsonStringChat.trim().length > 0) {
-		jsonChat = $.parseJSON(jsonStringChat);
-		jsonChatText = jsonChat.text;
-	}else{
-		if ($('#input_name').val().trim().length <= 0) {
+function join(idChat, userid) {
+	if (idChat.trim().length <= 0) { // not from mobile
+		if ($('#input_name').val().trim().length <= 0) { // empty box chat
+															// name
 			alert("you must insert the chat qr text");
-		}else{
-			jsonChatText = $('#input_name').val().trim();
+		} else {
+			idChat = $('#input_name').val().trim();
 		}
 	}
-	
-	
-// Checking person name
-	
-	if(jsonStringUser.trim().length > 0){
-			jsonUser = $.parseJSON(jsonStringUser);
-			$('#prompt_name_container').fadeOut(1000, function() {
-				// opening socket connection
-				openSocket(jsonChatText,jsonUser.id);
-			});
-	}else{
+
+	// Checking person name
+
+	if (userid.trim().length > 0) {
 		$('#prompt_name_container').fadeOut(1000, function() {
 			// opening socket connection
-			openSocket(jsonChatText,"anonymous");
+			openSocket(idChat, userid);
+		});
+	} else {
+		$('#prompt_name_container').fadeOut(1000, function() {
+			// opening socket connection
+			openSocket(idChat, "anonymous");
 		});
 	}
-		
- 
 
 	return false;
 }
@@ -61,7 +54,7 @@ function join(jsonStringChat,jsonStringUser) {
 /**
  * Will open the socket connection
  */
-function openSocket(idChat,idUser) {
+function openSocket(idChat, idUser) {
 	// Ensures only one connection is open at a time
 	if (webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED) {
 		return;
@@ -69,7 +62,7 @@ function openSocket(idChat,idUser) {
 
 	// Create a new instance of the websocket
 	webSocket = new WebSocket("ws://" + socket_url + ":" + port
-			+ "/QRWebService/chat?chat=" + idChat + "&name=" + idUser) ;
+			+ "/QRWebService/chat?chat=" + idChat + "&name=" + idUser);
 
 	/**
 	 * Binds functions to the listeners for the websocket.
@@ -89,7 +82,7 @@ function openSocket(idChat,idUser) {
 	};
 
 	webSocket.onclose = function(event) {
-		
+
 	};
 }
 
@@ -138,17 +131,18 @@ function parseMessage(message) {
 		sessionId = jObj.sessionId;
 		var chatObj = $.parseJSON(jObj.chat);
 		for (var i = 0; i < chatObj.messages.length; i++) {
-	    	var from_name = 'You';
-//			if (key.sender != null) {
-//				from_name = jObj.name;
-//			}
+			var from_name = 'You';
+			// if (key.sender != null) {
+			// from_name = jObj.name;
+			// }
 			var li = '<li><span class="name">' + from_name + '</span> '
 					+ chatObj.messages[i].text + '</li>';
 
 			// appending the chat message to list
 			appendChatMessage(li);
-			
-	    };
+
+		}
+		;
 
 	} else if (jObj.flag == 'new') {
 		// if the flag is 'new', a client joined the chat room
@@ -179,7 +173,7 @@ function parseMessage(message) {
 		var from_name = 'You';
 
 		if (jObj.sessionId != sessionId) {
-			from_name = jObj.name.replace('&',' ');
+			from_name = jObj.name.replace('&', ' ');
 		}
 
 		var li = '<li><span class="name">' + from_name + '</span> '
@@ -187,7 +181,7 @@ function parseMessage(message) {
 
 		// appending the chat message to list
 		appendChatMessage(li);
-		
+
 		if (jObj.sessionId == sessionId) {
 			$('#input_message').val('');
 		}
@@ -213,13 +207,11 @@ function parseMessage(message) {
 function appendChatMessage(li) {
 	$('#messages').append(li);
 
-	var ul = $("#messages"),
-    last = ul.children().last();
+	var ul = $("#messages"), last = ul.children().last();
 	var wholeHeight = last.offset().top - ul.children().first().offset().top
-                  + last.outerHeight()
-                  + parseFloat(ul.css("padding-top"))
-                  + parseFloat(ul.css("padding-bottom"));
-	
+			+ last.outerHeight() + parseFloat(ul.css("padding-top"))
+			+ parseFloat(ul.css("padding-bottom"));
+
 	// scrolling the list to bottom so that new message will be visible
 	$('#messages').scrollTop(wholeHeight);
 }

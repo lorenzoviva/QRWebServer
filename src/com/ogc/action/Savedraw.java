@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ogc.facades.QRSquareFacade;
 import com.ogc.model.QRFreeDraw;
+import com.ogc.utility.GsonHelper;
 
 public class Savedraw extends Action{
 	
@@ -23,8 +24,8 @@ public class Savedraw extends Action{
 		String error = "";
 		QRFreeDraw fd = null;
 		try {
-			if (parameters.has("qrfreedraw")) {
-				fd = (new Gson()).fromJson(parameters.getJSONObject("qrfreedraw").toString(), QRFreeDraw.class);
+			if (parameters.has("jsonfreedraw")) {
+				fd = (GsonHelper.customGson).fromJson(parameters.getString("jsonfreedraw"), QRFreeDraw.class);
 				squarefacade.save(fd);
 			} else {
 				error = "there is nothing to save";
@@ -42,7 +43,7 @@ public class Savedraw extends Action{
 			myObj.addProperty("error", error);
 			return myObj;
 		} else {
-			Gson gson = new Gson();
+			Gson gson = GsonHelper.customGson;
 
 			if (fd != null) {
 				// creates json from country object

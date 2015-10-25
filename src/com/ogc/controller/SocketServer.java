@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -19,13 +20,17 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.google.common.collect.Maps;
+import com.ogc.facades.ACLFacade;
+import com.ogc.facades.InvalidRoleException;
 import com.ogc.facades.QRSquareFacade;
 import com.ogc.facades.QRUserFacade;
+import com.ogc.model.ACL;
 import com.ogc.model.QRChat;
 import com.ogc.model.QRMessage;
-import com.ogc.model.QRSquare;
+import com.ogc.model.QRSquareFactory;
 import com.ogc.model.QRUser;
 import com.ogc.utility.JSONUtils;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 @ServerEndpoint("/chat")
 public class SocketServer {
@@ -97,6 +102,24 @@ public class SocketServer {
 
 			QRSquareFacade facade = new QRSquareFacade();
 			chat = (QRChat) facade.getQRFromText(idchat);
+			if (chat == null) {
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("text", idchat);
+				ACLFacade aclfacade = new ACLFacade();
+				ACL acl = new ACL(true, true);
+				aclfacade.saveACL(acl);
+				parameters.put("acl", acl);
+				try {
+					if (user != null) {
+						chat = (QRChat) facade.createNewQRSquare("QRChat", parameters, user);
+					} else {
+						chat = (QRChat) facade.createNewQRSquare("QRChat", parameters);
+					}
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IllegalArgumentException | NoSuchFieldException | SecurityException | InvalidRoleException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 
 			// Adding session to session list
 			sessions.add(session);
@@ -123,7 +146,7 @@ public class SocketServer {
 			System.out.println(chat.toJSONObject().toString());
 			try {
 				// Sending session id to the client that just connected
-				session.getBasicRemote().sendText(jsonUtils.getClientDetailsJson(session.getId(), "Your session details",chat.toJSONObject().toString()));
+				session.getBasicRemote().sendText(jsonUtils.getClientDetailsJson(session.getId(), "Your session details", chat.toJSONObject().toString()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -187,7 +210,7 @@ public class SocketServer {
 	@OnClose
 	public void onClose(Session session) {
 
-		System.out.println("Session " + session.getId() + " has ended" + session.getQueryString());
+		System.out.println("Session " + session.getId() + " has ended " + session.getQueryString());
 		// String userchatSessionPair.get(session.getId()).split(" ")[0];
 		// Getting the client name that exited
 		String name = userchatSessionPair.get(session.getId()).split(" ")[0];
@@ -197,7 +220,7 @@ public class SocketServer {
 			QRUser user = facade.getUserFromId(Long.parseLong(name));
 			name = user.getFirstName() + "&" + user.getLastName();
 		}
-		
+
 		// Notifying all the clients about person exit
 		sendMessageToAll(session.getId(), name, " left conversation!", false, true);
 
@@ -206,7 +229,11 @@ public class SocketServer {
 		sessions.remove(session);
 		Set<Session> chatsessions = chatSessions.get(idchat);
 		chatsessions.remove(session);
-		chatSessions.put(idchat, chatsessions);
+		if (!chatsessions.isEmpty()) {
+			chatSessions.put(idchat, chatsessions);
+		} else {
+			chatSessions.remove(idchat);
+		}
 
 	}
 
@@ -224,16 +251,16 @@ public class SocketServer {
 	private void sendMessageToAll(String sessionId, String name, String message, boolean isNewClient, boolean isExit) {
 		String username = userchatSessionPair.get(sessionId).split(" ")[0];
 		String idchat = userchatSessionPair.get(sessionId).substring(username.length() + 1);
-		System.out.println("People online total:" + chatSessions.size() + " " + sessions.size() +" " + chatSessions.get(idchat).size());
+		System.out.println("People online total:" + chatSessions.size() + " " + sessions.size() + " " + chatSessions.get(idchat).size());
 		// Looping through all the sessions and sending the message individually
 		for (Session s : chatSessions.get(idchat)) {
 			String json = null;
 
 			// Checking if the message is about new client joined
 			if (isNewClient) {
-				json = jsonUtils.getNewClientJson(sessionId, name, message,  chatSessions.get(idchat).size());
+				json = jsonUtils.getNewClientJson(sessionId, name, message, chatSessions.get(idchat).size());
 			} else if (isExit) {
-				json = jsonUtils.getClientExitJson(sessionId, name, message,  chatSessions.get(idchat).size());
+				json = jsonUtils.getClientExitJson(sessionId, name, message, chatSessions.get(idchat).size());
 				// Checking if the person left the conversation
 			} else {
 				// Normal chat conversation message
@@ -242,7 +269,7 @@ public class SocketServer {
 
 			try {
 				System.out.println("Sending Message To: " + sessionId + ", " + json);
-				if(!s.getId().equals(sessionId) || !isExit){
+				if (!s.getId().equals(sessionId) || !isExit) {
 					s.getBasicRemote().sendText(json);
 				}
 			} catch (IOException e) {

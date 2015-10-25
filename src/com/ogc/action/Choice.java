@@ -6,10 +6,9 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.ogc.model.QRFreeDraw;
 import com.ogc.model.QRSquare;
+import com.ogc.utility.GsonHelper;
 
 public class Choice extends Action {
 
@@ -60,7 +59,7 @@ public class Choice extends Action {
 			return myObj;
 
 		} else {
-			Gson gson = new Gson();
+			Gson gson = GsonHelper.customGson;
 			// creates json from country object
 
 			// create a new JSON object

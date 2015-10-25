@@ -49,8 +49,11 @@ public class GsonHelper {
 
 		@Override
 		public QRFreeDraw deserialize(JsonElement json, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
-			JsonElement img = json.getAsJsonObject().get("img");
-			QRFreeDraw qrfreedraw = (new Gson()).fromJson(json, QRFreeDraw.class);
+			
+			JsonObject asJsonObject = json.getAsJsonObject();
+			JsonElement img = asJsonObject.get("img");
+			asJsonObject.remove("img");
+			QRFreeDraw qrfreedraw = (new Gson()).fromJson(asJsonObject, QRFreeDraw.class);
 			qrfreedraw.setImg(customGson.fromJson(img, byte[].class));
 			return qrfreedraw;
 		}

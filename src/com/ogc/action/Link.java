@@ -5,9 +5,9 @@ import java.net.URL;
 
 import org.codehaus.jettison.json.JSONObject;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.ogc.model.QRSquare;
+import com.ogc.utility.GsonHelper;
 
 public class Link extends Action {
 
@@ -29,7 +29,7 @@ public class Link extends Action {
 				}
 				return link;
 			} else {
-				QRSquare square = (new Gson()).fromJson(parameters.get("QRSquare"),QRSquare.class);
+				QRSquare square = (GsonHelper.customGson).fromJson(parameters.get("QRSquare"),QRSquare.class);
 				boolean link = true;
 				try {
 					new URL(square.getText());

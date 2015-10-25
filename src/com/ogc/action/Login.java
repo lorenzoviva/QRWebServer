@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ogc.facades.QRUserFacade;
 import com.ogc.model.QRUser;
+import com.ogc.utility.GsonHelper;
 
 public class Login extends Action {
 
@@ -35,7 +36,7 @@ public class Login extends Action {
 				return myObj;
 
 			} else {
-				Gson gson = new Gson();
+				Gson gson = GsonHelper.customGson;
 				// creates json from country object
 				JsonElement userObj = gson.toJsonTree(qruser);
 				// create a new JSON object

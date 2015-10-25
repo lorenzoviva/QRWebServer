@@ -12,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareUser;
+import com.ogc.utility.GsonHelper;
 
 public class Links extends Action{
 
@@ -25,7 +26,7 @@ public class Links extends Action{
 			return false;
 		} else {
 			String type = parameters.get("type").getAsString();
-			Gson gson = new Gson();
+			Gson gson = GsonHelper.customGson;
 			try {
 				QRSquare square = (QRSquare) gson.fromJson(parameters.getAsJsonObject("QRSquare"), Class.forName(type));
 				if (square.getAcl().getWrite()) {
@@ -36,7 +37,7 @@ public class Links extends Action{
 					} else {
 						Type listType = new TypeToken<ArrayList<QRSquareUser>>() {
 						}.getType();
-						List<QRSquareUser> squareUser = (new Gson()).fromJson(parameters.get("QRSquareUser"), listType);
+						List<QRSquareUser> squareUser = gson.fromJson(parameters.get("QRSquareUser"), listType);
 						for (int i = 0; i < squareUser.size(); i++) {
 
 							if (squareUser.get(i).getRole() != null) {

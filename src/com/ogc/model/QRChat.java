@@ -58,8 +58,10 @@ public class QRChat extends QRSquare {
 		jsonMap.put("visit", this.getVisit());
 		jsonMap.put("acl", this.getAcl().toJSON());
 		JSONArray array = new JSONArray();
-		for(int i = 0 ; i < messages.size();i++){
-			array.put(messages.get(i).toJSONObject());
+		if (messages!=null && messages.isEmpty()) {
+			for(int i = 0 ; i < messages.size();i++){
+				array.put(messages.get(i).toJSONObject());
+			}
 		}
 		jsonMap.put("messages", array);
 		return new JSONObject(jsonMap);
