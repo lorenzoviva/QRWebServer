@@ -70,7 +70,7 @@ body {
 	}
 	
 	#messages {
-		height: 400px;
+		height: 160px;
 	}
 	#input_message_container {
 		margin: 0px 0px 0 0px;
@@ -212,6 +212,7 @@ body {
 	padding: 0;
 	overflow: scroll;
 	overflow-x: hidden;
+	word-wrap:	break-word;
 }
 
 #messages li {
