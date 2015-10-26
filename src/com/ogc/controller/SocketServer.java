@@ -102,6 +102,7 @@ public class SocketServer {
 
 			QRSquareFacade facade = new QRSquareFacade();
 			chat = (QRChat) facade.getQRFromText(idchat);
+			
 			if (chat == null) {
 				Map<String, Object> parameters = new HashMap<String, Object>();
 				parameters.put("text", idchat);
@@ -119,6 +120,8 @@ public class SocketServer {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}else{
+				System.out.println("chat messages size: " + chat.getMessages().size());
 			}
 
 			// Adding session to session list
