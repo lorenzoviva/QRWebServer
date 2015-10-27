@@ -17,18 +17,13 @@ import com.ogc.utility.GsonHelper;
 
 public class Load extends Action {
 
-	
-	
+	private static Class[] subactionarray = { Create.class, Edit.class, Link.class, Links.class, Load.class, Login.class, Logout.class, Request.class, Signup.class, Users.class, Chat.class };
 
-
-	private static Class[] subactionarray =  {Create.class,Edit.class,Link.class, Links.class ,Load.class,Login.class,Logout.class,Request.class ,Signup.class,Users.class,Chat.class};
 	@SuppressWarnings("unchecked")
 	public Load() {
 		super(subactionarray);
 		// TODO Auto-generated constructor stub
 	}
-
-
 
 	@Override
 	public JsonObject perform(JSONObject parameters) {
@@ -36,6 +31,7 @@ public class Load extends Action {
 		QRSquareFacade squarefacade = new QRSquareFacade();
 		QRSquareUserFacade squareUserFacade = new QRSquareUserFacade();
 		String error = "";
+		long userid = -1;
 		QRSquare square = null;
 		List<QRSquareUser> squareUser = null;
 		try {
@@ -44,7 +40,7 @@ public class Load extends Action {
 				String text = parameters.getString("text");
 				square = squarefacade.getQRFromText(text);
 				if (parameters.has("user")) {
-					long userid = parameters.getLong("user");
+					userid = parameters.getLong("user");
 					try {
 						squareUser = squareUserFacade.getQRSquareUser(text, userid);
 					} catch (javax.persistence.NoResultException e) {
@@ -80,30 +76,22 @@ public class Load extends Action {
 				// add the QRSquare object
 				myObj.addProperty("free", false);
 
-				if (squareUser != null) {
+				if (squareUser != null && !squareUser.isEmpty()) {
 					JsonElement squareUserJson = gson.toJsonTree(squareUser);
-					
+
 					myObj.add("QRSquareUser", squareUserJson);
 				}
 
-		
 				myObj.addProperty("type", square.getClass().getName());
-				
+
 				// if
 				// (!square.getClass().getName().equals(QRUserMenager.class.getName())
 				// || !possibleActions.contains("login")) {
 				myObj.add("QRSquare", squareObj);
-				System.out.println("getPossibleAction(" + myObj.toString() + ")");
-				if (parameters.has("user")) {
-					long userid;
-					try {
-						userid = parameters.getLong("user");
-						myObj.addProperty("user", userid);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				if (userid != -1) {
+					myObj.addProperty("user", userid);
 				}
+				System.out.println("getPossibleAction(" + myObj.toString() + ")");
 				String possibleActions = getPossibleActions(myObj);
 				myObj.addProperty("action", possibleActions);
 				// } else {
@@ -117,7 +105,7 @@ public class Load extends Action {
 				myObj.addProperty("success", true);
 				// add the country object
 				myObj.addProperty("free", true);
-				
+
 				String possibleActions = getPossibleActions(myObj);
 				myObj.addProperty("action", possibleActions);
 				// convert the JSON to string and send back
@@ -126,8 +114,6 @@ public class Load extends Action {
 
 		}
 	}
-
-	
 
 	@Override
 	public boolean canPerform(JsonObject parameters) {

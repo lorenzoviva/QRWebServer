@@ -85,6 +85,18 @@ public class QRUserFacade {
 		}
 		
 	}
+	public EntityManagerFactory getEmf() {
+		return emf;
+	}
+	public void setEmf(EntityManagerFactory emf) {
+		this.emf = emf;
+	}
+	public EntityManager getEm() {
+		return em;
+	}
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
 	
 
 }

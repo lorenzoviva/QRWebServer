@@ -7,9 +7,12 @@ import java.util.List;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.ogc.facades.QRSquareUserFacade;
+import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareUser;
 import com.ogc.utility.GsonHelper;
 
@@ -51,10 +54,22 @@ public class Request extends Action {
 
 	@Override
 	public boolean canPerform(JsonObject parameters) {
-		if (!parameters.has("QRSquare") || !parameters.has("user")) {
+		if (!parameters.has("QRSquare") || !parameters.has("user")  || !parameters.has("type")) {
 			return false;
 		} else {
 			if (!parameters.has("QRSquareUser")) {
+				String type = parameters.get("type").getAsString();
+				Gson gson = GsonHelper.customGson;
+				QRSquare square;
+				try {
+					square = (QRSquare) gson.fromJson(parameters.getAsJsonObject("QRSquare"), Class.forName(type));
+					if (square.getAcl().getWrite()) {
+						return false;
+					}				
+				} catch (JsonSyntaxException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				
 				return true;
 			} else {
 				Type listType = new TypeToken<ArrayList<QRSquareUser>>() {

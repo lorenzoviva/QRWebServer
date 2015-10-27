@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.ogc.model.QRChat;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareUser;
 import com.ogc.utility.GsonHelper;
@@ -22,7 +23,7 @@ public class Edit extends Action {
 
 	@Override
 	public boolean canPerform(JsonObject parameters) {
-		if (!parameters.has("QRSquare") || !parameters.has("type")) {
+		if (!parameters.has("QRSquare") || !parameters.has("type") || parameters.get("type").getAsString().equals(QRChat.class.getName())) {
 			return false;
 		} else {
 			String type = parameters.get("type").getAsString();

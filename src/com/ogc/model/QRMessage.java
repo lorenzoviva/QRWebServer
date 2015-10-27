@@ -25,7 +25,7 @@ public class QRMessage {
 	private String text;
 	@Column
 	private Date date;
-	@OneToOne (fetch=FetchType.LAZY, cascade={CascadeType.PERSIST})
+	@OneToOne (fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	private QRUser sender;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
