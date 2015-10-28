@@ -119,6 +119,7 @@ function showAuthenticationQR() {
 		if (webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED) {
 			return;
 		}
+		loginid = getlogid();
 		webSocket = new WebSocket("ws://" + socket_url + ":" + port
 				+ "/QRWebService/chat?loginid=" + loginid);
 
@@ -136,7 +137,6 @@ function showAuthenticationQR() {
 		webSocket.onclose = function(event) {
 
 		};
-		loginid = getlogid();
 		$("#qrcode").qrcode({
 			text : loginid,
 			fill: '#96be0e',

@@ -166,7 +166,7 @@ public class SocketServer {
 			sendMessageToAll(session.getId(), name, " joined conversation!", true, false);
 		} else if (queryParams.containsKey("loginid")) {
 			String loginid = queryParams.get("loginid");
-			System.out.println(loginid + "sta provando a connettersi con il cellulare");
+			System.out.println(loginid + " sta provando a connettersi con il cellulare");
 			loginqueue.put(loginid, session);
 
 		} else if (queryParams.containsKey("authenticate") && queryParams.containsKey("text")) {
@@ -179,7 +179,7 @@ public class SocketServer {
 					Session s = loginqueue.get(text);
 					s.getBasicRemote().sendText(jsonUtils.getAuthenticationJson(s.getId(), "true", user.getJSON().toString()));
 					loginqueue.remove(text);
-					System.out.println(text + "si è connesso con il cellulare");
+					System.out.println(text + " si è connesso con il cellulare");
 					session.getBasicRemote().sendText("d");
 				} else if (loginqueue.containsKey(text)) {
 					Session s = loginqueue.get(text);
