@@ -5,11 +5,23 @@ var sessionId = '';
 var name = '';
 
 // socket connection url and port
-var socket_url = '192.168.1.5';
+var socket_url = '192.168.1.3';
 var port = '8080';
 
 $(document).ready(function() {
+	
+	$("#form_open_login_page").submit(function(e) {
+		e.preventDefault();
+		$('#prompt_name_container').fadeOut(1000, function() {
+			$('#login_container').fadeIn();
+		});
+	});
 
+	$("#form_login").submit(function(e) {
+		e.preventDefault();
+		login($('#input_username').val(),$('#input_password').val());
+	});
+	
 	$("#form_submit, #form_send_message").submit(function(e) {
 		e.preventDefault();
 		join("", "");
@@ -23,11 +35,32 @@ var jsonUser;
 /**
  * Connecting to socket
  */
+
+function login(username,password) {
+	if (username.trim().length <= 0 && password.trim().length <= 0) { // not from mobile
+		if ($('#input_username').val().trim().length <= 0 && $('#input_password').val().trim().length <= 0) { // empty box chat
+			// name
+			alert("You must insert username and password!");
+//		} else {
+//			var usernameString = JSON.stringify(username);
+//			$.ajax({
+//				data: {username:usernameString},
+//				dataType:'text',
+//				url
+//			})		
+//			var passwordString = JSON.stringify(password);
+//			$.ajax({
+//				data: {}
+//			})
+//		}
+	}
+}
+
 function join(idChat, userid) {
 	if (idChat.trim().length <= 0) { // not from mobile
 		if ($('#input_name').val().trim().length <= 0) { // empty box chat
 			// name
-			alert("you must insert the chat qr text");
+			alert("You must insert the chat QR text!");
 		} else {
 			idChat = $('#input_name').val().trim();
 			// Checking person name
@@ -139,7 +172,7 @@ function showAuthenticationQR() {
 		};
 		$("#qrcode").qrcode({
 			text : loginid,
-			fill: '#96be0e',
+			fill: '#00689A',
 			width : 128,
 			height : 128
 		});

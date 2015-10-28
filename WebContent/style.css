@@ -82,6 +82,56 @@ body {
 		margin: 0px auto;
 	}
 	
+	
+	
+	
+	
+	
+	
+	#login_container {
+		width: 175px;
+	}
+	
+	#login_container p {
+		font-size: 12px;
+	}
+	#login_container #input_username {
+		padding: 5px;
+		width: 125px;
+	}
+	
+	#login_container #input_password {
+		padding: 5px;
+		width: 125px;
+	}
+	
+	#login_container #btn_join_as_guest {
+		width: 75px;
+		font-size: 9px;
+		padding: 5px 5px;
+		margin: 5px auto;
+	}
+	#login_container #btn_join {
+		width: 35px;
+		font-size: 9px;
+		padding: 5px 5px;
+		margin: 5px auto;
+	}
+	#login_container #btn_generate_qr {
+		width: 0px;
+		height:0px;
+		padding: 0px;
+		margin: 0px auto;
+	}
+	#login_container #qrcode {
+		width: 0px;
+		height: 0px;
+		padding: 0px;
+		margin: 0px auto;
+	}
+	
+	
+	
 	#message_container {
 		width: 90%;
 		padding: 5px 0 0 0;
@@ -160,6 +210,44 @@ body {
 		margin: 15px auto;
 	}
 	
+	
+	
+	
+	
+	#login_container {
+		width: 350px;
+	}
+	
+	#login_container p {
+		font-size: 24px;
+	}
+	#login_container #input_username {
+		padding: 10px;
+		width: 250px;
+	}
+	#login_container #input_password {
+		padding: 10px;
+		width: 250px;
+	}
+	
+	#login_container #btn_join_as_guest {
+		width: 175px;
+		font-size: 18px;
+		padding: 5px 20px;
+		margin: 15px auto;
+	}login_container #btn_generate_qr {
+		width: 285px;
+		font-size: 18px;
+		padding: 5px 20px;
+		margin: 15px auto;
+	}
+	#login_container #btn_login {
+		width: 100px;
+		font-size: 18px;
+		padding: 5px 20px;
+		margin: 15px auto;
+	}
+	
 	#message_container {
 		width: 500px;
 		padding: 15px 0 0 0;
@@ -206,7 +294,6 @@ body {
 	margin: 0px auto;
     padding: 0px;
 }
-}
 
 #prompt_name_container p {
 	font-family: 'Open Sans', sans-serif;
@@ -228,7 +315,7 @@ body {
 	outline: none;
 	font-family: 'Open Sans', sans-serif;
 	color: #fff;
-	background: #96be0e;
+	background: #5DB5E0;
 	cursor: pointer;
 }
 #prompt_name_container #btn_join {
@@ -237,7 +324,7 @@ body {
 	outline: none;
 	font-family: 'Open Sans', sans-serif;
 	color: #fff;
-	background: #96be0e;
+	background: #5DB5E0;
 	cursor: pointer;
 }
 #prompt_name_container #btn_generate_qr {
@@ -246,9 +333,74 @@ body {
 	outline: none;
 	font-family: 'Open Sans', sans-serif;
 	color: #fff;
-	background: #96be0e;
+	background: #5DB5E0;
 	cursor: pointer;
 }
+
+
+
+
+
+#login_container {
+	text-align: center;
+	margin: 0px auto;
+    padding: 0px;
+    display:none;
+}
+
+#login_container p {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	color: #5e5e5e;
+}
+
+#login_container #input_username {
+	border: 1px solid #dddddd;
+	display: block;
+	margin: 0 auto;
+	outline: none;
+	font-family: 'Open Sans', sans-serif;
+}
+
+#login_container #input_password {
+	border: 1px solid #dddddd;
+	display: block;
+	margin: 0 auto;
+	outline: none;
+	font-family: 'Open Sans', sans-serif;
+}
+
+#login_container #btn_join_as_guest {
+	border: none;
+	display: inline;
+	outline: none;
+	font-family: 'Open Sans', sans-serif;
+	color: #fff;
+	background: #5DB5E0;
+	cursor: pointer;
+}
+#login_container #btn_login {
+	border: none;
+	display: inline;
+	outline: none;
+	font-family: 'Open Sans', sans-serif;
+	color: #fff;
+	background: #5DB5E0;
+	cursor: pointer;
+}
+#login_container #btn_generate_qr {
+	border: none;
+	display: block;
+	outline: none;
+	font-family: 'Open Sans', sans-serif;
+	color: #fff;
+	background: #5DB5E0;
+	cursor: pointer;
+}
+
+
+
+
 #message_container {
 	display: none;
 	margin: 0 auto;
@@ -298,7 +450,7 @@ body {
 	border: none;
 	color: #fff;
 	font-family: 'Open Sans', sans-serif;
-	background: #96be0e;
+	background: #5DB5E0;
 	outline: none;
 	cursor: pointer;
 }
@@ -311,4 +463,8 @@ body {
 	outline: none;
 	cursor: pointer;
 	width: 100%;
+}
+
+#login_container {
+	
 }

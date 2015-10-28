@@ -27,11 +27,23 @@
 			<p>Enter chat name</p>
 			<form id="form_submit" method="post">
 				<input type="text" id="input_name" autocomplete="off"/> 
-				<input type="submit"value="JOIN AS GUEST" id="btn_join_as_guest">
-				<input type="submit" value="JOIN" id="btn_join"/><br>
+				<input style="float: left;margin-left: 9.5%" type="submit" value="JOIN AS GUEST" id="btn_join_as_guest">
+			</form>
+			<form id="form_open_login_page" method="post">
+				<input style="float: right;margin-right: 9.1%" type="submit" value="LOGIN" id="btn_join"/><br>
 			</form>
 			<button id="btn_generate_qr" onclick="showAuthenticationQR();">USE THE APP TO LOGIN</button>
 			<div id="qrcode"></div>
+		</div>
+
+		<div id="login_container" class="box_shadow">
+			<form id="form_login" method="post">
+				<p>Username</p>
+				<input type="text" id="input_username" autocomplete="off"/>
+				<p>Password</p>
+				<input type="text" id="input_password" autocomplete="off"/>
+				<input type="submit" value="LOGIN" id="btn_login"/><br>
+			</form>
 		</div>
 
 		<div id="message_container" class="box_shadow">
