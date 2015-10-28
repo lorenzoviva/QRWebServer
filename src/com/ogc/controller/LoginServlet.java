@@ -29,15 +29,12 @@ public class LoginServlet extends HttpServlet {
 		QRUser qruser = facade.checkQRUserMenager(username, password);
 		response.setContentType("application/json");
 		if (qruser != null) {
-			Gson gson = GsonHelper.customGson;
-			// creates json from country object
-			JsonElement userObj = gson.toJsonTree(qruser);
 			// create a new JSON object
 			JsonObject myObj = new JsonObject();
 			// add property as success
 			myObj.addProperty("success", "true");
 			// add the country object
-			myObj.add("user", userObj);
+			myObj.addProperty("user", qruser.getJSON().toString());
 			// convert the JSON to string and send back
 			response.getWriter().print(myObj);
 		} else {

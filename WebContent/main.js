@@ -5,7 +5,7 @@ var sessionId = '';
 var name = '';
 
 // socket connection url and port
-var socket_url = '192.168.1.3';
+var socket_url = '192.168.1.5';
 var port = '8080';
 
 $(document).ready(function() {
@@ -59,7 +59,7 @@ function login(username, password) {
 					if (jresponse.success == "true") {
 						$('#login_container').fadeOut(1000, function() {
 							$('#prompt_name_container').fadeIn();
-							setUser($.parseJSON(jsonresponse.user));
+							setUser($.parseJSON(jresponse.user));
 						});
 					}
 				},
