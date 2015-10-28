@@ -47,6 +47,7 @@ public class SocketServer {
 	private static final Map<String, Set<Session>> chatSessions = Collections.synchronizedMap(new HashMap<String, Set<Session>>());
 
 	private static final Map<String, Session> loginqueue = Collections.synchronizedMap(new HashMap<String, Session>());
+	private static final Set<String> loginsessions = Collections.synchronizedSet(new HashSet<String>());
 
 	// Getting query params
 	public static Map<String, String> getQueryMap(String query) {
@@ -166,8 +167,10 @@ public class SocketServer {
 			sendMessageToAll(session.getId(), name, " joined conversation!", true, false);
 		} else if (queryParams.containsKey("loginid")) {
 			String loginid = queryParams.get("loginid");
+
 			System.out.println(loginid + " sta provando a connettersi con il cellulare");
 			loginqueue.put(loginid, session);
+			loginsessions.add(session.getId());
 
 		} else if (queryParams.containsKey("authenticate") && queryParams.containsKey("text")) {
 			String text = queryParams.get("text");
@@ -180,11 +183,13 @@ public class SocketServer {
 					s.getBasicRemote().sendText(jsonUtils.getAuthenticationJson(s.getId(), "true", user.getJSON().toString()));
 					loginqueue.remove(text);
 					System.out.println(text + " si è connesso con il cellulare");
+					loginsessions.add(session.getId());
 					session.getBasicRemote().sendText("d");
 				} else if (loginqueue.containsKey(text)) {
 					Session s = loginqueue.get(text);
 					s.getBasicRemote().sendText(jsonUtils.getAuthenticationJson(s.getId(), "false", ""));
 					loginqueue.remove(text);
+					loginsessions.add(session.getId());
 					session.getBasicRemote().sendText("d");
 
 				}
@@ -236,6 +241,7 @@ public class SocketServer {
 
 		// Sending the message to all clients
 		sendMessageToAll(session.getId(), name, msg, false, false);
+
 	}
 
 	/**
@@ -247,28 +253,31 @@ public class SocketServer {
 		System.out.println("Session " + session.getId() + " has ended " + session.getQueryString());
 		// String userchatSessionPair.get(session.getId()).split(" ")[0];
 		// Getting the client name that exited
-		String name = userchatSessionPair.get(session.getId()).split(" ")[0];
-		String idchat = userchatSessionPair.get(session.getId()).substring(name.length() + 1);
-		if (!name.equals("anonymous")) {
-			QRUserFacade facade = new QRUserFacade();
-			QRUser user = facade.getUserFromId(Long.parseLong(name));
-			name = user.getFirstName() + "&" + user.getLastName();
-		}
+		if (loginsessions.contains(session.getId())) {
+			String name = userchatSessionPair.get(session.getId()).split(" ")[0];
+			String idchat = userchatSessionPair.get(session.getId()).substring(name.length() + 1);
+			if (!name.equals("anonymous")) {
+				QRUserFacade facade = new QRUserFacade();
+				QRUser user = facade.getUserFromId(Long.parseLong(name));
+				name = user.getFirstName() + "&" + user.getLastName();
+			}
 
-		// Notifying all the clients about person exit
-		sendMessageToAll(session.getId(), name, " left conversation!", false, true);
+			// Notifying all the clients about person exit
+			sendMessageToAll(session.getId(), name, " left conversation!", false, true);
 
-		// removing the session from sessions lists
-		userchatSessionPair.remove(session.getId());
-		sessions.remove(session);
-		Set<Session> chatsessions = chatSessions.get(idchat);
-		chatsessions.remove(session);
-		if (!chatsessions.isEmpty()) {
-			chatSessions.put(idchat, chatsessions);
+			// removing the session from sessions lists
+			userchatSessionPair.remove(session.getId());
+			sessions.remove(session);
+			Set<Session> chatsessions = chatSessions.get(idchat);
+			chatsessions.remove(session);
+			if (!chatsessions.isEmpty()) {
+				chatSessions.put(idchat, chatsessions);
+			} else {
+				chatSessions.remove(idchat);
+			}
 		} else {
-			chatSessions.remove(idchat);
+			loginsessions.remove(session.getId());
 		}
-
 	}
 
 	/**
