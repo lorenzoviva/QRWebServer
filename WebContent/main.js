@@ -41,13 +41,7 @@ function setUser(juser) {
 }
 
 function login(username, password) {
-	if (username.trim().length <= 0 && password.trim().length <= 0) { // not
-																		// from
-																		// mobile
-		if ($('#input_username').val().trim().length <= 0
-				&& $('#input_password').val().trim().length <= 0) { // empty box
-																	// chat
-			// name
+	if (username.trim().length <= 0 && password.trim().length <= 0) { 
 			alert("You must insert username and password!");
 		} else {
 			var usernameString = username;
@@ -73,7 +67,7 @@ function login(username, password) {
 		        	$("#qrcode").html('Unable to login');
 		        }
 			})
-		}
+		
 	}
 }
 
