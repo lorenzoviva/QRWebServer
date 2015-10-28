@@ -46,13 +46,17 @@ function login(username,password) {
 //			$.ajax({
 //				data: {username:usernameString},
 //				dataType:'text',
-//				url
+//				url: './loginServlet',
+//				type: POST,
+//				success: function(usernameString) {
+//					
+//				}
 //			})		
 //			var passwordString = JSON.stringify(password);
 //			$.ajax({
 //				data: {}
 //			})
-//		}
+		}
 	}
 }
 
