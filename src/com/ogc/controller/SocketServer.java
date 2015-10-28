@@ -253,7 +253,7 @@ public class SocketServer {
 		System.out.println("Session " + session.getId() + " has ended " + session.getQueryString());
 		// String userchatSessionPair.get(session.getId()).split(" ")[0];
 		// Getting the client name that exited
-		if (loginsessions.contains(session.getId())) {
+		if (!loginsessions.contains(session.getId())) {
 			String name = userchatSessionPair.get(session.getId()).split(" ")[0];
 			String idchat = userchatSessionPair.get(session.getId()).substring(name.length() + 1);
 			if (!name.equals("anonymous")) {
