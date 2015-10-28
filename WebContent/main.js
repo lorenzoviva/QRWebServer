@@ -53,7 +53,7 @@ function login(username, password) {
 				},
 				dataType : 'text',
 				url : './loginServlet',
-				type : POST,
+				type : 'POST',
 				success : function(response) {
 					var jresponse = $.parseJSON(response);
 					if (jresponse.success == "true") {
