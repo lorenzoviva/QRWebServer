@@ -5,7 +5,7 @@ var sessionId = '';
 var name = '';
 
 // socket connection url and port
-var socket_url = '10.25.218.14';
+var socket_url = '192.168.1.5';
 var port = '8080';
 
 $(document).ready(function() {
@@ -17,35 +17,47 @@ $(document).ready(function() {
 });
 
 var webSocket;
-
+var loginid = 'a';
 var jsonChat;
 var jsonUser;
-
 /**
  * Connecting to socket
  */
 function join(idChat, userid) {
 	if (idChat.trim().length <= 0) { // not from mobile
 		if ($('#input_name').val().trim().length <= 0) { // empty box chat
-															// name
+			// name
 			alert("you must insert the chat qr text");
 		} else {
 			idChat = $('#input_name').val().trim();
+			// Checking person name
+
+			if (userid.trim().length > 0) {
+				$('#prompt_name_container').fadeOut(1000, function() {
+					// opening socket connection
+					openSocket(idChat, userid);
+				});
+			} else {
+				$('#prompt_name_container').fadeOut(1000, function() {
+					// opening socket connection
+					openSocket(idChat, "anonymous");
+				});
+			}
 		}
-	}
-
-	// Checking person name
-
-	if (userid.trim().length > 0) {
-		$('#prompt_name_container').fadeOut(1000, function() {
-			// opening socket connection
-			openSocket(idChat, userid);
-		});
 	} else {
-		$('#prompt_name_container').fadeOut(1000, function() {
-			// opening socket connection
-			openSocket(idChat, "anonymous");
-		});
+		// Checking person name
+
+		if (userid.trim().length > 0) {
+			$('#prompt_name_container').fadeOut(1000, function() {
+				// opening socket connection
+				openSocket(idChat, userid);
+			});
+		} else {
+			$('#prompt_name_container').fadeOut(1000, function() {
+				// opening socket connection
+				openSocket(idChat, "anonymous");
+			});
+		}
 	}
 
 	return false;
@@ -99,7 +111,50 @@ function send() {
 	}
 
 }
+/*
+ * Sending request for login
+ */
+function showAuthenticationQR() {
+	if(loginid.length < 2){
+		if (webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED) {
+			return;
+		}
+		webSocket = new WebSocket("ws://" + socket_url + ":" + port
+				+ "/QRWebService/chat?loginid=" + loginid);
 
+		/**
+		 * Binds functions to the listeners for the websocket.
+		 */
+		webSocket.onopen = function(event) {
+
+		};
+
+		webSocket.onmessage = function(event) {
+			parseMessage(event.data);
+		};
+
+		webSocket.onclose = function(event) {
+
+		};
+		loginid = getlogid();
+		$("#qrcode").qrcode({
+			text : loginid,
+			fill: '#96be0e',
+			width : 128,
+			height : 128
+		});
+	}
+	
+	
+}
+function getlogid() {
+	function s4() {
+		return Math.floor((1 + Math.random()) * 0x10000).toString(16)
+				.substring(1);
+	}
+	return 'authentication' + s4() + s4() + s4() + s4() + s4() + s4() + s4()
+			+ s4() + s4() + s4() + s4() + s4() + s4();
+}
 /**
  * Closing the socket connection
  */
@@ -198,6 +253,14 @@ function parseMessage(message) {
 						+ online_count + '</b> people online right now');
 
 		appendChatMessage(li);
+	} else if(jObj.flag == "auth") {
+		if(jObj.success == "true"){
+			jsonUser = $.parseJSON(jObj.user);
+			$("#qrcode").html('successfully login :' + jsonUser.firstName);
+		}else{
+			$("#qrcode").html('Unable to login');
+		}
+		closeSocket();
 	}
 }
 

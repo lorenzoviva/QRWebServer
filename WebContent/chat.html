@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="jquery.qrcode-0.12.0.js"></script>
 <link
 	href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700'
 	rel='stylesheet' type='text/css'>
@@ -25,9 +26,12 @@
 		<div id="prompt_name_container" class="box_shadow">
 			<p>Enter chat name</p>
 			<form id="form_submit" method="post">
-				<input type="text" id="input_name" autocomplete="off"/> <input type="submit"
-					value="JOIN" id="btn_join">
+				<input type="text" id="input_name" autocomplete="off"/> 
+				<input type="submit"value="JOIN AS GUEST" id="btn_join_as_guest">
+				<input type="submit" value="JOIN" id="btn_join"/><br>
 			</form>
+			<button id="btn_generate_qr" onclick="showAuthenticationQR();">USE THE APP TO LOGIN</button>
+			<div id="qrcode"></div>
 		</div>
 
 		<div id="message_container" class="box_shadow">

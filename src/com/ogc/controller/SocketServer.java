@@ -46,6 +46,8 @@ public class SocketServer {
 	// <CHAT_TEXT,SET<SESSIONS>>
 	private static final Map<String, Set<Session>> chatSessions = Collections.synchronizedMap(new HashMap<String, Set<Session>>());
 
+	private static final Map<String, Session> loginqueue = Collections.synchronizedMap(new HashMap<String, Session>());
+
 	// Getting query params
 	public static Map<String, String> getQueryMap(String query) {
 		Map<String, String> map = Maps.newHashMap();
@@ -102,7 +104,7 @@ public class SocketServer {
 
 			QRSquareFacade facade = new QRSquareFacade();
 			chat = (QRChat) facade.getQRFromText(idchat);
-			
+
 			if (chat == null) {
 				Map<String, Object> parameters = new HashMap<String, Object>();
 				parameters.put("text", idchat);
@@ -120,7 +122,7 @@ public class SocketServer {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else{
+			} else {
 				System.out.println("chat messages size: " + chat.getMessages().size());
 			}
 
@@ -162,6 +164,35 @@ public class SocketServer {
 			}
 			// Notifying all the clients about new person joined
 			sendMessageToAll(session.getId(), name, " joined conversation!", true, false);
+		} else if (queryParams.containsKey("loginid")) {
+			String loginid = queryParams.get("loginid");
+			System.out.println(loginid + "sta provando a connettersi con il cellulare");
+			loginqueue.put(loginid, session);
+
+		} else if (queryParams.containsKey("authenticate") && queryParams.containsKey("text")) {
+			String text = queryParams.get("text");
+			long userid = Long.parseLong(queryParams.get("authenticate"));
+			QRUserFacade userfacade = new QRUserFacade();
+			QRUser user = userfacade.getUserFromId(userid);
+			try {
+				if (loginqueue.containsKey(text) && user != null) {
+					Session s = loginqueue.get(text);
+					s.getBasicRemote().sendText(jsonUtils.getAuthenticationJson(s.getId(), "true", user.getJSON().toString()));
+					loginqueue.remove(text);
+					System.out.println(text + "si è connesso con il cellulare");
+					session.getBasicRemote().sendText("d");
+				} else if (loginqueue.containsKey(text)) {
+					Session s = loginqueue.get(text);
+					s.getBasicRemote().sendText(jsonUtils.getAuthenticationJson(s.getId(), "false", ""));
+					loginqueue.remove(text);
+					session.getBasicRemote().sendText("d");
+
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 
 	}

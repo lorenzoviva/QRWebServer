@@ -7,7 +7,7 @@ public class JSONUtils {
 
 	// flags to identify the kind of json response on client side
 	private static final String FLAG_SELF = "self", FLAG_NEW = "new",
-			FLAG_MESSAGE = "message", FLAG_EXIT = "exit";
+			FLAG_MESSAGE = "message", FLAG_EXIT = "exit", FLAG_AUTHENTICATION = "auth";
 
 	public JSONUtils() {
 	}
@@ -33,7 +33,27 @@ public class JSONUtils {
 
 		return json;
 	}
+	/*
+	 *  Json for authentication
+	 */
+	public String getAuthenticationJson(String sessionId, String success,String userJSON) {
+		String json = null;
 
+		try {
+			JSONObject jObj = new JSONObject();
+			jObj.put("flag", FLAG_AUTHENTICATION);
+			jObj.put("sessionId", sessionId);
+			jObj.put("success", success);
+			jObj.put("user", userJSON);
+			
+
+			json = jObj.toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return json;
+	}
 	/**
 	 * Json to notify all the clients about new person joined
 	 * */

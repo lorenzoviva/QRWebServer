@@ -57,11 +57,29 @@ body {
 		width: 125px;
 	}
 	
-	#prompt_name_container #btn_join {
-		width: 50px;
+	#prompt_name_container #btn_join_as_guest {
+		width: 75px;
 		font-size: 9px;
-		padding: 5px 10px;
+		padding: 5px 5px;
 		margin: 5px auto;
+	}
+	#prompt_name_container #btn_join {
+		width: 35px;
+		font-size: 9px;
+		padding: 5px 5px;
+		margin: 5px auto;
+	}
+	#prompt_name_container #btn_generate_qr {
+		width: 0px;
+		height:0px;
+		padding: 0px;
+		margin: 0px auto;
+	}
+	#prompt_name_container #qrcode {
+		width: 0px;
+		height: 0px;
+		padding: 0px;
+		margin: 0px auto;
 	}
 	
 	#message_container {
@@ -124,6 +142,17 @@ body {
 		width: 250px;
 	}
 	
+	#prompt_name_container #btn_join_as_guest {
+		width: 175px;
+		font-size: 18px;
+		padding: 5px 20px;
+		margin: 15px auto;
+	}#prompt_name_container #btn_generate_qr {
+		width: 285px;
+		font-size: 18px;
+		padding: 5px 20px;
+		margin: 15px auto;
+	}
 	#prompt_name_container #btn_join {
 		width: 100px;
 		font-size: 18px;
@@ -173,8 +202,10 @@ body {
 
 
 #prompt_name_container {
-	margin: 0 auto;
 	text-align: center;
+	margin: 0px auto;
+    padding: 0px;
+}
 }
 
 #prompt_name_container p {
@@ -191,7 +222,25 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
+#prompt_name_container #btn_join_as_guest {
+	border: none;
+	display: inline;
+	outline: none;
+	font-family: 'Open Sans', sans-serif;
+	color: #fff;
+	background: #96be0e;
+	cursor: pointer;
+}
 #prompt_name_container #btn_join {
+	border: none;
+	display: inline;
+	outline: none;
+	font-family: 'Open Sans', sans-serif;
+	color: #fff;
+	background: #96be0e;
+	cursor: pointer;
+}
+#prompt_name_container #btn_generate_qr {
 	border: none;
 	display: block;
 	outline: none;
@@ -200,7 +249,6 @@ body {
 	background: #96be0e;
 	cursor: pointer;
 }
-
 #message_container {
 	display: none;
 	margin: 0 auto;
