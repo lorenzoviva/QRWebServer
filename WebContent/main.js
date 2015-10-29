@@ -10,6 +10,11 @@ var port = '8080';
 
 $(document).ready(function() {
 
+	$("#form_signUp").submit(function(e) {
+		e.preventDefault();
+		register($('#input_first_name').val(), $('#input_last_name').val(),$('#input_username').val(), $('#input_password').val());
+	});
+	
 	$("#form_open_login_page").submit(function(e) {
 		e.preventDefault();
 		$('#prompt_name_container').fadeOut(1000, function() {
@@ -37,6 +42,34 @@ var webSocket;
 var loginid = 'a';
 var jsonChat;
 var jsonUser;
+
+function register(firstName, lastName, username, password) {
+	if (firstName.trim().length <= 0 || lastName.trim().length <= 0 || username.trim().length <= 0 || password.trim().length <= 0) { 
+		alert("You must fill all of the fields!");
+	} else {
+		var signupParams;
+		signupParams.firstname = firstName;
+		signupParams.lastname = lastName;
+		signupParams.text = username;
+		signupParams.password = password;
+		var request;
+		request.action = "signup";
+		request.parameters = signupParams;
+		var jrequest = JSON.stringify(request);
+		$.ajax({
+			data : {
+				json : jrequest
+			},
+			dataType : 'text',
+			url :'./action',
+			type : 'POST',
+			success : function(response) {
+				if (response.success)
+					document.location.href = './chat.html';
+			}
+		})
+	}
+}
 
 function setUser(juser) {
 	jsonUser = juser;
