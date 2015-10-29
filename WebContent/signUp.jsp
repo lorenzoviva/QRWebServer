@@ -13,7 +13,7 @@
 <link href="style.css" type="text/css" rel='stylesheet' />
 <script type="text/javascript" src="main.js"></script>
 </head>
-<body>
+<body style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto;">
 	<div id="header">
 		<h1>QRBoard Chat Registration</h1>
 	</div>
@@ -28,6 +28,7 @@
 			<p style="margin-bottom: 0; margin-top: 10px;">Password</p>
 			<input type="text" id="input_password" autocomplete="off" /><br>
 			<input type="submit" value="REGISTER" id="btn_join_as_guest" />
+			<p style=" font-size: 12px;margin-top: 0px;"><b>Note:</b> You'll need to login after the registration ends</p>
 		</form>
 	</div>
 </body>

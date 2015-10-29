@@ -5,7 +5,7 @@ var sessionId = '';
 var name = '';
 
 // socket connection url and port
-var socket_url = '192.168.1.4';
+var socket_url = '192.168.1.3';
 var port = '8080';
 
 $(document).ready(function() {
@@ -47,14 +47,16 @@ function register(firstName, lastName, username, password) {
 	if (firstName.trim().length <= 0 || lastName.trim().length <= 0 || username.trim().length <= 0 || password.trim().length <= 0) { 
 		alert("You must fill all of the fields!");
 	} else {
-		var signupParams;
-		signupParams.firstname = firstName;
-		signupParams.lastname = lastName;
-		signupParams.text = username;
-		signupParams.password = password;
 		var request;
-		request.action = "signup";
-		request.parameters = signupParams;
+//		request = {
+//				
+//		}
+//		}
+//		request = { "action" : "signup", "params" : [ +
+//		'{ "firstname":"' + firstName + '" },'  +
+//		'{ "lastname":"' + lastName + '" },' +
+//		'{ "username":"' + username +'" },"'+
+//		'{ "password":"' + password + '" },"' + '"]};
 		var jrequest = JSON.stringify(request);
 		$.ajax({
 			data : {
@@ -75,6 +77,7 @@ function setUser(juser) {
 	jsonUser = juser;
 	$('#form_open_login_page').css('display', 'none');
 	$('#btn_generate_qr').css('display', 'none');
+	$('#btn_register').css('display','none');
 	$("#qrcode").html('successfully login :' + jsonUser.firstName);
 }
 
