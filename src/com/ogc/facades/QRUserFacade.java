@@ -38,6 +38,12 @@ public class QRUserFacade {
 		ACLFacade aclfacade = new ACLFacade(emf,em);
 		ACL usermenageracl = aclfacade.createACL(false, false);
 		
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		em.persist(qruser);
+		
+		transaction.commit();
+		
 		QRSquareFacade squarefacade= new QRSquareFacade(emf,em);
 		Map<String,Object> parameters = new HashMap<String,Object>();
 		parameters.put("html", "welcome " + firstName +" "+lastName);
@@ -52,11 +58,7 @@ public class QRUserFacade {
 		}
 		
 		
-		EntityTransaction transaction = em.getTransaction();
-		transaction.begin();
-		em.persist(qruser);
 		
-		transaction.commit();
 		if(!embedded){
 			em.close();
 			emf.close();
