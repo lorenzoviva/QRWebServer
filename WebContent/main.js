@@ -48,18 +48,13 @@ function register(firstName, lastName, username, password) {
 		alert("You must fill all of the fields!");
 	} else {
 		var request;
-		request = { "action" : "signup" , "params" : 
-			{"firstname" : firstName,
-			 "lastname" : lastName,
-			 "username" : username,
-			 "password" : password
+		request = { "action" : "signup" , "parameters" : 
+			{"lastname" : lastName,
+			 "password" : password,
+			 "text" : username,
+			 "firstname" : firstName
 			}
 		}
-//		request = { "action" : "signup", "params" : [ +
-//		'{ "firstname":"' + firstName + '" },'  +
-//		'{ "lastname":"' + lastName + '" },' +
-//		'{ "username":"' + username +'" },"'+
-//		'{ "password":"' + password + '" },"' + '"]};
 		var jrequest = JSON.stringify(request);
 		$.ajax({
 			data : {
