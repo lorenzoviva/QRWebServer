@@ -29,7 +29,7 @@ public class ActionController extends HttpServlet{
 		JsonObject jsonresponse = null;
 		try {
 			obj = new JSONObject(json);
-			System.out.println("JSONObject :" + obj);
+			System.out.println("JSONObject incoming request request:" + obj);
 			if (obj.has("action") && obj.has("parameters")) {
 				String actionname = obj.getString("action");
 				Action action = (Action) Class.forName("com.ogc.action." + Action.correctActionName(actionname)).newInstance();
@@ -37,6 +37,7 @@ public class ActionController extends HttpServlet{
 			} else {
 				error = "there is no action to perform";
 			}
+			System.out.println("JSONObject outgoing response:" + jsonresponse);
 			
 		} catch (JSONException | IllegalArgumentException | SecurityException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			error = "error :" + e.getMessage();
