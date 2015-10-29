@@ -226,21 +226,25 @@ public class SocketServer {
 		QRMessage m = null;
 		String name = userchatSessionPair.get(session.getId()).split(" ")[0];
 		String idchat = userchatSessionPair.get(session.getId()).substring(name.length() + 1);
+		QRSquareFacade squarefacade;
 		if (!name.equals("anonymous")) {
 			QRUserFacade userfacade = new QRUserFacade();
+			squarefacade = new QRSquareFacade(userfacade.getEmf(), userfacade.getEm());
 			QRUser user = userfacade.getUserFromId(Long.parseLong(name));
 			name = user.getFirstName() + "&" + user.getLastName();
 			m = new QRMessage(msg, user);
 		} else {
+			squarefacade = new QRSquareFacade();
 			m = new QRMessage(msg);
 		}
-		QRSquareFacade squarefacade = new QRSquareFacade();
+		
+	
 		QRChat chat = (QRChat) squarefacade.getQRFromText(idchat);
 		chat.add(m);
 		squarefacade.save(chat);
 
 		// Sending the message to all clients
-		sendMessageToAll(session.getId(), name, msg, false, false);
+		sendMessageToAll(session.getId(), name, m.toJSONObject().toString(), false, false);
 
 	}
 
