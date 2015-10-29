@@ -53,10 +53,14 @@ body {
 	
 	#prompt_name_container {
 		width: 175px;
+
 	}
 	
 	#prompt_name_container p {
 		font-size: 12px;
+	}
+	#prompt_name_container #form_signUp{
+		height: 350px
 	}
 	#prompt_name_container #input_name {
 		padding: 5px;
@@ -67,6 +71,7 @@ body {
 		padding: 5px;
 		width: 125px;
 	}
+	
 	
 		#prompt_name_container #input_last_name {
 		padding: 5px;
@@ -84,22 +89,29 @@ body {
 	}
 	
 	#prompt_name_container #btn_join_as_guest {
+		width: 140px;
+		font-size: 9px;
+		padding: 5px 5px;
+		margin: 5px auto;
+	}
+	#prompt_name_container #btn_register {
 		width: 75px;
 		font-size: 9px;
 		padding: 5px 5px;
 		margin: 5px auto;
 	}
 	#prompt_name_container #btn_join {
-		width: 35px;
+		width: 45px;
 		font-size: 9px;
 		padding: 5px 5px;
 		margin: 5px auto;
 	}
 	#prompt_name_container #btn_generate_qr {
 		width: 0px;
-		height:0px;
+		height:50px;
 		padding: 0px;
 		margin: 0px auto;
+		color: transparent;
 	}
 	#prompt_name_container #qrcode {
 		width: 0px;
@@ -107,6 +119,7 @@ body {
 		padding: 0px;
 		margin: 0px auto;
 	}
+	
 	
 	
 	
@@ -130,30 +143,11 @@ body {
 		padding: 5px;
 		width: 125px;
 	}
-	
-	#login_container #btn_join_as_guest {
+	#login_container #btn_login {
 		width: 75px;
 		font-size: 9px;
 		padding: 5px 5px;
 		margin: 5px auto;
-	}
-	#login_container #btn_join {
-		width: 35px;
-		font-size: 9px;
-		padding: 5px 5px;
-		margin: 5px auto;
-	}
-	#login_container #btn_generate_qr {
-		width: 0px;
-		height:0px;
-		padding: 0px;
-		margin: 0px auto;
-	}
-	#login_container #qrcode {
-		width: 0px;
-		height: 0px;
-		padding: 0px;
-		margin: 0px auto;
 	}
 	
 	
@@ -206,10 +200,10 @@ body {
 		padding: 50px 0;
 	}
 	
+	
 	#prompt_name_container {
 		width: 350px;
 	}
-	
 	#prompt_name_container p {
 		font-size: 24px;
 	}
@@ -217,13 +211,11 @@ body {
 		padding: 10px;
 		width: 250px;
 	}
-	
-		#prompt_name_container #input_first_name {
+	#prompt_name_container #input_first_name {
 		padding: 10px;
 		width: 250px;
 	}
-	
-		#prompt_name_container #input_last_name {
+	#prompt_name_container #input_last_name {
 		padding: 10px;
 		width: 250px;
 	}
@@ -239,6 +231,12 @@ body {
 	}
 	
 	#prompt_name_container #btn_join_as_guest {
+		width: 285px;
+		font-size: 18px;
+		padding: 5px 20px;
+		margin: 15px auto;
+	}
+	#prompt_name_container #btn_register {
 		width: 175px;
 		font-size: 18px;
 		padding: 5px 20px;
@@ -248,6 +246,7 @@ body {
 		font-size: 18px;
 		padding: 5px 20px;
 		margin: 15px auto;
+		color: #FFF;
 	}
 	#prompt_name_container #btn_join {
 		width: 100px;
@@ -255,7 +254,6 @@ body {
 		padding: 5px 20px;
 		margin: 15px auto;
 	}
-	
 	
 	
 	
@@ -275,30 +273,18 @@ body {
 		padding: 10px;
 		width: 250px;
 	}
-	
-	#login_container #btn_join_as_guest {
-		width: 175px;
-		font-size: 18px;
-		padding: 5px 20px;
-		margin: 15px auto;
-	}login_container #btn_generate_qr {
-		width: 285px;
-		font-size: 18px;
-		padding: 5px 20px;
-		margin: 15px auto;
-	}
 	#login_container #btn_login {
 		width: 100px;
 		font-size: 18px;
 		padding: 5px 20px;
-		margin: 15px auto;
+		margin: 10px auto;
 	}
+	
 	
 	#message_container {
 		width: 500px;
 		padding: 15px 0 0 0;
 	}
-	
 	#messages {
 		height: 300px;
 	}
@@ -310,6 +296,7 @@ body {
 		padding: 10px;
 		width: 348px;
 	}
+	
 	
 	#btn_send {
 		padding: 10px 20px;
@@ -396,6 +383,15 @@ body {
 	background: #5DB5E0;
 	cursor: pointer;
 }
+#prompt_name_container #btn_register {
+	border: none;
+	display: inline;
+	outline: none;
+	font-family: 'Open Sans', sans-serif;
+	color: #fff;
+	background: #5DB5E0;
+	cursor: pointer;
+}
 #prompt_name_container #btn_join {
 	border: none;
 	display: inline;
@@ -410,7 +406,6 @@ body {
 	display: block;
 	outline: none;
 	font-family: 'Open Sans', sans-serif;
-	color: #fff;
 	background: #5DB5E0;
 	cursor: pointer;
 }
@@ -448,27 +443,10 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
-#login_container #btn_join_as_guest {
-	border: none;
-	display: inline;
-	outline: none;
-	font-family: 'Open Sans', sans-serif;
-	color: #fff;
-	background: #5DB5E0;
-	cursor: pointer;
-}
+
 #login_container #btn_login {
 	border: none;
 	display: inline;
-	outline: none;
-	font-family: 'Open Sans', sans-serif;
-	color: #fff;
-	background: #5DB5E0;
-	cursor: pointer;
-}
-#login_container #btn_generate_qr {
-	border: none;
-	display: block;
 	outline: none;
 	font-family: 'Open Sans', sans-serif;
 	color: #fff;
