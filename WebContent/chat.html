@@ -27,11 +27,12 @@
 			<p>Enter chat name</p>
 			<form id="form_submit" method="post">
 				<input type="text" id="input_name" autocomplete="off"/> 
-				<input style="float: left;margin-left: 9.5%" type="submit" value="JOIN AS GUEST" id="btn_join_as_guest">
+				<input type="submit" value="JOIN AS GUEST" id="btn_generate_qr">
 			</form>
 			<form id="form_open_login_page" method="post">
-				<input style="float: right;margin-right: 9.1%" type="submit" value="LOGIN" id="btn_join"/><br>
+				<input style="float: left;margin-left: 9.5%" type="submit" value="LOGIN" id="btn_join"/>
 			</form>
+			<a href="signUp.jsp"><input type="button" value="REGISTER" id="btn_join_as_guest" style="float: right;margin-right: 9.1%;"></a>
 			<button id="btn_generate_qr" onclick="showAuthenticationQR();">USE THE APP TO LOGIN</button>
 			<div id="qrcode"></div>
 		</div>
