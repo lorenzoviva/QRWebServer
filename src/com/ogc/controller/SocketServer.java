@@ -70,7 +70,9 @@ public class SocketServer {
 
 	@OnOpen
 	public void onOpen(Session session) {
-
+		if(session.isOpen()){
+			
+		
 		System.out.println(session.getId() + " has opened a connection " + session.getQueryString());
 
 		Map<String, String> queryParams = getQueryMap(session.getQueryString());
@@ -200,8 +202,11 @@ public class SocketServer {
 
 		}
 
+	
+	}else{
+		System.out.println("a closed session has tried to call method onOpen!");
 	}
-
+	}
 	/**
 	 * method called when new message received from any client
 	 * 
@@ -254,12 +259,13 @@ public class SocketServer {
 	@OnClose
 	public void onClose(Session session) {
 
-		System.out.println("Session " + session.getId() + " has ended " + session.getQueryString());
+		String id = session.getId();
+		System.out.println("Session " + id + " has ended " + session.getQueryString());
 		// String userchatSessionPair.get(session.getId()).split(" ")[0];
 		// Getting the client name that exited
-		if (!loginsessions.contains(session.getId())) {
-			String name = userchatSessionPair.get(session.getId()).split(" ")[0];
-			String idchat = userchatSessionPair.get(session.getId()).substring(name.length() + 1);
+		if (!loginsessions.contains(id)) {
+			String name = userchatSessionPair.get(id).split(" ")[0];
+			String idchat = userchatSessionPair.get(id).substring(name.length() + 1);
 			if (!name.equals("anonymous")) {
 				QRUserFacade facade = new QRUserFacade();
 				QRUser user = facade.getUserFromId(Long.parseLong(name));
@@ -267,10 +273,10 @@ public class SocketServer {
 			}
 
 			// Notifying all the clients about person exit
-			sendMessageToAll(session.getId(), name, " left conversation!", false, true);
+			sendMessageToAll(id, name, " left conversation!", false, true);
 
 			// removing the session from sessions lists
-			userchatSessionPair.remove(session.getId());
+			userchatSessionPair.remove(id);
 			sessions.remove(session);
 			Set<Session> chatsessions = chatSessions.get(idchat);
 			chatsessions.remove(session);
@@ -280,7 +286,7 @@ public class SocketServer {
 				chatSessions.remove(idchat);
 			}
 		} else {
-			loginsessions.remove(session.getId());
+			loginsessions.remove(id);
 		}
 	}
 

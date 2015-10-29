@@ -275,7 +275,7 @@ function parseMessage(message) {
 		if (jObj.sessionId != sessionId) {
 			new_name = jObj.name;
 		}
-		var li = '<li class="new"><span class="name">' + new_name + '</span> '
+		var li = '<li class="new"><span class="name">' + new_name.replace("&", " ") + '</span> '
 				+ jObj.message + '</li>';
 		$('#messages').append(li);
 
@@ -307,7 +307,7 @@ function parseMessage(message) {
 
 	} else if (jObj.flag == 'exit') {
 		// if the json flag is 'exit', it means somebody left the chat room
-		var li = '<li class="exit"><span class="name red">' + jObj.name
+		var li = '<li class="exit"><span class="name red">' + jObj.name.replace("&", " ")
 				+ '</span> ' + jObj.message + '</li>';
 
 		var online_count = jObj.onlineCount;
