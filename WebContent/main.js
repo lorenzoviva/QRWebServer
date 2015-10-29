@@ -5,7 +5,7 @@ var sessionId = '';
 var name = '';
 
 // socket connection url and port
-var socket_url = '192.168.1.5';
+var socket_url = '192.168.1.4';
 var port = '8080';
 
 $(document).ready(function() {
@@ -24,7 +24,12 @@ $(document).ready(function() {
 
 	$("#form_submit, #form_send_message").submit(function(e) {
 		e.preventDefault();
-		join("", "");
+		if (jsonUser !== undefined) {
+			join("", String(jsonUser.id));
+		} else {
+			join("", "");
+		}
+
 	});
 });
 
@@ -41,33 +46,33 @@ function setUser(juser) {
 }
 
 function login(username, password) {
-	if (username.trim().length <= 0 && password.trim().length <= 0) { 
-			alert("You must insert username and password!");
-		} else {
-			var usernameString = username;
-			var passwordString = password;
-			$.ajax({
-				data : {
-					username : usernameString,
-					password : passwordString
-				},
-				dataType : 'text',
-				url : './loginServlet',
-				type : 'POST',
-				success : function(response) {
-					var jresponse = $.parseJSON(response);
-					if (jresponse.success == "true") {
-						$('#login_container').fadeOut(1000, function() {
-							$('#prompt_name_container').fadeIn();
-							setUser($.parseJSON(jresponse.user));
-						});
-					}
-				},
-		        error: function() {
-		        	$("#qrcode").html('Unable to login');
-		        }
-			})
-		
+	if (username.trim().length <= 0 && password.trim().length <= 0) {
+		alert("You must insert username and password!");
+	} else {
+		var usernameString = username;
+		var passwordString = password;
+		$.ajax({
+			data : {
+				username : usernameString,
+				password : passwordString
+			},
+			dataType : 'text',
+			url : './loginServlet',
+			type : 'POST',
+			success : function(response) {
+				var jresponse = $.parseJSON(response);
+				if (jresponse.success == "true") {
+					$('#login_container').fadeOut(1000, function() {
+						$('#prompt_name_container').fadeIn();
+						setUser($.parseJSON(jresponse.user));
+					});
+				}
+			},
+			error : function() {
+				$("#qrcode").html('Unable to login');
+			}
+		})
+
 	}
 }
 
@@ -242,10 +247,14 @@ function parseMessage(message) {
 			// if (key.sender != null) {
 			// from_name = jObj.name;
 			// }
+			var lidate = '<li class="date"><span >'
+					+ chatObj.messages[i].date.replace('"', '')
+							.replace('"', '') + '</span></li>';
 			var li = '<li><span class="name">' + from_name + '</span> '
 					+ chatObj.messages[i].text + '</li>';
 
 			// appending the chat message to list
+			appendChatMessage(lidate);
 			appendChatMessage(li);
 
 		}
@@ -266,8 +275,7 @@ function parseMessage(message) {
 		if (jObj.sessionId != sessionId) {
 			new_name = jObj.name;
 		}
-
-		var li = '<li class="new"><span class="name">' + new_name + '</span> '
+		var li = '<li class="new"><span class="name">' + new_name.replace("&", " ") + '</span> '
 				+ jObj.message + '</li>';
 		$('#messages').append(li);
 
@@ -282,11 +290,15 @@ function parseMessage(message) {
 		if (jObj.sessionId != sessionId) {
 			from_name = jObj.name.replace('&', ' ');
 		}
-
+		var jmessage = $.parseJSON(jObj.message);
+		var lidate = '<li class="date"><span >'
+				+ jmessage.date.replace('"', '').replace('"', '')
+				+ '</span></li>';
 		var li = '<li><span class="name">' + from_name + '</span> '
-				+ jObj.message + '</li>';
+				+ jmessage.text + '</li>';
 
 		// appending the chat message to list
+		appendChatMessage(lidate);
 		appendChatMessage(li);
 
 		if (jObj.sessionId == sessionId) {
@@ -295,7 +307,7 @@ function parseMessage(message) {
 
 	} else if (jObj.flag == 'exit') {
 		// if the json flag is 'exit', it means somebody left the chat room
-		var li = '<li class="exit"><span class="name red">' + jObj.name
+		var li = '<li class="exit"><span class="name red">' + jObj.name.replace("&", " ")
 				+ '</span> ' + jObj.message + '</li>';
 
 		var online_count = jObj.onlineCount;
