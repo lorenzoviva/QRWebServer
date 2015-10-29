@@ -48,10 +48,13 @@ function register(firstName, lastName, username, password) {
 		alert("You must fill all of the fields!");
 	} else {
 		var request;
-//		request = {
-//				
-//		}
-//		}
+		request = { "action" : "signup" , "params" : 
+			[{"firstname" : firstName},
+			 {"lastname" : lastName},
+			 {"username" : username},
+			 {"password" : password}
+			]
+		}
 //		request = { "action" : "signup", "params" : [ +
 //		'{ "firstname":"' + firstName + '" },'  +
 //		'{ "lastname":"' + lastName + '" },' +
@@ -79,6 +82,7 @@ function setUser(juser) {
 	$('#btn_generate_qr').css('display', 'none');
 	$('#btn_register').css('display','none');
 	$("#qrcode").html('successfully login :' + jsonUser.firstName);
+	$( "btn_join_as_guest" ).val("Join");
 }
 
 function login(username, password) {
