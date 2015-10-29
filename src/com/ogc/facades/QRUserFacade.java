@@ -45,7 +45,7 @@ public class QRUserFacade {
 		parameters.put("text", text);
 		parameters.put("password", password);
 		try {
-			squarefacade.createNewQRSquare(QRUserMenager.class.getName(), parameters, qruser);
+			squarefacade.createNewQRSquare(QRUserMenager.class.getSimpleName(), parameters, qruser);
 		} catch (InvalidRoleException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

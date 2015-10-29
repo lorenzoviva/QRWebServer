@@ -49,11 +49,11 @@ function register(firstName, lastName, username, password) {
 	} else {
 		var request;
 		request = { "action" : "signup" , "params" : 
-			[{"firstname" : firstName},
-			 {"lastname" : lastName},
-			 {"username" : username},
-			 {"password" : password}
-			]
+			{"firstname" : firstName,
+			 "lastname" : lastName,
+			 "username" : username,
+			 "password" : password
+			}
 		}
 //		request = { "action" : "signup", "params" : [ +
 //		'{ "firstname":"' + firstName + '" },'  +
@@ -70,6 +70,7 @@ function register(firstName, lastName, username, password) {
 			type : 'POST',
 			success : function(response) {
 				if (response.success)
+					System.out.println("response = success");
 					document.location.href = './chat.html';
 			}
 		})
