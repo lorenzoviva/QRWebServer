@@ -116,6 +116,7 @@ public class Users extends Action {
 					JsonElement userObj = gson.toJsonTree(squareUsers.get(0).getUser());
 					myObj.add("QRUser", userObj);
 					myObj.add("QRSquare", squareObj);
+					myObj.addProperty("type", squareUsers.get(0).getSquare().getClass().getSimpleName());
 
 				}else if(squareUsersList != null){
 					JsonElement squareUsersListObj = gson.toJsonTree(squareUsersList);
@@ -124,6 +125,7 @@ public class Users extends Action {
 					JsonElement userObj = gson.toJsonTree(squareUsers.get(0).getUser());
 					myObj.add("QRUser", userObj);
 					myObj.add("QRSquare", squareObj);
+					myObj.addProperty("type", squareUsers.get(0).getSquare().getClass().getSimpleName());
 				}
 				if(squareUsersMenagers !=null){
 					JsonElement squareUsersMenagersObj = gson.toJsonTree(squareUsersMenagers);
