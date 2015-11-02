@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.openejb.resource.quartz.QuartzResourceAdapter;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -15,11 +16,14 @@ import com.google.gson.reflect.TypeToken;
 import com.ogc.facades.QRSquareUserFacade;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareUser;
+import com.ogc.model.QRUser;
+import com.ogc.model.QRUserMenager;
 import com.ogc.utility.GsonHelper;
 
 public class Users extends Action {
-	
-	private static Class[] subactionarray =  {Add.class,Change.class,Remove.class,Back.class};
+
+	private static Class[] subactionarray = { Add.class, Change.class, Remove.class, Back.class };
+
 	@SuppressWarnings("unchecked")
 	public Users() {
 		super(subactionarray);
@@ -29,17 +33,70 @@ public class Users extends Action {
 		super(subactions);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public JsonObject perform(JSONObject parameters) {
 		try {
-			String text = parameters.getString("text");
-			long userid = parameters.getLong("user");
-
+			String text = "";// = parameters.getString("text");
+			long userid = -1;// = parameters.getLong("user");
+			int request = parameters.getInt("request");//1 : only QRSquare.users	2 : QRSquare.users+User.QRUserMenager.users		3: only QRUser.squares 
 			QRSquareUserFacade qrSquareUserfacade = new QRSquareUserFacade();
-
-			List<QRSquareUser> squareUsers = qrSquareUserfacade.getSquareUsers(text);
-
+			if (parameters.has("user")) {
+				userid = parameters.getLong("user");
+			}
+			if (parameters.has("text")) {
+				text = parameters.getString("text");
+			}
+			QRUserMenager menager = null;
+			if(userid != -1){
+				menager = qrSquareUserfacade.getQRUserMenager(userid);
+			}
+			if(userid == -1 && request == 3){
+				request = 1;
+			}
+			if (!text.equals("") && userid != -1) {
+				
+				if(request == 2 && menager.getText().equals(text)){
+					request = 1;
+				}else if(request == 1 && !menager.getText().equals(text)){
+					request = 2;
+				}
+			}else if((text.equals("") && userid == -1 ) || request>3 || request < 1){
+				JsonObject myObj = new JsonObject();
+				myObj.addProperty("success", false);
+				return myObj;
+			}
+			List<QRSquareUser> squareUsers = null;
+			List<QRSquareUser> myfriendsSquareUsers = null;
+			List<QRUserMenager> squareUsersMenagers = null;
+			List<QRSquare> squareUsersSquares = null;
+			List<QRSquareUser> squareUsersList = null;
+			if (request == 1 || request == 2){
+				squareUsers = qrSquareUserfacade.getSquareUsers(text);
+				if(request == 2 && userid != -1){
+					squareUsersList = new ArrayList<QRSquareUser>(squareUsers);
+					myfriendsSquareUsers = qrSquareUserfacade.getSquareUsers(menager.getText());
+					for(QRSquareUser qrsu : myfriendsSquareUsers){
+						QRUser cuser = qrsu.getUser(); 
+						boolean insert = true;
+						for(int i = 0; i < squareUsersList.size() ; i++){
+							if(cuser.getId()==squareUsersList.get(i).getUser().getId()){
+								insert = false;
+							}
+						}
+						if(insert){
+							squareUsersList.add(qrsu);
+						}
+					}
+					squareUsersMenagers = qrSquareUserfacade.getSquareUsersMenager(squareUsersList);
+					
+				}else{
+					squareUsersMenagers = qrSquareUserfacade.getSquareUsersMenager(squareUsers);
+				}
+			}else{
+				squareUsers = qrSquareUserfacade.getUserSquares(userid);
+				squareUsersSquares = qrSquareUserfacade.getSquareUsersSquares(squareUsers);
+			}
 			if (squareUsers == null || squareUsers.isEmpty()) {
 				JsonObject myObj = new JsonObject();
 				myObj.addProperty("success", false);
@@ -47,18 +104,36 @@ public class Users extends Action {
 
 			} else {
 				Gson gson = GsonHelper.customGson;
-				// creates json from country object
-				JsonElement squareUsersObj = gson.toJsonTree(squareUsers);
-				JsonElement squareObj = gson.toJsonTree(squareUsers.get(0).getSquare());
-				JsonElement userObj = gson.toJsonTree(squareUsers.get(0).getUser());
 				// create a new JSON object
 				JsonObject myObj = new JsonObject();
 				// add property as success
 				myObj.addProperty("success", true);
-				// add the country object
-				myObj.add("QRSquareUser", squareUsersObj);
-				myObj.add("QRSquare", squareObj);
-				myObj.add("user", userObj);
+				// add the  objects
+				if(squareUsers !=null && squareUsersList==null){
+					JsonElement squareUsersObj = gson.toJsonTree(squareUsers);
+					myObj.add("QRSquareUser", squareUsersObj);
+					JsonElement squareObj = gson.toJsonTree(squareUsers.get(0).getSquare());
+					JsonElement userObj = gson.toJsonTree(squareUsers.get(0).getUser());
+					myObj.add("QRUser", userObj);
+					myObj.add("QRSquare", squareObj);
+
+				}else if(squareUsersList != null){
+					JsonElement squareUsersListObj = gson.toJsonTree(squareUsersList);
+					myObj.add("QRSquareUser", squareUsersListObj);
+					JsonElement squareObj = gson.toJsonTree(squareUsers.get(0).getSquare());
+					JsonElement userObj = gson.toJsonTree(squareUsers.get(0).getUser());
+					myObj.add("QRUser", userObj);
+					myObj.add("QRSquare", squareObj);
+				}
+				if(squareUsersMenagers !=null){
+					JsonElement squareUsersMenagersObj = gson.toJsonTree(squareUsersMenagers);
+					myObj.add("QRUserMenagers", squareUsersMenagersObj);
+				}
+				if(squareUsersSquares != null){
+					JsonElement squareUsersSquaresObj = gson.toJsonTree(squareUsersSquares);
+					myObj.add("QRSquares", squareUsersSquaresObj);
+				}
+				myObj.addProperty("request", request);
 				String possibleActions = getPossibleActions(myObj);
 				myObj.addProperty("action", possibleActions);
 				// convert the JSON to string and send back

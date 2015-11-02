@@ -121,7 +121,7 @@ public class QRSquareFacade {
 		}
 		QRSquareUserFacade qrSquareUserFacade = new QRSquareUserFacade(emf, em);
 		qrSquareUserFacade.addQRSquareUser(qrsquare, owner, "owner");
-
+		
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
 		em.persist(qrsquare);
