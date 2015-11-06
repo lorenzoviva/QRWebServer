@@ -17,7 +17,7 @@ import com.ogc.utility.GsonHelper;
 
 public class Load extends Action {
 
-	private static Class[] subactionarray = { Create.class, Edit.class, Link.class, Links.class, Load.class, Login.class, Logout.class, Request.class, Signup.class, Users.class, Chat.class };
+	private static Class[] subactionarray = { Create.class, Edit.class, Link.class, Links.class, Load.class, Login.class, Logout.class, Request.class, Signup.class, Users.class, Chat.class,Read.class };
 
 	@SuppressWarnings("unchecked")
 	public Load() {
@@ -93,6 +93,11 @@ public class Load extends Action {
 				}
 				System.out.println("getPossibleAction(" + myObj.toString() + ")");
 				String possibleActions = getPossibleActions(myObj);
+				if(!(new Read()).canPerform(myObj)){
+					myObj.remove("QRSquare");
+					QRSquare empty = new QRSquare(square.getText());
+					myObj.add("QRSquare", gson.toJsonTree(empty));
+				}
 				myObj.addProperty("action", possibleActions);
 				// } else {
 				// myObj.add("QRSquare", gson.toJsonTree(new
@@ -105,7 +110,9 @@ public class Load extends Action {
 				myObj.addProperty("success", true);
 				// add the country object
 				myObj.addProperty("free", true);
-
+				if (userid != -1) {
+					myObj.addProperty("user", userid);
+				}
 				String possibleActions = getPossibleActions(myObj);
 				myObj.addProperty("action", possibleActions);
 				// convert the JSON to string and send back

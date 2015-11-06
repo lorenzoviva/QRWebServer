@@ -1,7 +1,9 @@
 package com.ogc.facades;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -58,7 +60,6 @@ public class QRSquareUserFacade {
 	}
 
 	public QRUserMenager getQRUserMenager(long userid) {
-		System.out.println("USER ID" + userid + "-----------------------");
 		Query query = em.createQuery("SELECT su.square FROM QRSquareUser su WHERE TYPE(su.square) = :type AND su.user.id LIKE :userid AND su.role.name LIKE :owner").setParameter("type", QRUserMenager.class).setParameter("userid", userid).setParameter("owner", "owner");
 
 		// Query query =
@@ -159,5 +160,31 @@ public class QRSquareUserFacade {
 		@SuppressWarnings("unchecked")
 		List<QRSquareUser> squareUser = (List<QRSquareUser>) query.getResultList();
 		return squareUser;
+	}
+
+	public QRUser getQRUser(long userid) {
+		QRUserFacade userfacade = new QRUserFacade(emf, em);
+		QRUser user = userfacade.getUserFromId(userid);
+		return user;
+	}
+	public QRSquare getQRSquare(String text) {
+		QRSquareFacade userfacade = new QRSquareFacade(emf, em);
+		QRSquare user = userfacade.getQRFromText(text);
+		return user;
+	}
+
+	public Map<String, QRSquareUser> getQRSquareUsers(List<QRSquare> squares, long userid) {
+		Map<String, QRSquareUser> map=	new HashMap<String,QRSquareUser>();
+		for(QRSquare square : squares){
+			List<QRSquareUser> qrSquareUsers = getQRSquareUser(square.getText(), userid);
+			if(qrSquareUsers!=null && !qrSquareUsers.isEmpty() && qrSquareUsers.get(0).getRole()!=null && !qrSquareUsers.get(0).getRole().getName().toLowerCase().startsWith("request")){
+				map.put(square.getText(), qrSquareUsers.get(0));
+			}else{
+				QRSquareUser qrSquareUser = new QRSquareUser();
+				qrSquareUser.setIsnew(true);
+				map.put(square.getText(), qrSquareUser);
+			}
+		}
+		return map;
 	}
 }

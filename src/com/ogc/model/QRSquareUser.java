@@ -25,6 +25,7 @@ public class QRSquareUser {
 	private RoleType role;
 	@Column(nullable = false)
 	private Date date;
+	private boolean isnew;
 	
 	
 	public QRSquareUser() {
@@ -35,6 +36,7 @@ public class QRSquareUser {
 		this.user = user;
 		this.role = role;
 		this.date = new Date();
+		isnew = false;
 	}
 	public QRSquare getSquare() {
 		return square;
@@ -85,6 +87,12 @@ public class QRSquareUser {
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public boolean getIsnew() {
+		return isnew;
+	}
+	public void setIsnew(boolean isnew) {
+		this.isnew = isnew;
 	}
 
 	
