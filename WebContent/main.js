@@ -5,7 +5,7 @@ var sessionId = '';
 var name = '';
 
 // socket connection url and port
-var socket_url = '10.25.218.14';
+var socket_url = '192.168.1.2';
 var port = '8080';
 
 $(document).ready(function() {
@@ -237,6 +237,13 @@ function showAuthenticationQR() {
 			width : 128,
 			height : 128
 		});
+	} else {
+		$("#qrcode").html('');
+		loginid='f';
+		if (webSocket !== undefined
+				&& webSocket.readyState !== WebSocket.CLOSED) {
+			webSocket.close();
+		}
 	}
 
 }

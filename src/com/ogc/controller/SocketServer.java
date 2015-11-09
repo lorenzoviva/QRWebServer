@@ -173,6 +173,7 @@ public class SocketServer {
 			System.out.println(loginid + " sta provando a connettersi con il cellulare");
 			loginqueue.put(loginid, session);
 			loginsessions.add(session.getId());
+			System.out.println("login in sospeso: " + loginsessions.size());
 
 		} else if (queryParams.containsKey("authenticate") && queryParams.containsKey("text")) {
 			String text = queryParams.get("text");
