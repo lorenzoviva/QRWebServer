@@ -30,7 +30,7 @@ public class Read extends Action {
 				String type = parameters.get("type").getAsString();
 				Gson gson = GsonHelper.customGson;
 				QRSquare square;
-				if(type.endsWith("QRUserMenager")){
+				if(type.endsWith("QRUserMenager") && !parameters.has("users")){
 					return true;
 				}
 				try {

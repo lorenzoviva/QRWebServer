@@ -187,4 +187,26 @@ public class QRSquareUserFacade {
 		}
 		return map;
 	}
+
+	public Map<String, QRSquareUser> getQRMenagerUsers(List<QRUserMenager> squareUsersMenagers, long userid) {
+		Map<String, QRSquareUser> map=	new HashMap<String,QRSquareUser>();
+		for(QRSquare square : squareUsersMenagers){
+			System.out.println("Checking for QRSquareUsers with:" +square.getText()+","+ userid);
+			List<QRSquareUser> qrSquareUsers = getQRSquareUser(square.getText(), userid);
+			System.out.println("found:" +qrSquareUsers.size()+" elements");
+
+			if(qrSquareUsers!=null && !qrSquareUsers.isEmpty() && qrSquareUsers.get(0).getRole()!=null && !qrSquareUsers.get(0).getRole().getName().toLowerCase().startsWith("request")){
+				System.out.println("element not new");
+				map.put(square.getText(), qrSquareUsers.get(0));
+			}else{
+				QRSquareUser qrSquareUser = new QRSquareUser();
+				qrSquareUser.setIsnew(true);
+				map.put(square.getText(), qrSquareUser);
+			}
+		}
+		return map;
+	}
+
+
+
 }
