@@ -245,9 +245,9 @@ public class Users<e> extends Action {
 				if (squareUsersList == null) {
 					if (squareUsers.size() > maxusers) {
 						if (listindex + maxusers < squareUsers.size()) {
-							myObj.addProperty("listindex", listindex + maxusers);
+							myObj.addProperty("listindex", listindex + maxusers-1);
 						} else {
-							myObj.addProperty("listindex", squareUsers.size());
+							myObj.addProperty("listindex", squareUsers.size()-1);
 						}
 						myObj.addProperty("totusers", squareUsers.size());
 						myObj.addProperty("maxusers", maxusers);
@@ -255,7 +255,7 @@ public class Users<e> extends Action {
 
 					} else {
 						myObj.addProperty("maxusers", maxusers);
-						myObj.addProperty("listindex", squareUsers.size());
+						myObj.addProperty("listindex", squareUsers.size()-1);
 						myObj.addProperty("totusers", squareUsers.size());
 					}
 					JsonElement squareUsersObj = gson.toJsonTree(squareUsers);
@@ -327,15 +327,15 @@ public class Users<e> extends Action {
 		return myObj;
 	}
 
-	private <e> List<e> cutList(List<e> squareUsers, int listindex) {
+	private <e> List<e> cutList(List<e> otherlist, int listindex) {
 		List<e> list = new ArrayList<e>();
-		if (listindex + maxusers < squareUsers.size()) {
+		if (listindex + maxusers < otherlist.size()) {
 			for (int i = listindex; i < listindex + maxusers; i++) {
-				list.add(squareUsers.get(i));
+				list.add(otherlist.get(i));
 			}
 		} else {
-			for (int i = listindex; i < listindex; i++) {
-				list.add(squareUsers.get(i));
+			for (int i = listindex; i < otherlist.size(); i++) {
+				list.add(otherlist.get(i));
 			}
 		}
 
