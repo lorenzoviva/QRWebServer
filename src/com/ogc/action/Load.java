@@ -11,6 +11,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ogc.facades.QRSquareFacade;
 import com.ogc.facades.QRSquareUserFacade;
+import com.ogc.facades.QRUserFacade;
+import com.ogc.facades.RoleTypeFacade;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareUser;
 import com.ogc.utility.GsonHelper;
@@ -30,6 +32,7 @@ public class Load extends Action {
 
 		QRSquareFacade squarefacade = new QRSquareFacade();
 		QRSquareUserFacade squareUserFacade = new QRSquareUserFacade();
+		
 		String error = "";
 		long userid = -1;
 		QRSquare square = null;
@@ -73,42 +76,39 @@ public class Load extends Action {
 				// create a new JSON object
 				// add property as success
 				myObj.addProperty("success", true);
-				// add the QRSquare object
+				// tells if the QRSquare object is already in db
 				myObj.addProperty("free", false);
 
+				
 				if (squareUser != null && !squareUser.isEmpty()) {
 					JsonElement squareUserJson = gson.toJsonTree(squareUser);
-
 					myObj.add("QRSquareUser", squareUserJson);
 				}
 
 				myObj.addProperty("type", square.getClass().getName());
 
-				// if
-				// (!square.getClass().getName().equals(QRUserMenager.class.getName())
-				// || !possibleActions.contains("login")) {
 				myObj.add("QRSquare", squareObj);
 				if (userid != -1) {
 					myObj.addProperty("user", userid);
 				}
 				System.out.println("getPossibleAction(" + myObj.toString() + ")");
 				String possibleActions = getPossibleActions(myObj);
-				if(!(new Read()).canPerform(myObj)){
+				
+				if(!(new Read()).canPerform(myObj)){//cannot be read
 					myObj.remove("QRSquare");
 					QRSquare empty = new QRSquare(square.getText());
 					myObj.add("QRSquare", gson.toJsonTree(empty));
+				}else if((squareUser == null || squareUser.isEmpty()) && userid != -1 && !(new Request()).canPerform(myObj)){//the logged user can read but does not have a squareuser with that square
+					(new QRSquareUserFacade(squarefacade.emf,squarefacade.em)).addQRSquareUserRead(square, userid);
 				}
+				//sending a list, separated by commas with all possible actions eg(action:"create,signup,")
 				myObj.addProperty("action", possibleActions);
-				// } else {
-				// myObj.add("QRSquare", gson.toJsonTree(new
-				// QRPreLoginPage(square.getText())));
-				// }
-				// convert the JSON to string and send back
+				//send back the JSON
 				return myObj;
 			} else {
 				// add property as success
 				myObj.addProperty("success", true);
-				// add the country object
+				// tells if the QRSquare object is not in db
 				myObj.addProperty("free", true);
 				if (userid != -1) {
 					myObj.addProperty("user", userid);

@@ -86,17 +86,15 @@ public class QRSquareUserFacade {
 	public void addQRSquareUser(QRSquare qrsquare, QRUser user, String role) throws InvalidRoleException {
 		RoleTypeFacade roletypefacade = new RoleTypeFacade(emf, em);
 		RoleType roleType = roletypefacade.getRoleType(role);
-		QRSquareUser qrSquareUser;
-
-		qrSquareUser = createQRSquareUser(qrsquare, user, roleType);
-		EntityTransaction transaction = em.getTransaction();
-		transaction.begin();
-		em.persist(qrSquareUser);
-		transaction.commit();
-		if (!embedded) {
-			em.close();
-			emf.close();
-		}
+		createQRSquareUser(qrsquare, user, roleType);
+//		EntityTransaction transaction = em.getTransaction();
+//		transaction.begin();
+//		em.persist(qrSquareUser);
+//		transaction.commit();
+//		if (!embedded) {
+//			em.close();
+//			emf.close();
+//		}
 
 	}
 
@@ -191,12 +189,8 @@ public class QRSquareUserFacade {
 	public Map<String, QRSquareUser> getQRMenagerUsers(List<QRUserMenager> squareUsersMenagers, long userid) {
 		Map<String, QRSquareUser> map=	new HashMap<String,QRSquareUser>();
 		for(QRSquare square : squareUsersMenagers){
-			System.out.println("Checking for QRSquareUsers with:" +square.getText()+","+ userid);
 			List<QRSquareUser> qrSquareUsers = getQRSquareUser(square.getText(), userid);
-			System.out.println("found:" +qrSquareUsers.size()+" elements");
-
 			if(qrSquareUsers!=null && !qrSquareUsers.isEmpty() && qrSquareUsers.get(0).getRole()!=null && !qrSquareUsers.get(0).getRole().getName().toLowerCase().startsWith("request")){
-				System.out.println("element not new");
 				map.put(square.getText(), qrSquareUsers.get(0));
 			}else{
 				QRSquareUser qrSquareUser = new QRSquareUser();
@@ -207,6 +201,15 @@ public class QRSquareUserFacade {
 		return map;
 	}
 
-
+	public void addQRSquareUserRead(QRSquare square, long userid) {
+		QRUserFacade userFacade = new QRUserFacade(emf, em);
+		QRUser user = userFacade.getUserFromId(userid);
+		try {
+			addQRSquareUser(square, user, "reader");
+		} catch (InvalidRoleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -11,14 +11,18 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.ogc.model.QRChat;
+import com.ogc.model.QRFreeDraw;
+import com.ogc.model.QRMessage;
 import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareFactory;
+import com.ogc.model.QRSquareUser;
 import com.ogc.model.QRUser;
 
 public class QRSquareFacade {
 	@PersistenceContext(unitName="QRWebService")
-	private EntityManagerFactory emf;
-	private EntityManager em;
+	public EntityManagerFactory emf;
+	public EntityManager em;
 	boolean embedded = false;
 
 	public QRSquareFacade() {
@@ -133,15 +137,54 @@ public class QRSquareFacade {
 		return qrsquare;
 	}
 
-	public void save(QRSquare QRsquare) {
+	public void save(QRFreeDraw square, long user) {
+		if(user != -1){
+			QRUserFacade userfacade = new QRUserFacade(emf, em);
+			QRSquareUserFacade facade = new QRSquareUserFacade(emf, em);
+			RoleTypeFacade roleFacade = new RoleTypeFacade(emf,em);
+			List<QRSquareUser> qrSquareUser = facade.getQRSquareUser(square.getText(), user);
+			if(qrSquareUser==null || qrSquareUser.isEmpty()){
+				try {
+					facade.createQRSquareUser(square, userfacade.getUserFromId(user),roleFacade.getRoleType("editor"));
+				} catch (InvalidRoleException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
-		em.merge(QRsquare);
+		em.merge(square);
 		transaction.commit();
 		if (!embedded) {
 			em.close();
 			emf.close();
 		}
+	}
+
+	public void save(QRChat square, QRUser drawer) {
+		if(drawer!=null){
+			QRSquareUserFacade facade = new QRSquareUserFacade(emf, em);
+			RoleTypeFacade roleFacade = new RoleTypeFacade(emf,em);
+			List<QRSquareUser> qrSquareUser = facade.getQRSquareUser(square.getText(), drawer.getId());
+			if(qrSquareUser==null || qrSquareUser.isEmpty()){
+				try {
+					facade.createQRSquareUser(square, drawer,roleFacade.getRoleType("editor"));
+				} catch (InvalidRoleException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		em.merge(square);
+		transaction.commit();
+		if (!embedded) {
+			em.close();
+			emf.close();
+		}
+		
 	}
 
 //	public QRSquare checkQRSquare(String text) {

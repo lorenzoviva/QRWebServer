@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ogc.facades.QRSquareFacade;
 import com.ogc.model.QRFreeDraw;
+import com.ogc.model.QRUser;
 import com.ogc.utility.GsonHelper;
 
 public class Savedraw extends Action{
@@ -26,7 +27,13 @@ public class Savedraw extends Action{
 		try {
 			if (parameters.has("jsonfreedraw")) {
 				fd = (GsonHelper.customGson).fromJson(parameters.getString("jsonfreedraw"), QRFreeDraw.class);
-				squarefacade.save(fd);
+				if(parameters.has("user")){
+					long user = parameters.getLong("user");
+					squarefacade.save(fd,user);
+				}else{
+					squarefacade.save(fd,-1);
+				}
+				
 			} else {
 				error = "there is nothing to save";
 			}

@@ -140,10 +140,9 @@ public class Users<e> extends Action {
 					aclparameters.addProperty("user", reqUser.getId());
 					mySquareUsers = qrSquareUserfacade.getQRMenagerUsers(squareUsersMenagers, reqUser.getId());
 
-					System.out.println("found:" + mySquareUsers.size() + " sq elements!");
-				} else {
-					aclparameters.addProperty("users", "x");
 				}
+				aclparameters.addProperty("users", "x");
+
 				for (int i = 0; i < squareUsersMenagers.size(); i++) {
 					if (i != 0) {
 						aclparameters.remove("QRSquare");
@@ -153,16 +152,6 @@ public class Users<e> extends Action {
 
 					aclparameters.add("QRSquare", gson.toJsonTree(squareUsersMenagers.get(i)));
 					aclparameters.addProperty("type", QRUserMenager.class.getName());
-					// List<QRSquareUser> qrSquareUser = new
-					// ArrayList<QRSquareUser>();
-					// if (request == 2 && userid != -1) {
-					// qrSquareUser.add(squareUsersList.get(i));
-					// }else{
-					// qrSquareUser.add(squareUsers.get(i));
-					// }
-					// if(!qrSquareUser.get(0).getIsnew()){
-					// aclparameters.add("QRSquareUser",gson.toJsonTree(qrSquareUser));
-					// }
 
 					List<QRSquareUser> qrSquareUser = new ArrayList<QRSquareUser>();
 					if (userid != -1 && mySquareUsers.containsKey(squareUsersMenagers.get(i).getText())) {
@@ -172,7 +161,6 @@ public class Users<e> extends Action {
 					}
 					if (!qrSquareUser.isEmpty() && !qrSquareUser.get(0).getIsnew()) {
 						aclparameters.add("QRSquareUser", gson.toJsonTree(qrSquareUser));
-						System.out.println("Added QRSquareUsers with:" + gson.toJsonTree(qrSquareUser));
 					}
 
 					boolean read = (new Read()).canPerform(aclparameters);
@@ -195,9 +183,9 @@ public class Users<e> extends Action {
 				if (othuserid != -1) {
 					mySquareUsers = qrSquareUserfacade.getQRSquareUsers(squares, othuserid);
 					aclparameters.addProperty("user", othUser.getId());
-				} else {
-					aclparameters.addProperty("users", "x");
 				}
+				aclparameters.addProperty("users", "x");
+
 				for (int i = 0; i < squares.size(); i++) {
 					if (i != 0) {
 						aclparameters.remove("QRSquare");
@@ -214,6 +202,7 @@ public class Users<e> extends Action {
 					}
 					if (!qrSquareUser.isEmpty() && !qrSquareUser.get(0).getIsnew()) {
 						aclparameters.add("QRSquareUser", gson.toJsonTree(qrSquareUser));
+						System.out.println("Added QRSquareUsers with:" + gson.toJsonTree(qrSquareUser));
 					}
 					boolean read = (new Read()).canPerform(aclparameters);
 					boolean write = (new Edit()).canPerform(aclparameters);
@@ -234,6 +223,7 @@ public class Users<e> extends Action {
 				JsonObject myObj = new JsonObject();
 				// add property as success
 				myObj.addProperty("success", true);
+				myObj.addProperty("request",request);
 				// add the objects
 				if (aclList != null || !aclList.isEmpty()) {
 					if (aclList.size() > maxusers) {
@@ -245,9 +235,9 @@ public class Users<e> extends Action {
 				if (squareUsersList == null) {
 					if (squareUsers.size() > maxusers) {
 						if (listindex + maxusers < squareUsers.size()) {
-							myObj.addProperty("listindex", listindex + maxusers-1);
+							myObj.addProperty("listindex", listindex + maxusers - 1);
 						} else {
-							myObj.addProperty("listindex", squareUsers.size()-1);
+							myObj.addProperty("listindex", squareUsers.size() - 1);
 						}
 						myObj.addProperty("totusers", squareUsers.size());
 						myObj.addProperty("maxusers", maxusers);
@@ -255,14 +245,26 @@ public class Users<e> extends Action {
 
 					} else {
 						myObj.addProperty("maxusers", maxusers);
-						myObj.addProperty("listindex", squareUsers.size()-1);
+						myObj.addProperty("listindex", squareUsers.size() - 1);
 						myObj.addProperty("totusers", squareUsers.size());
 					}
 					JsonElement squareUsersObj = gson.toJsonTree(squareUsers);
 					myObj.add("QRSquareUser", squareUsersObj);
 				} else {// request = 2
 					if (squareUsersList.size() > maxusers) {
+						if (listindex + maxusers < squareUsersList.size()) {
+							myObj.addProperty("listindex", listindex + maxusers - 1);
+						} else {
+							myObj.addProperty("listindex", squareUsersList.size() - 1);
+						}
+						myObj.addProperty("totusers", squareUsersList.size());
+						myObj.addProperty("maxusers", maxusers);
 						squareUsersList = cutList(squareUsersList, listindex);
+
+					} else {
+						myObj.addProperty("maxusers", maxusers);
+						myObj.addProperty("listindex", squareUsersList.size() - 1);
+						myObj.addProperty("totusers", squareUsersList.size());
 					}
 					JsonElement squareUsersListObj = gson.toJsonTree(squareUsersList);
 					myObj.add("QRSquareUser", squareUsersListObj);
@@ -311,7 +313,7 @@ public class Users<e> extends Action {
 					JsonElement squareUsersSquareTypesObj = gson.toJsonTree(squareUsersSquareTypes);
 					myObj.add("QRSquares", squareUsersSquareTypesObj);
 				}
-				myObj.addProperty("request", parameters.toString());
+				myObj.addProperty("requestmessage", parameters.toString());
 				String possibleActions = getPossibleActions(myObj);
 				myObj.addProperty("action", possibleActions);
 				// convert the JSON to string and send back

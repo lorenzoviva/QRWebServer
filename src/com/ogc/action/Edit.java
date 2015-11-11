@@ -23,7 +23,7 @@ public class Edit extends Action {
 
 	@Override
 	public boolean canPerform(JsonObject parameters) {
-		if (!parameters.has("QRSquare") || !parameters.has("type") || parameters.get("type").getAsString().equals(QRChat.class.getName())) {
+		if (!parameters.has("QRSquare") || !parameters.has("type") || (!parameters.has("users") && parameters.get("type").getAsString().endsWith(QRChat.class.getName()))) {
 			return false;
 		} else {
 			String type = parameters.get("type").getAsString();
