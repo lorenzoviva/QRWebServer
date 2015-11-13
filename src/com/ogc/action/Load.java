@@ -41,7 +41,7 @@ public class Load extends Action {
 
 			if (parameters.has("text")) {
 				String text = parameters.getString("text");
-				square = squarefacade.getQRFromText(text);
+				square = squarefacade.loadQRFromText(text);
 				if (parameters.has("user")) {
 					userid = parameters.getLong("user");
 					try {

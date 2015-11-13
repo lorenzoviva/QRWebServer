@@ -52,6 +52,7 @@ public class QRSquareFacade {
 	}
 
 	public QRSquare getQRFromText(String text) {
+		//does not increments the visit number
 		Query query = em.createQuery("SELECT s FROM QRSquare s WHERE s.text LIKE :text").setParameter("text", text);
 		@SuppressWarnings("unchecked")
 		List<QRSquare> squares = query.getResultList();
@@ -61,7 +62,21 @@ public class QRSquareFacade {
 			return squares.get(0);
 		}
 	}
-
+	public QRSquare loadQRFromText(String text) {
+		//increments the visit number
+		Query query = em.createQuery("SELECT s FROM QRSquare s WHERE s.text LIKE :text").setParameter("text", text);
+		@SuppressWarnings("unchecked")
+		List<QRSquare> squares = query.getResultList();
+		if (squares == null || squares.equals(null) || squares.isEmpty()) {
+			return null;
+		} else {
+			QRSquare qrSquare = squares.get(0);
+			qrSquare.setVisit(qrSquare.getVisit()+1);			
+			save(qrSquare);
+			return qrSquare;
+		}
+		
+	}
 	/**
 	 * create a new QRSquare subclass object (one of QRUserMenager, QRDraw...)
 	 * and set the parameters map.
@@ -185,6 +200,16 @@ public class QRSquareFacade {
 			emf.close();
 		}
 		
+	}
+	public void save(QRSquare square){
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		em.merge(square);
+		transaction.commit();
+		if (!embedded) {
+			em.close();
+			emf.close();
+		}
 	}
 
 //	public QRSquare checkQRSquare(String text) {
