@@ -21,6 +21,39 @@ body {
 	text-align: center;
 }
 
+#title {
+	margin-right:10%;
+	display:inline-block;
+	text-align: center;
+}
+
+#icons {
+	display:inline-block;
+	margin: 0 auto;
+	margin-left: 10%;
+	text-align: center;
+}
+
+#title h1 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+}
+
+#start_chatting_button {
+	display: block;
+}
+#footer {
+	font-size: 30px;
+	text-align: center;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+#footer h1 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+}
+
 #header h1,#header p.online_count {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
@@ -44,11 +77,51 @@ body {
 	-webkit-box-shadow: 0px 0px 2px 1px #e5e5e5;
 	box-shadow: 0px 0px 2px 1px #e5e5e5;
 }
-@media (max-width: 501px) and (max-width: 501px){
+
+@media (min-width: 1106px) {
+
+	#icons {
+	float: left;
+	padding: 50px 0;
+	}
+	
+	#title {
+	float: right;
+	padding: 0px 0;
+	}
+}
+
+@media (max-width: 1106px) {
+
+	#title {
+		float: none;
+		margin:auto;
+		display:table;
+		padding: 0px 0;
+	}
+	
+	#icons {
+		display:block;
+		float:none;
+		margin:auto;
+		padding: 0px 0;
+		margin-left: 0;
+	}
+}
+
+@media (max-width: 501px) {
 	#header {
 		padding: 0px 0;
 		color: transparent;
 		height: 0px;
+	}
+	#start_chatting_button {
+		display:none
+	}
+	
+	#footer {
+	font-size: 20px;
+	padding: 0px 0;
 	}
 	
 	#prompt_name_container {
@@ -194,6 +267,11 @@ body {
 		padding: 50px 0;
 	}
 	
+
+	
+	#footer {
+	padding: 50px 0;
+	}
 	
 	#prompt_name_container {
 		width: 350px;

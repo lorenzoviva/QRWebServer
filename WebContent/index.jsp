@@ -15,26 +15,30 @@
 <title>UJam</title>
 </head>
 <body>
-<section style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto;">
-	<div align="center" style="display:inline-block; vertical-align:top; width: 50%">
+<section style="background-color:#5DB5E0">
+	<div id="icons" align="center" style="vertical-align:top">
 		<img src="ic_launcher-web.png" style="width: 40%"><br><br><br>
 		<a href="https://play.google.com/store/apps/details?id=com.whatsapp&hl=it" class="button"><img style="width: 50%; margin-bottom: 8%" src="google_play_store_icon.png"/></a>
 	</div>
-	<div id="header" align="center" style="display:inline-block; vertical-align:top; width: 49%">	
-		<h1 style="font-size:80px; font-weight: bold; color: #5DB5E0;     text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;">UJAM</h1>
-		<h1>Say what you want.<br>Draw what you want.<br>Everywhere.</h1>
-		<div id="prompt_name_container">
-			<a href="chat.html" style="text-decoration:none"><input style="font-size: 22px" type="button" value="START CHATTING NOW!" id="btn_join_as_guest"></a>
+	<div id="title" align="center" style="vertical-align:top">	
+		<h1 style="font-size:80px; font-weight: bold; color: #ECECEC; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;">UJAM</h1>
+		<h1 style="color:white">Say what you want.<br>Draw what you want.<br>Everywhere.</h1>
+		<div id="start_chatting_button">
+			<div id="prompt_name_container">
+				<a href="chat.html" style="text-decoration:none"><input style="font-size: 22px; color: black; background: #ECECEC" type="button" value="START CHATTING NOW!" id="btn_join_as_guest"></a>
+			</div>
 		</div>
 	</div>
+	<div style="clear:both"></div>
 </section>
-<section style="background-color:#5DB5E0">
-	<div style="display: inline-block; width: 50%">
-	    <a id="header" href="faq.jsp" style="text-decoration:none; font-size: 30px; color: white"><h1>FAQ</h1></a>
+<section style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto">
+	<div id="footer" style="display: inline-block; float: left">
+	    <a href="faq.jsp" style="text-decoration:none; color: #5DB5E0"><h1>FAQ</h1></a>
 	</div>
-	<div style="display: inline-block; width: 49%">
-		<a id="header" href="contact.jsp" style="text-decoration:none; font-size:30px; color: white"><h1>CONTACT</h1></a>
+	<div id="footer" style="display: inline-block;  float: right">
+		<a href="contact.jsp" style="text-decoration:none; color: #5DB5E0"><h1>CONTACT</h1></a>
 	</div>
+	<div style="clear:both"></div>
 </section>
 </body>
 </html>
