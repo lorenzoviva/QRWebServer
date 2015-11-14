@@ -78,21 +78,28 @@ public class Choice extends Action {
 									role = userSquareUser.getRole().getName();
 								}
 							}
-							if (isRoleGreater(role, otheruserRole)) {
+							if(otheruserRole.equals("")){
+								choises += "request,";
+								if (!(square instanceof QRUserMenager)) {
+									choises += addRoleIfYouCan(choises, "editor", role,"request");
+									choises += addRoleIfYouCan(choises, "reader", role,"request");
+								} else {
+									choises += addRoleIfYouCan(choises, "friend", role,"request");
+								}
+
+							}else if (isRoleGreater(role, otheruserRole)) {
 								if (!(square instanceof QRUserMenager)) {
 									choises += addRoleIfYouCan(choises, "editor", role,otheruserRole);
 									choises += addRoleIfYouCan(choises, "reader", role,otheruserRole);
 								} else {
 									choises += addRoleIfYouCan(choises, "friend", role,otheruserRole);
 								}
-								choises += addRoleIfYouCan(choises, "request", role,otheruserRole);
 								choises += addRoleIfYouCan(choises, "remove", role,otheruserRole);
 							}
 						}
-						
+						squareUserFacade.close();
 								
 						otherParams.put("role", role) ;
-
 					}
 				} else {
 					error += "choose what?";
@@ -134,7 +141,7 @@ public class Choice extends Action {
 
 	}
 
-	private boolean isRoleGreater(String thisRole, String otherRole) {
+	public  static boolean isRoleGreater(String thisRole, String otherRole) {
 		switch (thisRole) {
 		case "owner":
 			if (!otherRole.equals("owner")) {

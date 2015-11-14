@@ -212,6 +212,8 @@ public class QRSquareFacade {
 		}
 	}
 
+	
+
 //	public QRSquare checkQRSquare(String text) {
 //		QRSquare square = getQRFromText(text);
 //		if (square == null) {
