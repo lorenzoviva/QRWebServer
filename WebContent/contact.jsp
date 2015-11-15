@@ -17,9 +17,7 @@
 </script>
 <title>Contact</title>
 </head>
-<body style="margin:0">
-	<div style="position: relative; height: 100%; width: 100%;">
-		<iframe src="https://docs.google.com/forms/d/1fatVJTm080UOhTOI6hWQnoTiCsYRXWrr_Vrh-cTvnq8/viewform?embedded=true" style="position: relative; height: 100%; width: 100%; " frameborder="0" marginheight="0" marginwidth="0" >Caricamento in corso...</iframe>
-	</div>
+<body>
+	<iframe src="https://docs.google.com/forms/d/1fatVJTm080UOhTOI6hWQnoTiCsYRXWrr_Vrh-cTvnq8/viewform?embedded=true" style="position: fixed; height: 100%; width: 100%; " frameborder="0" marginheight="0" marginwidth="0" >Caricamento in corso...</iframe>
 </body>
 </html>
