@@ -47,7 +47,7 @@
 <title>MonKey :: FAQ</title>
 </head>
 <body align="center" style="background-color: #5DB5E0">
-	<h1>Frequently Asked Questions</h1>
+	<h1 style="font-family: 'Open Sans', sans-serif; color: white">Frequently Asked Questions</h1>
 	<br><br>
 	<div style="width:80%; display:inline-block" class="accordion">
 		<div class="accordion-section">
