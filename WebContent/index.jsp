@@ -12,16 +12,16 @@
 	rel='stylesheet' type='text/css'>
 <link href="style.css" type="text/css" rel='stylesheet' />
 <script type="text/javascript" src="main.js"></script>
-<title>UJam</title>
+<title>MonKey</title>
 </head>
 <body>
 <section style="background-color:#5DB5E0">
 	<div id="icons" align="center" style="vertical-align:top">
-		<img src="ic_launcher-web.png" style="width: 40%"><br><br><br>
+		<br><img src="ic_launcher-web.png" style="width: 40%"><br><br><br><br><br>
 		<a href="https://play.google.com/store/apps/details?id=com.whatsapp&hl=it" class="button"><img style="width: 50%; margin-bottom: 8%" src="google_play_store_icon.png"/></a>
 	</div>
 	<div id="title" align="center" style="vertical-align:top">	
-		<h1 style="font-size:80px; font-weight: bold; color: #ECECEC; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;">UJAM</h1>
+		<h1 style="font-size:80px; font-weight: bold; color: #ECECEC; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;">MonKey</h1>
 		<h1 style="color:white">Say what you want.<br>Draw what you want.<br>Everywhere.</h1>
 		<div id="start_chatting_button">
 			<div id="prompt_name_container">
