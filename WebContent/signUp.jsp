@@ -15,7 +15,8 @@
 </head>
 <body style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto;">
 	<div id="header">
-		<h1>QRBoard Chat Registration</h1>
+	<img src="ic_launcher-web.png" style="width: 70px; vertical-align: middle; display: inline-block;">
+		<h1 style="display: inline-block; vertical-align: middle; font-size:50px; font-weight: bold; color: #ECECEC; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;">&nbsp;MonKey User Registration</h1>
 	</div>
 	<div id="prompt_name_container" class="box_shadow">
 		<form id="form_signUp" method="post">

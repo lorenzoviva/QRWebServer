@@ -308,7 +308,7 @@ public class SocketServer {
 			if (isNewClient) {
 				json = jsonUtils.getNewClientJson(sessionId, name, message, chatSessions.get(idchat).size());
 			} else if (isExit) {
-				json = jsonUtils.getClientExitJson(sessionId, name, message, chatSessions.get(idchat).size());
+				json = jsonUtils.getClientExitJson(sessionId, name, message, chatSessions.get(idchat).size()-1);
 				// Checking if the person left the conversation
 			} else {
 				// Normal chat conversation message

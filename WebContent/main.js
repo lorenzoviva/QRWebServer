@@ -309,12 +309,15 @@ function parseMessage(message) {
 
 		// number of people online
 		var online_count = jObj.onlineCount;
-
+		if (online_count == 1) {
+			$('p.online_count').html(
+					'<b>' + online_count + '</b> person online right now')
+					.fadeIn();
+		} else {
 		$('p.online_count').html(
-				'Hello, <span class="green">' + name + '</span>. <b>'
-						+ online_count + '</b> people online right now')
+				'<b>' + online_count + '</b> people online right now')
 				.fadeIn();
-
+		}
 		if (jObj.sessionId != sessionId) {
 			new_name = jObj.name;
 		}
@@ -354,11 +357,13 @@ function parseMessage(message) {
 				+ '</span> ' + jObj.message + '</li>';
 
 		var online_count = jObj.onlineCount;
-
+		if (online_count == 1) {
 		$('p.online_count').html(
-				'Hello, <span class="green">' + name + '</span>. <b>'
-						+ online_count + '</b> people online right now');
-
+				'<b>' + online_count + '</b> person online right now');
+		} else {
+			$('p.online_count').html(
+					'<b>' + online_count + '</b> people online right now');
+		}
 		appendChatMessage(li);
 
 	} else if (jObj.flag == "auth") {

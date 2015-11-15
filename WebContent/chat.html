@@ -12,12 +12,15 @@
 	rel='stylesheet' type='text/css'>
 <link href="style.css" type="text/css" rel='stylesheet' />
 <script type="text/javascript" src="main.js"></script>
+<title>MonKey :: Chat</title>
 </head>
-<body style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto;">
+<body
+	style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto;">
 	<div class="body_container">
 
 		<div id="header">
-			<h1>QRBoard Chat</h1>
+			<img src="ic_launcher-web.png" style="width: 70px; vertical-align: middle; display: inline-block;">
+			<h1 style="font-size: 60px; font-weight: bold; vertical-align: middle; display: inline-block; color: #ECECEC; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;">&nbsp;MonKey Chat</h1>
 			<p class='online_count'>
 				<b>23</b> people online right now
 			</p>
@@ -26,24 +29,27 @@
 		<div id="prompt_name_container" class="box_shadow">
 			<p>Enter chat name</p>
 			<form id="form_submit" method="post">
-				<input type="text" id="input_name" autocomplete="off"/> 
-				<input type="submit" value="JOIN AS GUEST" id="btn_join_as_guest">
+				<input type="text" id="input_name" autocomplete="off" /> <input
+					type="submit" value="JOIN AS GUEST" id="btn_join_as_guest">
 			</form>
 			<form id="form_open_login_page" method="post">
-				<input style="float: left;margin-left: 9.5%" type="submit" value="LOGIN" id="btn_join"/>
+				<input style="float: left; margin-left: 9.5%" type="submit"
+					value="LOGIN" id="btn_join" />
 			</form>
-			<a href="signUp.jsp"><input type="button" value="REGISTER" id="btn_register" style="float: right;margin-right: 9.1%;"></a>
-			<button id="btn_generate_qr" onclick="showAuthenticationQR();">USE THE APP TO LOGIN</button>
+			<a href="signUp.jsp"><input type="button" value="REGISTER"
+				id="btn_register" style="float: right; margin-right: 9.1%;"></a>
+			<button id="btn_generate_qr" onclick="showAuthenticationQR();">USE
+				THE APP TO LOGIN</button>
 			<div id="qrcode"></div>
 		</div>
 
 		<div id="login_container" class="box_shadow">
 			<form id="form_login" method="post">
 				<p>Username</p>
-				<input type="text" id="input_username" autocomplete="off"/>
+				<input type="text" id="input_username" autocomplete="off" />
 				<p>Password</p>
-				<input type="text" id="input_password" autocomplete="off"/>
-				<input type="submit" value="LOGIN" id="btn_login"/><br>
+				<input type="text" id="input_password" autocomplete="off" /> <input
+					type="submit" value="LOGIN" id="btn_login" /><br>
 			</form>
 		</div>
 
