@@ -16,8 +16,8 @@ import com.ogc.model.RoleType;
 
 public class RoleTypeFacade {
 	@PersistenceUnit(unitName="QRWebService")
-	private EntityManagerFactory emf;
-	private EntityManager em;
+	public EntityManagerFactory emf;
+	public EntityManager em;
 	boolean embedded = false;
 
 	public RoleTypeFacade() {
@@ -70,6 +70,12 @@ public class RoleTypeFacade {
 				em.close();
 				emf.close();
 			}
+		}
+	}
+	public void close(){
+		if(!embedded){
+			em.close();
+			emf.close();
 		}
 	}
 	

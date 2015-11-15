@@ -23,8 +23,8 @@ import com.ogc.model.RoleType;
 
 public class QRSquareUserFacade {
 	@PersistenceUnit(unitName = "QRWebService")
-	private EntityManagerFactory emf;
-	private EntityManager em;
+	public EntityManagerFactory emf;
+	public EntityManager em;
 	boolean embedded = false;
 
 	public QRSquareUserFacade() {
@@ -210,6 +210,37 @@ public class QRSquareUserFacade {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void close() {
+		if (!embedded) {
+			em.close();
+			emf.close();
+		}
+	}
+
+	public void save(QRSquareUser squareUser) {
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		em.merge(squareUser);
+		transaction.commit();
+		if (!embedded) {
+			em.close();
+			emf.close();
+		}
+		
+	}
+
+	public void remove(QRSquareUser squareUser) {
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		em.remove(squareUser);
+		transaction.commit();
+		if (!embedded) {
+			em.close();
+			emf.close();
+		}
+				
 	}
 
 }

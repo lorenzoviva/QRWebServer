@@ -100,6 +100,24 @@ public class QRUserFacade {
 	public void setEm(EntityManager em) {
 		this.em = em;
 	}
+	public void save(QRUser user) {
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		em.merge(user);
+		transaction.commit();
+		if (!embedded) {
+			em.close();
+			emf.close();
+		}
+		
+	}
+	public void close() {
+		if (!embedded) {
+			em.close();
+			emf.close();
+		}
+		
+	}
 	
 
 }
