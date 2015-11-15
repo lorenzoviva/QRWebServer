@@ -74,6 +74,7 @@
 		</div>
 		<!--end .accordion-section-->
 
+
 		<div class="accordion-section">
 			<a class="accordion-section-title" href="#accordion-3">What can I
 				do from the site?</a>
@@ -85,6 +86,7 @@
 			<!--end .accordion-section-content-->
 		</div>
 		<!--end .accordion-section-->
+
 
 		<div class="accordion-section">
 			<a class="accordion-section-title" href="#accordion-4">Do I need
@@ -98,6 +100,7 @@
 		</div>
 		<!--end .accordion-section-->
 
+
 		<div class="accordion-section">
 			<a class="accordion-section-title" href="#accordion-5">Do I have
 				to pay something to use your services?</a>
@@ -108,36 +111,7 @@
 			<!--end .accordion-section-content-->
 		</div>
 		<!--end .accordion-section-->
-
-
 	</div>
 	<!--end .accordion-->
-
-	<!-- <div id="accordion">
-		<h3>
-			<a href="#">What versions of QR codes are supported?</a>
-		</h3>
-		<div>All QR codes from version 2 on are supported.</div>
-		<h3>
-			<a href="#">What can I do with the app?</a>
-		</h3>
-		<div>You can use the app to link your QR code with a drawing
-			canvas, a chat or a web page.</div>
-		<h3>
-			<a href="#">What can I do from the site?</a>
-		</h3>
-		<div>You can join or create a new chat, anonymously or by
-			logging in.</div>
-		<h3>
-			<a href="#">Do I need to create an account to use the app or the
-				site?</a>
-		</h3>
-		<div>No, you can freely use the app and the website staying
-			anonymous.</div>
-		<h3>
-			<a href="#">Do I have to pay something to use your services?</a>
-		</h3>
-		<div>No, our services are completely free of any charge.</div>
-	</div> -->
 </body>
 </html>
