@@ -46,7 +46,7 @@ public class QRUserFacade {
 		
 		QRSquareFacade squarefacade= new QRSquareFacade(emf,em);
 		Map<String,Object> parameters = new HashMap<String,Object>();
-		String html = "<html><head></head><body style='color: rgb(0, 88, 133);'> <div style='text-align: center;  font-size: 25px;'>" + firstName + " " + lastName + "</div><div>This is your homepage, you can <span style='color: magenta;'>Edit</span> this page and add personal informations. By clicking the <span style='color: yellow;'>Users</span> button you'll be able to interact with people and QR codes interested in you.</div></body></html>";
+		String html = "<html><head></head><body style='color: rgb(0, 88, 133);'> <div style='text-align: center; id='1' font-size: 25px;'>" + firstName + " " + lastName + "</div><div id='2' >This is your homepage, you can <span style='color: magenta;'>Edit</span> this page and add personal informations. By clicking the <span style='color: yellow;'>Users</span> button you'll be able to interact with people and QR codes interested in you.</div></body></html>";
 		parameters.put("html", html);
 		parameters.put("acl", usermenageracl);
 		parameters.put("text", text);
