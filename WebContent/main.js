@@ -77,8 +77,8 @@ function setUser(juser) {
 	$('#form_open_login_page').css('display', 'none');
 	$('#btn_generate_qr').css('display', 'none');
 	$('#btn_register').css('display','none');
-	$("#qrcode").html('successfully login :' + jsonUser.firstName);
-	$( "btn_join_as_guest" ).val("Join");
+	$("#qrcode").html('<p>Welcome, ' + jsonUser.firstName + ' ' + jsonUser.lastName);
+	$( "#btn_join_as_guest" ).val("JOIN");
 }
 
 function login(username, password) {

@@ -49,7 +49,7 @@
 <body align="center" style="background-color: #5DB5E0">
 	<h1 align="center" style="font-family: 'Open Sans', sans-serif; color: white">Frequently Asked Questions</h1>
 	<br><br>
-	<div style="width:80%; display:inline-block;margin-left: 10%" class="accordion">
+	<div style="width:80%; margin-left: 10%" class="accordion">
 		<div class="accordion-section">
 			<a class="accordion-section-title" href="#accordion-1">What
 				versions of QR codes are supported?</a>
@@ -111,7 +111,19 @@
 			<!--end .accordion-section-content-->
 		</div>
 		<!--end .accordion-section-->
+		
+		
+		<div class="accordion-section">
+			<a class="accordion-section-title" href="#accordion-6">What browsers are supported?</a>
+
+			<div id="accordion-6" class="accordion-section-content">
+				We fully support <a style="text-decoration:none"href="https://www.mozilla.org/it/firefox/new/"><b>Firefox</b></a> and <a style="text-decoration:none"href="https://www.google.it/chrome/browser/desktop/"><b>Chrome</b></a>, other browsers might experience bugs.
+			</div>
+			<!--end .accordion-section-content-->
+		</div>
+		<!--end .accordion-section-->
 	</div>
 	<!--end .accordion-->
+
 </body>
 </html>
