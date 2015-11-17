@@ -47,9 +47,9 @@
 <title>MonKey :: FAQ</title>
 </head>
 <body align="center" style="background-color: #5DB5E0">
-	<h1 style="font-family: 'Open Sans', sans-serif; color: white">Frequently Asked Questions</h1>
+	<h1 align="center" style="font-family: 'Open Sans', sans-serif; color: white">Frequently Asked Questions</h1>
 	<br><br>
-	<div style="width:80%; display:inline-block" class="accordion">
+	<div style="width:80%; display:inline-block;margin-left: 10%" class="accordion">
 		<div class="accordion-section">
 			<a class="accordion-section-title" href="#accordion-1">What
 				versions of QR codes are supported?</a>
