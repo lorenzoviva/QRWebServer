@@ -36,7 +36,7 @@
 	    <a href="faq.jsp" style="text-decoration:none; color: #5DB5E0"><h1>FAQ</h1></a>
 	</div>
 	<div id="footer" style="display: inline-block;  float: right">
-		<a href="contact.jsp" style="text-decoration:none; color: #5DB5E0"><h1>CONTACT</h1></a>
+		<a href="contact.jsp" style="text-decoration:none; color: #5DB5E0"><h1>CONTACT US</h1></a>
 	</div>
 	<div style="clear:both"></div>
 </section>
