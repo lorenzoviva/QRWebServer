@@ -317,8 +317,10 @@ public class SocketServer {
 
 			try {
 				System.out.println("Sending Message To: " + sessionId + ", " + json);
-				if (!s.getId().equals(sessionId) || !isExit) {
+				if ((!s.getId().equals(sessionId) || !isExit) && s.isOpen()) {
 					s.getBasicRemote().sendText(json);
+				}else if(!s.isOpen()){
+					s.close();					
 				}
 			} catch (IOException e) {
 				System.out.println("error in sending. " + s.getId() + ", " + e.getMessage());

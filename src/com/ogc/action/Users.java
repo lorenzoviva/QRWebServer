@@ -225,7 +225,10 @@ public class Users<e> extends Action {
 				myObj.addProperty("success", true);
 				myObj.addProperty("request",request);
 				// add the objects
+				ACL firstacl = null;
+				QRSquareUser firstSquareUser = null;
 				if (aclList != null || !aclList.isEmpty()) {
+					firstacl = aclList.get(0);
 					if (aclList.size() > maxusers) {
 						aclList = cutList(aclList, listindex);
 					}
@@ -233,6 +236,7 @@ public class Users<e> extends Action {
 					myObj.add("ACLList", aclListObj);
 				}
 				if (squareUsersList == null) {
+					firstSquareUser = squareUsers.get(0);
 					if (squareUsers.size() > maxusers) {
 						if (listindex + maxusers < squareUsers.size()) {
 							myObj.addProperty("listindex", listindex + maxusers - 1);
@@ -269,19 +273,21 @@ public class Users<e> extends Action {
 					JsonElement squareUsersListObj = gson.toJsonTree(squareUsersList);
 					myObj.add("QRSquareUser", squareUsersListObj);
 				}
+			
 				if (request == 1) {// request = 1
-					JsonElement squareObj = gson.toJsonTree(squareUsers.get(0).getSquare());
+					JsonElement squareObj = gson.toJsonTree(firstSquareUser.getSquare());
 					// JsonElement userObj =
 					// gson.toJsonTree(squareUsers.get(0).getUser());
 					myObj.add("QRSquare", squareObj);
-					myObj.addProperty("type", squareUsers.get(0).getSquare().getClass().getSimpleName());
-					myObj.add("acl", gson.toJsonTree(aclList.get(0)));
+					myObj.addProperty("type", firstSquareUser.getSquare().getClass().getSimpleName());
+					myObj.add("acl", gson.toJsonTree(new ACL(true,true)));
 					// myObj.add("QRUser", userObj);
 				} else {// request = 2|3
 					if (!text.equals("")) {// request = 2
 						JsonElement squareObj = gson.toJsonTree(reqSquare);
 						myObj.add("QRSquare", squareObj);
 						myObj.addProperty("type", reqSquare.getClass().getSimpleName());
+						myObj.add("acl", gson.toJsonTree(firstacl));
 					} else {// request = 3
 						JsonElement squareObj = gson.toJsonTree(squareUsers.get(0).getSquare());
 						myObj.add("QRSquare", squareObj);

@@ -14,7 +14,7 @@ import com.ogc.model.QRSquareUser;
 import com.ogc.model.QRUser;
 import com.ogc.utility.GsonHelper;
 
-public class Savesquareuser extends Action{
+public class Savesquareuser extends Action {
 
 	public Savesquareuser() {
 		super(null);
@@ -34,18 +34,18 @@ public class Savesquareuser extends Action{
 			JSONObject lastObj = lastobj;
 			String newrole = parameters.getString("newrole");
 			JsonObject choiseRequest = (new Choice()).perform(lastobj);
-			if(choiseRequest.get("success").getAsBoolean()){
+			if (choiseRequest.get("success").getAsBoolean()) {
 				String choises = choiseRequest.get("choises").getAsString();
-				if(choises.contains(newrole)){
-					QRSquareFacade squareFacade = new QRSquareFacade();
+				if (choises.contains(newrole)) {
 					long userid = lastobj.getLong("user");
 					long otheruserid = lastobj.getLong("otheruser");
 					String text = lastobj.getString("text");
-					QRSquareUserFacade squareUserFacade = new QRSquareUserFacade();//(rolefacade.emf,rolefacade.em);
-					//(squareUserFacade.emf, squareUserFacade.em);
+					QRSquareUserFacade squareUserFacade = new QRSquareUserFacade();// (rolefacade.emf,rolefacade.em);
+					// (squareUserFacade.emf, squareUserFacade.em);
 					List<QRSquareUser> othUserSquareUsers = squareUserFacade.getQRSquareUser(text, otheruserid);
 					String otheruserRole = "";
 					QRSquareUser othersquareUser = null;
+
 					if (othUserSquareUsers != null && !othUserSquareUsers.isEmpty()) {
 						for (QRSquareUser othUserSquareUser : othUserSquareUsers) {
 							if (otheruserRole.equals("") || Choice.isRoleGreater(othUserSquareUser.getRole().getName(), otheruserRole)) {
@@ -54,26 +54,30 @@ public class Savesquareuser extends Action{
 							}
 						}
 					}
-					if(newrole.equals("remove")){
+					if (newrole.equals("remove")) {
 						squareUserFacade.remove(othersquareUser);
-					}else{
+					} else {
 						RoleTypeFacade rolefacade = new RoleTypeFacade();
-						othersquareUser.setRole(rolefacade.getRoleType(newrole));
+						if (othersquareUser == null) {
+							QRUser otheruser = squareUserFacade.getQRUser(otheruserid);
+							QRSquare square = squareUserFacade.getQRSquare(text);
+							othersquareUser = new QRSquareUser(square, otheruser, rolefacade.getRoleType(newrole));
+						} else {
+							othersquareUser.setRole(rolefacade.getRoleType(newrole));
+						}
 						rolefacade.close();
 						squareUserFacade.save(othersquareUser);
 					}
-					
-					
+
 					myObj.addProperty("success", true);
-				}else{
+				} else {
 					myObj.addProperty("success", false);
 				}
 			}
 		} catch (JSONException e) {
 			myObj.addProperty("success", false);
 		}
-		
-		
+
 		return myObj;
 	}
 

@@ -66,6 +66,17 @@ public class Read extends Action {
 							return true;
 						}
 					}
+					try {
+						Gson gson = GsonHelper.customGson;
+						QRSquare square;
+						String type = parameters.get("type").getAsString();
+						square = (QRSquare) gson.fromJson(parameters.getAsJsonObject("QRSquare"), Class.forName(type));
+						if (square.getAcl().getRead()) {
+							return true;
+						}
+					} catch (JsonSyntaxException | ClassNotFoundException e) {
+						e.printStackTrace();
+					}
 					return false;
 
 				}

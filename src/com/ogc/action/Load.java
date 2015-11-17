@@ -99,7 +99,7 @@ public class Load extends Action {
 					QRSquare empty = new QRSquare(square.getText());
 					myObj.add("QRSquare", gson.toJsonTree(empty));
 				}else if((squareUser == null || squareUser.isEmpty()) && userid != -1 && !(new Request()).canPerform(myObj)){//the logged user can read but does not have a squareuser with that square
-					(new QRSquareUserFacade(squarefacade.emf,squarefacade.em)).addQRSquareUserRead(square, userid);
+					(new QRSquareUserFacade()).addQRSquareUserRead(square, userid);
 				}
 				//sending a list, separated by commas with all possible actions eg(action:"create,signup,")
 				myObj.addProperty("action", possibleActions);
