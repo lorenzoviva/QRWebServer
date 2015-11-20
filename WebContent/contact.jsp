@@ -11,7 +11,7 @@
 <link href="style.css" type="text/css" rel='stylesheet' />
 <link href="bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"	type="text/javascript"></script>
+<script	src="jquery-1.11.1.min.js"	type="text/javascript"></script>
 <script src="bootstrap-3.3.5-dist/js/bootstrap.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="main.js">
 </script>
