@@ -54,7 +54,7 @@ public class Create extends Action {
 	public JsonObject perform(JSONObject parameters) {
 		String error = "";
 		QRSquareFacade squarefacade = new QRSquareFacade();
-		QRUserFacade userfacade = new QRUserFacade();
+		QRUserFacade userfacade = new QRUserFacade(squarefacade.emf,squarefacade.em);
 		QRSquare square = null;
 		try {
 			if (parameters.has("classname")) {
