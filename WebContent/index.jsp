@@ -15,7 +15,7 @@
 <title>MonKey</title>
 </head>
 <body>
-<section style="background-color:#5DB5E0">
+<section id="section_background">
 	<div id="icons" align="center" style="vertical-align:top">
 		<br><img src="ic_launcher-web.png" style="width: 40%"><br><br><br><br><br>
 		<a href="https://play.google.com/store/apps/details?id=com.whatsapp&hl=it" class="button"><img style="width: 50%; margin-bottom: 8%" src="google_play_store_icon.png"/></a>
@@ -30,6 +30,20 @@
 		</div>
 	</div>
 	<div style="clear:both"></div>
+</section>
+<section align="center" style="display: inline-block; width: 100%; background-color: white">
+	<div style="float: left; margin-right: auto; margin-left: 10%" id="title">
+		<h1 style="font-weight: 600; color: #4444AE">Say what you want:</h1>
+		<h1>You can create rooms<br>and talk with anyone,<br>with your name or<br>anonymously.</h1>
+	</div>
+	<div style="float: none; vertical-align: top; margin-right: auto" id="title">
+		<h1 style="font-weight: 600; color: #4444AE">Draw what you want:</h1>
+		<h1>You can create canvas<br>to draw and write on<br>with your friends!</h1>
+	</div>
+	<div style="float: right; vertical-align: top" id="title">
+		<h1 style="font-weight: 600; color: #4444AE">Everywhere:</h1>
+		<h1>Just scan you QR code<br>and you're ready to go!<br>Everywhere you are.</h1>
+	</div>
 </section>
 <section style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto">
 	<div id="footer" style="display: inline-block; float: left">
