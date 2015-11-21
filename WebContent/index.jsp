@@ -12,7 +12,7 @@
 	rel='stylesheet' type='text/css'>
 <link href="style.css" type="text/css" rel='stylesheet' />
 <script type="text/javascript" src="main.js"></script>
-<title>MonKey</title>
+<title>MonKey :: Home</title>
 </head>
 <body>
 <section id="section_background">
@@ -33,15 +33,15 @@
 </section>
 <section align="center" style="display: inline-block; width: 100%; background-color: white">
 	<div style="float: left; margin-right: auto; margin-left: 10%" id="title">
-		<h1 style="font-weight: 600; color: #4444AE">Say what you want:</h1>
-		<h1>You can create rooms<br>and talk with anyone,<br>with your name or<br>anonymously.</h1>
+		<h1 style="font-weight: 600; color: #4444AE"><img src="images/1.png" style="vertical-align: sub">&nbsp;&nbsp;Create your QR code</h1>
+		<h1>Make your own QR code<br>simply by using our<br><a href="qrcodegenerator.jsp" style="text-decoration:none; color: #5DB5E0; font-weight: 500">QR Code Generator</a>.</h1>
 	</div>
 	<div style="float: none; vertical-align: top; margin-right: auto" id="title">
-		<h1 style="font-weight: 600; color: #4444AE">Draw what you want:</h1>
+		<h1 style="font-weight: 600; color: #4444AE"><img src="images/2.png" style="vertical-align: sub">&nbsp;&nbsp;Shape your QR code</h1>
 		<h1>You can create canvas<br>to draw and write on<br>with your friends!</h1>
 	</div>
 	<div style="float: right; vertical-align: top" id="title">
-		<h1 style="font-weight: 600; color: #4444AE">Everywhere:</h1>
+		<h1 style="font-weight: 600; color: #4444AE"><img src="images/3.png" style="vertical-align: sub">&nbsp;&nbsp;Share it with your friends</h1>
 		<h1>Just scan you QR code<br>and you're ready to go!<br>Everywhere you are.</h1>
 	</div>
 </section>
