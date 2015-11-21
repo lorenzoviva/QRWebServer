@@ -18,7 +18,7 @@
 <body>
 <input type="text" id="text" autocomplete="off">
 	<div id="prompt_name_container">
-		<input style="font-size: 22px; color: black; background: #ECECEC" type="button" value="GENERATE QR CODE" id="btn_join_as_guest">
+		<input style="font-size: 22px; color: black; background: #ECECEC" type="button" value="GENERATE QR CODE" onclick="updateQrCode()" id="btn_join_as_guest">
 	</div>
 <br>
 <div id="qr">
