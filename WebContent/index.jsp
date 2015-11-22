@@ -14,8 +14,8 @@
 <script type="text/javascript" src="main.js"></script>
 <title>MonKey :: Home</title>
 </head>
-<body>
-<section id="section_background">
+<body  id="section_background">
+<section>
 	<div id="icons" align="center" style="vertical-align:top">
 		<br><img src="ic_launcher-web.png" style="width: 40%"><br><br><br><br><br>
 		<a href="https://play.google.com/store/apps/details?id=com.whatsapp&hl=it" class="button"><img style="width: 50%; margin-bottom: 8%" src="google_play_store_icon.png"/></a>
@@ -31,26 +31,27 @@
 	</div>
 	<div style="clear:both"></div>
 </section>
-<section align="center" style="display: inline-block; width: 100%; background-color: white">
-	<div style="float: left; margin-right: auto; margin-left: 10%" id="title">
+<section align="center" style="display: inline-block; width: 100%; background-color: #ECECEC">
+	<div id="step1">
 		<h1 style="font-weight: 600; color: #4444AE"><img src="images/1.png" style="vertical-align: sub">&nbsp;&nbsp;Create your QR code</h1>
 		<h1>Make your own QR code<br>simply by using our<br><a href="qrcodegenerator.jsp" style="text-decoration:none; color: #5DB5E0; font-weight: 500">QR Code Generator</a>.</h1>
 	</div>
-	<div style="float: none; vertical-align: top; margin-right: auto" id="title">
+	<div id="step2">
 		<h1 style="font-weight: 600; color: #4444AE"><img src="images/2.png" style="vertical-align: sub">&nbsp;&nbsp;Shape your QR code</h1>
-		<h1>You can create canvas<br>to draw and write on<br>with your friends!</h1>
+		<h1>Use the app to scan your QR.<br>You can now start to<br>create and post content.<br></h1>
 	</div>
-	<div style="float: right; vertical-align: top" id="title">
+	<div id="step3">
 		<h1 style="font-weight: 600; color: #4444AE"><img src="images/3.png" style="vertical-align: sub">&nbsp;&nbsp;Share it with your friends</h1>
-		<h1>Just scan you QR code<br>and you're ready to go!<br>Everywhere you are.</h1>
+		<h1>Give your QR code name<br>to your friends!<br>They can join you instantly!</h1>
 	</div>
+	<br><br>
 </section>
-<section style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto">
+<section>
 	<div id="footer" style="display: inline-block; float: left">
-	    <a href="faq.jsp" style="text-decoration:none; color: #5DB5E0"><h1>FAQ</h1></a>
+	    <a href="faq.jsp" style="text-decoration:none; color: white"><h1>FAQ</h1></a>
 	</div>
 	<div id="footer" style="display: inline-block;  float: right">
-		<a href="contact.jsp" style="text-decoration:none; color: #5DB5E0"><h1>CONTACT</h1></a>
+		<a href="contact.jsp" style="text-decoration:none; color: white"><h1>CONTACT</h1></a>
 	</div>
 	<div style="clear:both"></div>
 </section>

@@ -8,23 +8,24 @@ function updateQrCode() {
             fill: '#333333',
             background: '#ffffff',
 
-            text: $('#text').val(),
+            text: $('#input_name').val(),
             size: 400,
-            radius: 50,
+            radius: 0.5,
             quiet: 1,
 
-            mode: 0,
+            mode: 4,
 
-//            mSize: parseInt($('#msize').val(), 10) * 0.01,
-//            mPosX: parseInt($('#mposx').val(), 10) * 0.01,
-//            mPosY: parseInt($('#mposy').val(), 10) * 0.01,
-//
+            mSize: 0.28,
+            mPosX: 0.5,
+            mPosY: 0.5,
+
 //            label: $('#label').val(),
 //            fontname: $('#font').val(),
 //            fontcolor: $('#fontcolor').val(),
-//
-//            image: $('#img-buffer')[0]
-        };
 
+            image: $('#img-buffer')[0]
+        };
+    
     $('#qr').empty().qrcode(options);
+
 }
