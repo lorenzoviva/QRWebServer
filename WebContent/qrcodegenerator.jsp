@@ -20,7 +20,7 @@
 		<div style="width: 100%" id="prompt_name_container">
 			<p style="color: white">Insert text or link to generate a QR code: </p>
 			<input id ="input_name" type="text" autocomplete="off">
-			<input style="color: black; background: #ECECEC" type="button" value="GENERATE YOU QR" onclick="updateQrCode()" id="btn_join_as_guest">
+			<input style="color: black; background: #ECECEC" type="button" value="GENERATE YOUR QR" onclick="updateQrCode()" id="btn_join_as_guest">
 		</div>
 		<br>
 	</section>

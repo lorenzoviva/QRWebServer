@@ -2,7 +2,6 @@
 
 <html>
 <head>
-<title></title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
@@ -14,14 +13,14 @@
 <script type="text/javascript" src="main.js"></script>
 <title>MonKey :: Chat</title>
 </head>
-<body
-	style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto;">
+<body id="section_background"
+	style="background-size: 1500px auto;">
 	<div class="body_container">
 
 		<div id="header">
-			<img src="ic_launcher-web.png" style="width: 70px; vertical-align: middle; display: inline-block;">
+			<a href="index.jsp"><img src="ic_launcher-web.png" style="width: 70px; vertical-align: middle; display: inline-block;"></a>
 			<h1 style="font-size: 60px; font-weight: bold; vertical-align: middle; display: inline-block; color: #ECECEC; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;">&nbsp;MonKey Chat</h1>
-			<p class='online_count'>
+			<p style="color: white" class='online_count'>
 				<b>23</b> people online right now
 			</p>
 		</div>
@@ -40,7 +39,7 @@
 				id="btn_register" style="float: right; margin-right: 9.1%;"></a>
 			<button id="btn_generate_qr" onclick="showAuthenticationQR();">USE
 				THE APP TO LOGIN</button>
-			<div id="qrcode"></div>
+			<div id="qrcode"></div><br>
 		</div>
 
 		<div id="login_container" class="box_shadow">
@@ -76,6 +75,6 @@
 		</div>
 
 	</div>
-
+<br>
 </body>
 </html>

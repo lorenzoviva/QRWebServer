@@ -13,9 +13,9 @@
 <link href="style.css" type="text/css" rel='stylesheet' />
 <script type="text/javascript" src="main.js"></script>
 </head>
-<body style="background-image: url('/QRWebService/qrbackground2.png'); background-size: 800px auto;">
+<body id="section_background" style="background-size: 1600px auto;">
 	<div id="header">
-	<img src="ic_launcher-web.png" style="width: 70px; vertical-align: middle; display: inline-block;">
+	<a href="index.jsp"><img src="ic_launcher-web.png" style="width: 70px; vertical-align: middle; display: inline-block;"></a>
 		<h1 style="display: inline-block; vertical-align: middle; font-size:50px; font-weight: bold; color: #ECECEC; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;">&nbsp;MonKey User Registration</h1>
 	</div>
 	<div id="prompt_name_container" class="box_shadow">
@@ -23,14 +23,15 @@
 			<p style="margin-bottom: 0; margin-top: 10px;">First name</p>
 			<input type="text" id="input_first_name" autocomplete="off" />
 			<p style="margin-bottom: 0; margin-top: 10px;">Last name</p>
-			<input type="text" id="input_last_name" autocomplete="off" /><br>
+			<input type="text" id="input_last_name" autocomplete="off" />
 			<p style="margin-bottom: 0; margin-top: 10px;">Username</p>
-			<input type="text" id="input_username" autocomplete="off" /><br>
+			<input type="text" id="input_username" autocomplete="off" />
 			<p style="margin-bottom: 0; margin-top: 10px;">Password</p>
 			<input type="text" id="input_password" autocomplete="off" /><br>
 			<input type="submit" value="REGISTER" id="btn_join_as_guest" />
 			<p style=" font-size: 12px;margin-top: 0px;"><b>Note:</b> You'll need to login after the registration ends</p>
 		</form>
 	</div>
+	<br>
 </body>
 </html>
