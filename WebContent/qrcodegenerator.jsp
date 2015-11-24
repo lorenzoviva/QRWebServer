@@ -11,6 +11,7 @@
 	href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700'
 	rel='stylesheet' type='text/css'>
 <link href="style.css" type="text/css" rel='stylesheet' />
+<link href="bootstrap-3.3.5-dist/css/bootstrap.min.css" type="text/css" rel='stylesheet' />
 <script type="text/javascript" src="QrCodeGenerator.js"></script>
 <script type="text/javascript" src="main.js"></script>
 <title>MonKey :: QR Code Generator</title>
@@ -18,9 +19,11 @@
 <body style="background-color: #5DB5E0">
 	<section>
 		<div style="width: 100%" id="prompt_name_container">
-			<p style="color: white">Insert text or link to generate a QR code: </p>
+			<p style="color: white">Insert text or link to generate a QR code:</p>
 			<input id ="input_name" type="text" autocomplete="off">
 			<input style="color: black; background: #ECECEC" type="button" value="GENERATE YOUR QR" onclick="updateQrCode()" id="btn_join_as_guest">
+			&nbsp;
+			<div style="display: inline-block" id="divdownload"></div>
 		</div>
 		<br>
 	</section>
