@@ -24,12 +24,13 @@ public class Signup extends Action {
 			String lastName = parameters.getString("lastname");
 			String text = parameters.getString("text");
 			String password = parameters.getString("password");
+			boolean useQrPassword = parameters.getBoolean("useQrPassword");
 
 			QRUserFacade qruserfacade = new QRUserFacade();
 
 			QRUser qruser = null;
 			try {
-				qruser = qruserfacade.createQRUser(firstName, lastName, password, text);
+				qruser = qruserfacade.createQRUser(firstName, lastName, password, text, useQrPassword);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
