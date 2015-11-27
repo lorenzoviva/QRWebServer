@@ -1,5 +1,7 @@
 package com.ogc.action;
 
+import java.util.List;
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -16,8 +18,10 @@ import com.ogc.utility.GsonHelper;
 
 public class Login extends Action {
 
+	private static Class[] subactionarray = { Create.class, Edit.class, Link.class, Links.class, Load.class, Login.class, Logout.class, Request.class, Signup.class, Users.class, Chat.class,Read.class };
+	
 	public Login() {
-		super(null);
+		super(subactionarray);
 	}
 
 	@Override
@@ -34,11 +38,11 @@ public class Login extends Action {
 			
 			QRUser qruser = null;
 			QRSquare qrsquare = null;
-			QRSquareUser qrsquareuser = null;
+			List<QRSquareUser> qrsquareuser = null;
 			
 			qrsquare = qrsquarefacade.getQRFromText(text);
 			qruser = qruserfacade.checkQRUserMenager(text, password);
-			qrsquareuser = qrsquareuserfacade.getQRSquareUser(text, qruser.getId()).get(0);
+			qrsquareuser = qrsquareuserfacade.getQRSquareUser(text, qruser.getId());
 			
 
 			if (qruser == null || qrsquare == null || qrsquareuser == null) {

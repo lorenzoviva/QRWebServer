@@ -22,55 +22,56 @@ public class Links extends Action{
 
 	@Override
 	public boolean canPerform(JsonObject parameters) {
-		if (!parameters.has("QRSquare") || !parameters.has("type")) {
-			return false;
-		} else {
-			String type = parameters.get("type").getAsString();
-			Gson gson = GsonHelper.customGson;
-			try {
-				QRSquare square = (QRSquare) gson.fromJson(parameters.getAsJsonObject("QRSquare"), Class.forName(type));
-				if (square.getAcl().getWrite()) {
-					return true;
-				} else {
-					if (!parameters.has("QRSquareUser")) {
-						return false;
-					} else {
-						Type listType = new TypeToken<ArrayList<QRSquareUser>>() {
-						}.getType();
-						List<QRSquareUser> squareUser = gson.fromJson(parameters.get("QRSquareUser"), listType);
-						for (int i = 0; i < squareUser.size(); i++) {
-
-							if (squareUser.get(i).getRole() != null) {
-								switch (squareUser.get(i).getRole().getName().toLowerCase()) {
-								case "owner":
-									return true;
-								case "menager":
-									return true;
-								case "writer":
-									return true;
-								case "isolatedwriter":
-									return true;
-								case "reader":
-									return true;
-								case "isolatedreader":
-									return true;
-								case "request":
-									break;
-								default:
-									return false;
-								}
-							}
-
-						}
-						return false;
-					}
-				}
-			} catch (JsonSyntaxException e) {
-				return false;
-			} catch (ClassNotFoundException e) {
-				return false;
-			}
-		}
+//		if (!parameters.has("QRSquare") || !parameters.has("type")) {
+//			return false;
+//		} else {
+//			String type = parameters.get("type").getAsString();
+//			Gson gson = GsonHelper.customGson;
+//			try {
+//				QRSquare square = (QRSquare) gson.fromJson(parameters.getAsJsonObject("QRSquare"), Class.forName(type));
+//				if (square.getAcl().getWrite()) {
+//					return true;
+//				} else {
+//					if (!parameters.has("QRSquareUser")) {
+//						return false;
+//					} else {
+//						Type listType = new TypeToken<ArrayList<QRSquareUser>>() {
+//						}.getType();
+//						List<QRSquareUser> squareUser = gson.fromJson(parameters.get("QRSquareUser"), listType);
+//						for (int i = 0; i < squareUser.size(); i++) {
+//
+//							if (squareUser.get(i).getRole() != null) {
+//								switch (squareUser.get(i).getRole().getName().toLowerCase()) {
+//								case "owner":
+//									return true;
+//								case "menager":
+//									return true;
+//								case "writer":
+//									return true;
+//								case "isolatedwriter":
+//									return true;
+//								case "reader":
+//									return true;
+//								case "isolatedreader":
+//									return true;
+//								case "request":
+//									break;
+//								default:
+//									return false;
+//								}
+//							}
+//
+//						}
+//						return false;
+//					}
+//				}
+//			} catch (JsonSyntaxException e) {
+//				return false;
+//			} catch (ClassNotFoundException e) {
+//				return false;
+//			}
+//		}
+		return false;
 	}
 
 	@Override
