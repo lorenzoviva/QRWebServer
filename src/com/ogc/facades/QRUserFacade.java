@@ -31,9 +31,9 @@ public class QRUserFacade {
 		this.em = em;
 		embedded = true;
 	}
-	public QRUser createQRUser(String firstName, String lastName,String password,String text) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, NoSuchFieldException, SecurityException {
+	public QRUser createQRUser(String firstName, String lastName,String password,String text, boolean useQrPassword) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, NoSuchFieldException, SecurityException {
 		
-		QRUser qruser = new QRUser(firstName, lastName);
+		QRUser qruser = new QRUser(firstName, lastName, useQrPassword);
 		
 		ACLFacade aclfacade = new ACLFacade(emf,em);
 		ACL usermenageracl = aclfacade.createACL(false, false);
