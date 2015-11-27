@@ -6,7 +6,11 @@ import org.codehaus.jettison.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.ogc.facades.QRSquareFacade;
+import com.ogc.facades.QRSquareUserFacade;
 import com.ogc.facades.QRUserFacade;
+import com.ogc.model.QRSquare;
+import com.ogc.model.QRSquareUser;
 import com.ogc.model.QRUser;
 import com.ogc.utility.GsonHelper;
 
@@ -25,12 +29,19 @@ public class Login extends Action {
 			String password = parameters.getString("password");
 			System.out.println(parameters.toString());
 			QRUserFacade qruserfacade = new QRUserFacade();
-
+			QRSquareFacade qrsquarefacade = new QRSquareFacade();
+			QRSquareUserFacade qrsquareuserfacade = new QRSquareUserFacade();
+			
 			QRUser qruser = null;
-
+			QRSquare qrsquare = null;
+			QRSquareUser qrsquareuser = null;
+			
+			qrsquare = qrsquarefacade.getQRFromText(text);
 			qruser = qruserfacade.checkQRUserMenager(text, password);
+			qrsquareuser = qrsquareuserfacade.getQRSquareUser(text, qruser.getId()).get(0);
+			
 
-			if (qruser == null) {
+			if (qruser == null || qrsquare == null || qrsquareuser == null) {
 				JsonObject myObj = new JsonObject();
 				myObj.addProperty("success", false);
 				return myObj;
@@ -44,8 +55,12 @@ public class Login extends Action {
 				// add property as success
 				myObj.addProperty("success", true);
 				// add the country object
-				myObj.add("QRUser", userObj);
+				myObj.add("user", userObj);
 				// convert the JSON to string and send back
+				myObj.add("QRSquare", gson.toJsonTree(qrsquare));
+				myObj.addProperty("type", qrsquare.getClass().getName());
+				myObj.add("QRSquareUser", gson.toJsonTree(qrsquareuser));
+				myObj.addProperty("action", getPossibleActions(myObj));
 				return myObj;
 			}
 		} catch (JSONException e) {
