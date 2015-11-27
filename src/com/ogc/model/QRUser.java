@@ -39,17 +39,14 @@ public class QRUser {
 	boolean anonymous;
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
 	private List<QRSquareUser> squares;
-	@Column
-	boolean useQrPassword;
 
 	public long getId() {
 		return id;
 	}
 
-	public QRUser(String firstName, String lastName, boolean useQrPassword) {
+	public QRUser(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.useQrPassword = useQrPassword;
 		registrationDate = new Date();
 		anonymous = (firstName.equals(null) && lastName.equals(null));
 
@@ -133,7 +130,6 @@ public class QRUser {
 		jsonmap.put("lastName", lastName);
 		jsonmap.put("registrationDate", registrationDate);
 		jsonmap.put("anonymous",anonymous);
-		jsonmap.put("useQrPassword", useQrPassword);
 		JSONObject result = new JSONObject(jsonmap);
 		return result;
 
