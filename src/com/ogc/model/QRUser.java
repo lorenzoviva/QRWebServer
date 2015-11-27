@@ -35,7 +35,7 @@ public class QRUser {
 	private String lastName;
 	@Column(nullable = false)
 	private Date registrationDate;
-	@Column(nullable = false)
+	@Column(nullable = false) 
 	boolean anonymous;
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
 	private List<QRSquareUser> squares;

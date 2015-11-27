@@ -25,7 +25,7 @@ public class Signup extends Action {
 			String text = parameters.getString("text");
 			String password = parameters.getString("password");
 			boolean useQrPassword = parameters.getBoolean("useQrPassword");
-
+ 
 			QRUserFacade qruserfacade = new QRUserFacade();
 
 			QRUser qruser = null;

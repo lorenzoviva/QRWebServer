@@ -29,7 +29,7 @@ public class QRUserFacade {
 	public QRUserFacade(EntityManagerFactory emf, EntityManager em) {
 		this.emf = emf;
 		this.em = em;
-		embedded = true;
+		embedded = true; 
 	}
 	public QRUser createQRUser(String firstName, String lastName,String password,String text, boolean useQrPassword) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, NoSuchFieldException, SecurityException {
 		
