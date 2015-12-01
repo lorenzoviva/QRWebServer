@@ -42,8 +42,9 @@ public class Login extends Action {
 			
 			qrsquare = qrsquarefacade.getQRFromText(text);
 			qruser = qruserfacade.checkQRUserMenager(text, password);
-			qrsquareuser = qrsquareuserfacade.getQRSquareUser(text, qruser.getId());
-			
+			if(qruser!=null){
+				qrsquareuser = qrsquareuserfacade.getQRSquareUser(text, qruser.getId());
+			}
 
 			if (qruser == null || qrsquare == null || qrsquareuser == null) {
 				JsonObject myObj = new JsonObject();
