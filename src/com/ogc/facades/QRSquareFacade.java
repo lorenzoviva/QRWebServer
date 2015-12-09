@@ -18,6 +18,7 @@ import com.ogc.model.QRSquare;
 import com.ogc.model.QRSquareFactory;
 import com.ogc.model.QRSquareUser;
 import com.ogc.model.QRUser;
+import com.ogc.model.QRWebPage;
 
 public class QRSquareFacade {
 	@PersistenceContext(unitName="QRWebService")
@@ -176,15 +177,39 @@ public class QRSquareFacade {
 			emf.close();
 		}
 	}
-
-	public void save(QRChat square, QRUser drawer) {
-		if(drawer!=null){
+	public void save(QRWebPage square, long user) {
+		if(user != -1){
+			QRUserFacade userfacade = new QRUserFacade(emf, em);
 			QRSquareUserFacade facade = new QRSquareUserFacade(emf, em);
 			RoleTypeFacade roleFacade = new RoleTypeFacade(emf,em);
-			List<QRSquareUser> qrSquareUser = facade.getQRSquareUser(square.getText(), drawer.getId());
+			List<QRSquareUser> qrSquareUser = facade.getQRSquareUser(square.getText(), user);
 			if(qrSquareUser==null || qrSquareUser.isEmpty()){
 				try {
-					facade.createQRSquareUser(square, drawer,roleFacade.getRoleType("editor"));
+					facade.createQRSquareUser(square, userfacade.getUserFromId(user),roleFacade.getRoleType("editor"));
+				} catch (InvalidRoleException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		em.merge(square);
+		transaction.commit();
+		if (!embedded) {
+			em.close();
+			emf.close();
+		}
+		
+	}
+	public void save(QRChat square, QRUser chatter) {
+		if(chatter!=null){
+			QRSquareUserFacade facade = new QRSquareUserFacade(emf, em);
+			RoleTypeFacade roleFacade = new RoleTypeFacade(emf,em);
+			List<QRSquareUser> qrSquareUser = facade.getQRSquareUser(square.getText(), chatter.getId());
+			if(qrSquareUser==null || qrSquareUser.isEmpty()){
+				try {
+					facade.createQRSquareUser(square, chatter,roleFacade.getRoleType("editor"));
 				} catch (InvalidRoleException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -211,6 +236,8 @@ public class QRSquareFacade {
 			emf.close();
 		}
 	}
+
+	
 
 	
 

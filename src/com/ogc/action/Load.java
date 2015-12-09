@@ -37,10 +37,11 @@ public class Load extends Action {
 		long userid = -1;
 		QRSquare square = null;
 		List<QRSquareUser> squareUser = null;
+		String text = "";
 		try {
 
 			if (parameters.has("text")) {
-				String text = parameters.getString("text");
+				text = parameters.getString("text");
 				square = squarefacade.loadQRFromText(text);
 				if (parameters.has("user")) {
 					userid = parameters.getLong("user");
@@ -113,6 +114,7 @@ public class Load extends Action {
 				if (userid != -1) {
 					myObj.addProperty("user", userid);
 				}
+				myObj.addProperty("text", text);
 				String possibleActions = getPossibleActions(myObj);
 				myObj.addProperty("action", possibleActions);
 				// convert the JSON to string and send back

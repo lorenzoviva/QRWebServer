@@ -34,15 +34,15 @@
 </section>
 <section class="container-fluid" align="center" style="display: inline-block; width: 100%; background-color: #ECECEC">
 	<div class="row">
-		<div class="col-md-4" id="step">
-			<h1 style="font-weight: 600; color: #4444AE"><img src="images/1.png" style="vertical-align: sub">&nbsp;&nbsp;Create your QR code</h1>
-			<h1>Make your own QR code<br>simply by using our<br><a href="qrcodegenerator.jsp" style="text-decoration:none; color: #5DB5E0; font-weight: 500">QR Code Generator</a>.</h1>
+		<div class="col-md-4" id="step"  style="text-align: center;">
+			<h1 style="font-weight: 600; color: #4444AE"><img src="images/1.png" style="vertical-align: sub">&nbsp;&nbsp;Create your gate</h1>
+			<h1>Make your own QR code<br>choosing a word,<br> sentence or link to<br> reference a gate. <br><a href="qrcodegenerator.jsp" style="text-decoration:none; color: #5DB5E0; font-weight: 500">QR Code Generator</a>.</h1>
 		</div>
-		<div class="col-md-4" id="step">
-			<h1 style="font-weight: 600; color: #4444AE"><img src="images/2.png" style="vertical-align: sub">&nbsp;&nbsp;Shape your QR code</h1>
+		<div class="col-md-4" id="step"  style="text-align: center;">
+			<h1 style="font-weight: 600; color: #4444AE"><img src="images/2.png" style="vertical-align: sub">&nbsp;&nbsp;Shape your gate</h1>
 			<h1>Use the app to scan your QR.<br>You can now start to<br>create and post content.<br></h1>
 		</div>
-		<div class="col-md-4" id="step">
+		<div class="col-md-4" id="step"  style="text-align: center;">
 			<h1 style="font-weight: 600; color: #4444AE"><img src="images/3.png" style="vertical-align: sub">&nbsp;&nbsp;Share it with your friends</h1>
 			<h1>Give your QR code name<br>to your friends!<br>They can join you instantly!</h1>
 		</div>

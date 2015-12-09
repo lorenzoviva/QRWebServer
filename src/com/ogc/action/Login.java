@@ -65,7 +65,7 @@ public class Login extends Action {
 				myObj.add("QRSquare", gson.toJsonTree(qrsquare));
 				myObj.addProperty("type", qrsquare.getClass().getName());
 				myObj.add("QRSquareUser", gson.toJsonTree(qrsquareuser));
-				myObj.addProperty("action", getPossibleActions(myObj));
+				myObj.addProperty("action", getPossibleActions(myObj).toLowerCase().replace("read,", ""));
 				return myObj;
 			}
 		} catch (JSONException e) {

@@ -2,6 +2,8 @@ package com.ogc.action;
 
 import java.util.List;
 
+import javafx.util.Pair;
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -42,8 +44,9 @@ public class Signup extends Action {
 			List<QRSquareUser> qrsquareuser = null;
 			
 			try {
-				qruser = qruserfacade.createQRUser(firstName, lastName, password, text, useQrPassword);
-				qrsquare = qrsquarefacade.getQRFromText(text);
+				Pair<QRUser, QRSquare> pair = qruserfacade.createQRUser(firstName, lastName, password, text, useQrPassword);
+				qruser = pair.getKey();
+				qrsquare = pair.getValue();
 				qrsquareuser = qrsquareuserfacade.getQRSquareUser(text, qruser.getId());
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
@@ -84,7 +87,7 @@ public class Signup extends Action {
 				myObj.add("QRSquare", gson.toJsonTree(qrsquare));
 				myObj.addProperty("type", qrsquare.getClass().getName());
 				myObj.add("QRSquareUser", gson.toJsonTree(qrsquareuser));
-				myObj.addProperty("action", getPossibleActions(myObj));
+				myObj.addProperty("action", getPossibleActions(myObj).toLowerCase().replace("read,", ""));
 				return myObj;
 			}
 		} catch (JSONException e) {

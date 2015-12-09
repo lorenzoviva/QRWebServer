@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.util.Pair;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -13,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.ogc.model.ACL;
+import com.ogc.model.QRSquare;
 import com.ogc.model.QRUser;
 import com.ogc.model.QRUserMenager;
 
@@ -31,7 +34,7 @@ public class QRUserFacade {
 		this.em = em;
 		embedded = true; 
 	}
-	public QRUser createQRUser(String firstName, String lastName,String password,String text, boolean useQrPassword) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, NoSuchFieldException, SecurityException {
+	public Pair<QRUser,QRSquare> createQRUser(String firstName, String lastName,String password,String text, boolean useQrPassword) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, NoSuchFieldException, SecurityException {
 		
 		QRUser qruser = new QRUser(firstName, lastName, useQrPassword);
 		
@@ -43,7 +46,7 @@ public class QRUserFacade {
 		em.persist(qruser);
 		
 		transaction.commit();
-		
+		QRSquare square = null;
 		QRSquareFacade squarefacade= new QRSquareFacade(emf,em);
 		Map<String,Object> parameters = new HashMap<String,Object>();
 		String html = "<html><head></head><body style='color: rgb(0, 88, 133);'> <div style='text-align: center; id='1' font-size: 25px;'>" + firstName + " " + lastName + "</div><div id='2' >This is your homepage, you can <span style='color: magenta;'>Edit</span> this page and add personal informations. By clicking the <span style='color: yellow;'>Users</span> button you'll be able to interact with people and QR codes interested in you.</div></body></html>";
@@ -52,7 +55,7 @@ public class QRUserFacade {
 		parameters.put("text", text);
 		parameters.put("password", password);
 		try {
-			squarefacade.createNewQRSquare(QRUserMenager.class.getSimpleName(), parameters, qruser);
+			square = squarefacade.createNewQRSquare(QRUserMenager.class.getSimpleName(), parameters, qruser);
 		} catch (InvalidRoleException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,7 +67,8 @@ public class QRUserFacade {
 			em.close();
 			emf.close();
 		}
-		return qruser;
+		Pair<QRUser,QRSquare> res = new Pair<QRUser, QRSquare>(qruser, square);
+		return res;
 	}
 	public QRUser getUserFromId(long id){
 		Query query = em.createQuery("SELECT u FROM QRUser u WHERE u.id LIKE :id").setParameter("id", id);

@@ -31,8 +31,11 @@ public class QRSquareFactory {
 		Class<?> classforName = Class.forName("com.ogc.model."+className);
 		QRSquare qrsquare = (QRSquare) classforName.newInstance();
 		List<String> fields = new ArrayList<String>();
-		for (Field field : classforName.getDeclaredFields()) {
-			fields.add(field.getName());
+		while(classforName.getSuperclass()!=Object.class){
+			for (Field field : classforName.getDeclaredFields()) {
+				fields.add(field.getName());
+			}
+			classforName = classforName.getSuperclass();
 		}
 		List<String> qrsquarefields = new ArrayList<String>();
 		for (Field field : QRSquare.class.getDeclaredFields()) {
